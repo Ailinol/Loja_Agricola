@@ -1,0 +1,271 @@
+package model;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Usuario extends Pessoa {
+    private String senha;
+    private String salt; 
+    private LocalDateTime ultimoLogin;
+    private String status;
+    private int tentativasLogin;
+    private boolean contaBloqueada;
+    private LocalDateTime dataExpiracaoSenha;
+    private List<String> historicoSenhas;
+    private List<String> permissoes;
+    private String tokenRecuperacao;
+    private LocalDateTime expiracaoTokenRecuperacao;
+    private boolean receberNotificacoes;
+    private String preferenciaComunicacao;
+    
+    public Usuario() {
+        super();
+        this.status = "ATIVO";
+        this.ultimoLogin = null;
+        this.tentativasLogin = 0;
+        this.contaBloqueada = false;
+        this.dataExpiracaoSenha = LocalDateTime.now().plusMonths(3); // Expira em 3 meses
+        this.historicoSenhas = new ArrayList<>();
+        this.permissoes = new ArrayList<>();
+        this.receberNotificacoes = true;
+        this.preferenciaComunicacao = "EMAIL";
+    }
+    
+    public Usuario(String senha) {
+        this();
+        this.senha = senha;
+    }
+    
+    public Usuario(String senha, String nome, String email, String telefone, 
+                  String provincia, String distrito, String bairro) {
+        super(nome, email, telefone, provincia, distrito, bairro, null, null);
+        this.senha = senha;
+        this.status = "ATIVO";
+        this.ultimoLogin = null;
+        this.tentativasLogin = 0;
+        this.contaBloqueada = false;
+        this.dataExpiracaoSenha = LocalDateTime.now().plusMonths(3);
+        this.historicoSenhas = new ArrayList<>();
+        this.permissoes = new ArrayList<>();
+        this.receberNotificacoes = true;
+        this.preferenciaComunicacao = "EMAIL";
+    }
+    
+    
+     public Usuario(String senha, String nome, String email, String telefone, 
+                  String provincia, String distrito, String bairro, String rua, String numeroCasa) {
+        super(nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa);
+        this.senha = senha;
+        this.status = "ATIVO";
+        this.ultimoLogin = null;
+        this.tentativasLogin = 0;
+        this.contaBloqueada = false;
+        this.dataExpiracaoSenha = LocalDateTime.now().plusMonths(3);
+        this.historicoSenhas = new ArrayList<>();
+        this.permissoes = new ArrayList<>();
+        this.receberNotificacoes = true;
+        this.preferenciaComunicacao = "EMAIL";
+    }
+    
+    public Usuario(String senha, LocalDateTime ultimoLogin, String status) {
+        this();
+        this.senha = senha;
+        this.ultimoLogin = ultimoLogin;
+        this.status = status;
+    }
+    
+    public String getSenha() { 
+        return senha; 
+    }
+    
+    public void setSenha(String senha) { 
+        // Adiciona a senha atual ao histórico antes de alterar
+        if (this.senha != null) {
+            this.historicoSenhas.add(this.senha);
+            // Mantém apenas as últimas 5 senhas
+            if (this.historicoSenhas.size() > 5) {
+                this.historicoSenhas.remove(0);
+            }
+        }
+        this.senha = senha;
+        this.dataExpiracaoSenha = LocalDateTime.now().plusMonths(3);
+    }
+    
+    public String getSalt() {
+        return salt;
+    }
+    
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+    
+    public LocalDateTime getUltimoLogin() { 
+        return ultimoLogin; 
+    }
+    
+    public void setUltimoLogin(LocalDateTime ultimoLogin) { 
+        this.ultimoLogin = ultimoLogin; 
+    }
+    
+    public String getStatus() { 
+        return status; 
+    }
+    
+    public void setStatus(String status) { 
+        this.status = status; 
+    }
+    
+    public int getTentativasLogin() {
+        return tentativasLogin;
+    }
+    
+    public void setTentativasLogin(int tentativasLogin) {
+        this.tentativasLogin = tentativasLogin;
+    }
+    
+    public boolean isContaBloqueada() {
+        return contaBloqueada;
+    }
+    
+    public void setContaBloqueada(boolean contaBloqueada) {
+        this.contaBloqueada = contaBloqueada;
+    }
+    
+    public LocalDateTime getDataExpiracaoSenha() {
+        return dataExpiracaoSenha;
+    }
+    
+    public void setDataExpiracaoSenha(LocalDateTime dataExpiracaoSenha) {
+        this.dataExpiracaoSenha = dataExpiracaoSenha;
+    }
+    
+    public List<String> getHistoricoSenhas() {
+        return new ArrayList<>(historicoSenhas);
+    }
+    
+    public List<String> getPermissoes() {
+        return new ArrayList<>(permissoes);
+    }
+    
+    public void adicionarPermissao(String permissao) {
+        if (!permissoes.contains(permissao)) {
+            permissoes.add(permissao);
+        }
+    }
+    
+    public void removerPermissao(String permissao) {
+        permissoes.remove(permissao);
+    }
+    
+    public boolean temPermissao(String permissao) {
+        return permissoes.contains(permissao);
+    }
+    
+    public String getTokenRecuperacao() {
+        return tokenRecuperacao;
+    }
+    
+    public void setTokenRecuperacao(String tokenRecuperacao) {
+        this.tokenRecuperacao = tokenRecuperacao;
+    }
+    
+    public LocalDateTime getExpiracaoTokenRecuperacao() {
+        return expiracaoTokenRecuperacao;
+    }
+    
+    public void setExpiracaoTokenRecuperacao(LocalDateTime expiracaoTokenRecuperacao) {
+        this.expiracaoTokenRecuperacao = expiracaoTokenRecuperacao;
+    }
+    
+    public boolean isReceberNotificacoes() {
+        return receberNotificacoes;
+    }
+    
+    public void setReceberNotificacoes(boolean receberNotificacoes) {
+        this.receberNotificacoes = receberNotificacoes;
+    }
+    
+    public String getPreferenciaComunicacao() {
+        return preferenciaComunicacao;
+    }
+    
+    public void setPreferenciaComunicacao(String preferenciaComunicacao) {
+        this.preferenciaComunicacao = preferenciaComunicacao;
+    }
+    
+    // Métodos de negócio
+    public boolean login(String senha) {
+        if (contaBloqueada) {
+            return false;
+        }
+        
+        if (this.senha != null && this.senha.equals(senha)) {
+            this.ultimoLogin = LocalDateTime.now();
+            this.tentativasLogin = 0;
+            return true;
+        } else {
+            this.tentativasLogin++;
+            if (this.tentativasLogin >= 5) {
+                this.contaBloqueada = true;
+                this.status = "BLOQUEADA";
+            }
+            return false;
+        }
+    }
+    
+    public void logout() {
+    }
+    
+    public void atualizarSenha(String novaSenha) {
+        // Verificar se a nova senha não está no histórico
+        if (historicoSenhas.contains(novaSenha)) {
+            throw new IllegalArgumentException("Não é possível reutilizar uma senha anterior");
+        }
+        
+        setSenha(novaSenha);
+    }
+    
+    public boolean isSenhaExpirada() {
+        return LocalDateTime.now().isAfter(dataExpiracaoSenha);
+    }
+    
+    public void gerarTokenRecuperacao() {
+        this.tokenRecuperacao = java.util.UUID.randomUUID().toString();
+        this.expiracaoTokenRecuperacao = LocalDateTime.now().plusHours(24); // Válido por 24 horas
+    }
+    
+    public boolean validarTokenRecuperacao(String token) {
+        return this.tokenRecuperacao != null && 
+               this.tokenRecuperacao.equals(token) && 
+               LocalDateTime.now().isBefore(expiracaoTokenRecuperacao);
+    }
+    
+    public void desbloquearConta() {
+        this.contaBloqueada = false;
+        this.tentativasLogin = 0;
+        this.status = "ATIVO";
+    }
+    
+    public boolean isAtivo() {
+        return "ATIVO".equals(status) && !contaBloqueada;
+    }
+    
+    public String getNivelAcesso() {
+        if (this instanceof Agricultor) {
+            return "AGRICULTOR";
+        } else if (this instanceof Comprador) {
+            return "CLIENTE";
+        } else if (this instanceof Administrador) {
+            return "ADMINISTRADOR";
+        }
+        return "USUARIO";
+    }
+    
+    @Override
+    public String getInfo() {
+        return String.format("Usuário: %s (%s) - Status: %s - Último login: %s", 
+                           getNome(), getEmail(), status, 
+                           ultimoLogin != null ? ultimoLogin.toString() : "Nunca logou");
+    }
+}
