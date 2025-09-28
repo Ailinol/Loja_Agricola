@@ -1,11 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.persistence.*;
 
-public abstract class Pessoa {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pessoa implements Serializable {
     // Identificação
-    protected int id;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    protected Integer id;
     protected String codigoUnico;
     
     // Informações pessoais
@@ -62,10 +69,10 @@ public abstract class Pessoa {
     }
     
     // Getters e Setters (mantidos iguais)
-    public int getId() { 
+    public Integer getId() { 
         return id; 
     }
-    public void setId(int id) { 
+    public void setId(Integer id) { 
         this.id = id; 
     }
     

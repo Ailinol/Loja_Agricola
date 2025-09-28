@@ -3,9 +3,13 @@ package model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class Produto {
     // Identificação
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String codigo;
     
@@ -30,8 +34,16 @@ public class Produto {
     private String qualidade;
     private boolean organico;
     private boolean sustentavel;
+    
+    @ElementCollection
+    @CollectionTable(
+        name = "produto_certificacoes",
+        joinColumns = @JoinColumn(name = "produto_id")
+    )
+    @Column(name = "certificacao")
     private List<String> certificacoes;
-    private List<String> tags;
+    
+    //private List<String> tags;
     
     // Datas importantes
     private LocalDate dataColheita;
@@ -39,6 +51,12 @@ public class Produto {
     private LocalDate dataCadastro;
     
     // Imagens
+    @ElementCollection
+    @CollectionTable(
+        name = "produto_imagem",
+        joinColumns = @JoinColumn(name = "produto_id")
+    )
+    @Column(name = "imagem_URL")
     private List<String> imagens;
     private String imagemPrincipal;
     
@@ -55,7 +73,7 @@ public class Produto {
     
     public Produto() {
         this.certificacoes = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        //this.tags = new ArrayList<>();
         this.imagens = new ArrayList<>();
         this.dataCadastro = LocalDate.now();
         this.disponivel = true;
@@ -192,14 +210,14 @@ public class Produto {
     public void setCertificacoes(List<String> certificacoes) { 
         this.certificacoes = certificacoes != null ? new ArrayList<>(certificacoes) : new ArrayList<>(); 
     }
-    
+   /* 
     public List<String> getTags() { 
         return new ArrayList<>(tags); 
     }
     public void setTags(List<String> tags) { 
         this.tags = tags != null ? new ArrayList<>(tags) : new ArrayList<>(); 
     }
-    
+    */
     public LocalDate getDataColheita() { 
         return dataColheita; 
     }

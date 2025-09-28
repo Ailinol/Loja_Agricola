@@ -1,17 +1,49 @@
 package model;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
+import javax.persistence.*;
 
-public class Comprador extends Usuario {
+@Entity
+public class Comprador extends Usuario implements Serializable {
+    
+   // @Id
+    //@GeneratedValue (strategy=GenerationType.IDENTITY)
+    
+    @ElementCollection
+    @CollectionTable(
+        name = "Comprador_preferencias",
+        joinColumns = @JoinColumn(name = "comprador_id")
+    )
+    @Column(name = "preferencias")
     private List<String> preferenciasCategorias;
     private double saldo;
+    
+    @OneToMany
+    @JoinColumn(name = "comprador_id") //adiciona a FK na tabela Produto
     private List<Produto> carrinhoCompras;
    // private List<Compra> historicoCompras;
     private double valorTotalGasto;
     private int totalCompras;
     private int pontosFidelidade;
-    private List<Endereco> enderecosEntrega;
+    
+   /* @ManyToMany
+    @JoinTable(
+        name = "comprador_endereco_entrega",
+        joinColumns = @JoinColumn(name = "comprador_id"),
+        inverseJoinColumns = @JoinColumn(name = "endereco_id")
+    )
+    private List<Endereco> enderecosEntrega;*/
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
     private Endereco enderecoPadrao;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "comprador_metodo_pagamento",
+        joinColumns = @JoinColumn(name = "comprador_id"),
+        inverseJoinColumns = @JoinColumn(name = "metodo_pagamento_id")
+    )
     private List<MetodoPagamento> metodosPagamento;
     private double raioBuscaPreferido;
     private boolean recebeNewsletter;
@@ -53,7 +85,7 @@ public class Comprador extends Usuario {
         this.preferenciasCategorias = new ArrayList<>();
         this.carrinhoCompras = new ArrayList<>();
        // this.historicoCompras = new ArrayList<>();
-        this.enderecosEntrega = new ArrayList<>();
+        //this.enderecosEntrega = new ArrayList<>();
         this.metodosPagamento = new ArrayList<>();
         this.saldo = 0.0;
         this.valorTotalGasto = 0.0;
@@ -119,7 +151,7 @@ public class Comprador extends Usuario {
     public void setPontosFidelidade(int pontosFidelidade) {
         this.pontosFidelidade = pontosFidelidade;
     }
-    
+    /*
     public List<Endereco> getEnderecosEntrega() {
         return new ArrayList<>(enderecosEntrega);
     }
@@ -127,7 +159,7 @@ public class Comprador extends Usuario {
     public void setEnderecosEntrega(List<Endereco> enderecosEntrega) {
         this.enderecosEntrega = enderecosEntrega != null ? new ArrayList<>(enderecosEntrega) : new ArrayList<>();
     }
-    
+    */
     public Endereco getEnderecoPadrao() {
         return enderecoPadrao;
     }
@@ -215,13 +247,13 @@ public class Comprador extends Usuario {
             saldo += valor;
         }
     }
-    
+    /*
     public void adicionarEndereco(Endereco endereco) {
         this.enderecosEntrega.add(endereco);
         if (this.enderecoPadrao == null) {
             this.enderecoPadrao = endereco;
         }
-    }
+    }*/
     
     public void adicionarMetodoPagamento(MetodoPagamento metodo) {
         this.metodosPagamento.add(metodo);
@@ -313,7 +345,11 @@ public class Comprador extends Usuario {
     }**/
     
     // Classes internas para representar estruturas de dados
+    @Entity
     public class Endereco {
+        @Id
+        @GeneratedValue (strategy=GenerationType.IDENTITY)
+        private int id;
         private String tipo; // CASA, TRABALHO, etc.
         private String rua;
         private String numero;
@@ -334,8 +370,12 @@ public class Comprador extends Usuario {
             this.provincia = provincia;
         }
         
+
         // Getters e Setters
-        public String getTipo() { return tipo; }
+        public int getId() { return id; }
+        public void setId(int id) {this.id = id;}
+        
+        public String getTipo() {return tipo;}
         public void setTipo(String tipo) { this.tipo = tipo; }
         
         public String getRua() { return rua; }
@@ -367,7 +407,11 @@ public class Comprador extends Usuario {
         }
     }
     
+    @Entity
     public class MetodoPagamento {
+        @Id
+        @GeneratedValue (strategy=GenerationType.IDENTITY)
+        private int id;
         private String tipo; // CARTAO, TRANSFERENCIA, etc.
         private String descricao;
         private String ultimosDigitos; // Para cartões
@@ -378,9 +422,15 @@ public class Comprador extends Usuario {
             this.tipo = tipo;
             this.descricao = descricao;
         }
-        
+             
+
         // Getters e Setters
-        public String getTipo() { return tipo; }
+        public int getId() { return id; }
+        public void setId(int id) {this.id = id;}
+
+        public String getTipo() {
+            return tipo;
+        }
         public void setTipo(String tipo) { this.tipo = tipo; }
         
         public String getDescricao() { return descricao; }
@@ -391,5 +441,7 @@ public class Comprador extends Usuario {
         
         public boolean isPreferido() { return preferido; }
         public void setPreferido(boolean preferido) { this.preferido = preferido; }
+        
+        
     }
 }

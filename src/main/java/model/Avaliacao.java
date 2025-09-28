@@ -3,10 +3,12 @@ package model;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import javax.persistence.*;
 
 /**
  * 
  */
+@Entity
 public class Avaliacao {
 
     /**
@@ -18,6 +20,8 @@ public class Avaliacao {
     /**
      * 
      */
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     /**

@@ -1,9 +1,17 @@
 package model;
 import java.time.LocalDateTime;
 import java.util.*;
+import javax.persistence.*;
 
+@Entity
 public class Agricultor extends Usuario {
+    
+    @OneToMany
+    @JoinColumn(name = "agricultor_id")
     private List<Produto> produtos;
+    
+    @OneToMany
+    @JoinColumn(name = "agricultor_id")
     private List<Avaliacao> avaliacoes;
     private double saldo;
     private double saldoBloqueado;
@@ -17,6 +25,13 @@ public class Agricultor extends Usuario {
     private String nib;
     private boolean certificadoOrganico;
     private boolean certificadoSustentavel;
+    
+    @ElementCollection
+    @CollectionTable(
+        name = "agricultor_certificacoes",
+        joinColumns = @JoinColumn(name = "agricultor_id")
+    )
+    @Column(name = "certificacao")
     private List<String> outrasCertificacoes;
     private String horarioFuncionamento;
     private boolean ofereceEntrega;
@@ -26,6 +41,9 @@ public class Agricultor extends Usuario {
     private int totalVendas;
     private int totalAvaliacoes;
     private LocalDateTime dataCadastroComoAgricultor;
+    
+    @OneToMany
+    @JoinColumn(name = "agricultor_id")
     private List<Transacao> historicoTransacoes;
     
     // Construtor padrão
@@ -410,7 +428,11 @@ public class Agricultor extends Usuario {
     }
     
     // Classe interna para transações
+    @Entity
     public class Transacao {
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        private int id;
         private String tipo;
         private double valor;
         private String descricao;
