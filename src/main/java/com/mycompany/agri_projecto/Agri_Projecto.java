@@ -57,7 +57,7 @@ public class Agri_Projecto {
         AgricultorDAO dao = new AgricultorDAO();
         
         //dao.salvarAgricultor(agr1);
-        Agricultor agr2 = dao.buscarPorId(2);
+        Agricultor agr2 = dao.buscarPorId(1);
         System.out.println("HELLO "+agr2);
     }
 }
