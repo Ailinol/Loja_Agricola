@@ -300,6 +300,7 @@ public class Agricultor extends Usuario {
                            produtos.size(), avaliacoes.size(), classificacaoMedia);
     }
     
+    
     public void cadastrarProduto(Produto p) {
         if (p != null) {
             p.setAgricultorId(this.getId());

@@ -18,32 +18,38 @@ public class UsuarioService {
     
     // Metodo Responsavel por fazer o cadastro do Agricultor e do comprador
     
-     public boolean cadastrarAgricultor(String nome, String email, String telefone, 
-                                     String provincia, String distrito, String bairro, String senha) {
-        return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro, senha, "AGRICULTOR");
-    }
-     
-    public boolean cadastrarComprador(String nome, String email, String telefone,
-                                        String provincia, String distrito, String bairro, String senha){
-        return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro, senha, "Comprador"); 
-    }
+    public boolean cadastrarAgricultor(String nome, String email, String telefone, 
+                                  String provincia, String distrito, String bairro, 
+                                  String senha, String tipoAgricultura, int anosExperiencia,
+                                  String biografia, double tamanhoPropriedade, 
+                                  boolean certificadoOrganico, boolean ofereceEntrega) {
     
-    public boolean cadastrarUsuario(String nome, String email, String telefone, String provincia,
-                                     String distrito, String bairro, String senha, String tipoUsuario){
-        
-        if (buscarUsuarioPorEmail(email) != null) {
-            JOptionPane.showMessageDialog(
-                null,
-                "O email '" + email + "' já existe!\nPor favor, verifique o E-mail e volte a tentar",
-                "Usuário já cadastrado",
-                JOptionPane.ERROR_MESSAGE
-            );
-            return false;
-        }
-        
-        //validacoes necessarias
-        
-        ResultadoValidacao resultadoEmail = validarEmail(email);
+    return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro, 
+                                   senha, "AGRICULTOR", tipoAgricultura, anosExperiencia, 
+                                   biografia, tamanhoPropriedade, certificadoOrganico, 
+                                   ofereceEntrega, null, null);
+}
+     
+    public boolean cadastrarComprador(String nome, String email, String telefone, 
+                                 String provincia, String distrito, String bairro, 
+                                 String senha, List<String> preferenciasCategorias,
+                                 double raioBuscaPreferido, boolean recebeNewsletter) {
+    
+    return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro,
+                                   senha, "COMPRADOR", null, 0, null, 0, false, false,
+                                   preferenciasCategorias, raioBuscaPreferido);
+}
+    
+    
+    private boolean cadastrarUsuario(String nome, String email, String telefone, 
+                                       String provincia, String distrito, String bairro, 
+                                       String senha, String tipoUsuario, String tipoAgricultura, 
+                                       int anosExperiencia, String biografia, double tamanhoPropriedade,
+                                       boolean certificadoOrganico, boolean ofereceEntrega,
+                                       List<String> preferenciasCategorias, Double raioBuscaPreferido) {
+    
+    // Validações existentes...
+    ResultadoValidacao resultadoEmail = validarEmail(email);
         if (!resultadoEmail.valido) {
             JOptionPane.showMessageDialog(null, resultadoEmail.mensagem, "Email inválido", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -83,39 +89,56 @@ public class UsuarioService {
         if(!resultadoBairro.valido){
             JOptionPane.showMessageDialog(null, resultadoBairro.mensagem, "Bairro invalido", JOptionPane.ERROR_MESSAGE );
             return false;
-        }
+        } 
+    
+    try {
+        Pessoa novoUsuario;
         
-        
-        try{
-            Pessoa novoUsuario;
+        if ("AGRICULTOR".equals(tipoUsuario)) {
+            Agricultor agricultor = new Agricultor(senha, nome, email, telefone, provincia, distrito, bairro);
             
-            if(tipoUsuario.equalsIgnoreCase("AGRICULTOR")){
-                novoUsuario = new  Agricultor(senha, nome, email, telefone, provincia, distrito, bairro);
-            }else {
-                novoUsuario = new Comprador(senha, nome, email, telefone, provincia, distrito, bairro);
+            agricultor.setTipoAgricultura(tipoAgricultura);
+            agricultor.setAnosExperiencia(anosExperiencia);
+            agricultor.setBiografia(biografia);
+            agricultor.setTamanhoPropriedade(tamanhoPropriedade);
+            agricultor.setCertificadoOrganico(certificadoOrganico);
+            agricultor.setOfereceEntrega(ofereceEntrega);
+            
+            novoUsuario = agricultor;
+            
+        } else {
+            Comprador comprador = new Comprador(senha, nome, email, telefone, provincia, distrito, bairro);
+            
+            if (preferenciasCategorias != null) {
+                comprador.setPreferenciasCategorias(preferenciasCategorias);
+            }
+            if (raioBuscaPreferido != null) {
+                comprador.setRaioBuscaPreferido(raioBuscaPreferido);
             }
             
-            novoUsuario.setId(gerarId());
-            usuarios.add(novoUsuario);
-            
-             mostrarSucesso("Cadastro realizado", 
-                          tipoUsuario + " '" + nome + "' cadastrado com sucesso!");
-             
-            comService.configurarEmail("smtp.gmail.com", "587", "lilianolicumba42@gmail.com", "jwqa yltv iqic iqpr");
-            comService.enviarEmailBoasVindas(email, nome);
-             
-            return true;
-        }catch(Exception e){
-              mostrarErro("Erro ao cadastrar", 
-                          tipoUsuario + " '" + nome + "' Verifique os dados e volte a tentar!");
-            return true;
+            novoUsuario = comprador;
         }
         
-    
+        novoUsuario.setId(gerarId());
+        usuarios.add(novoUsuario);
+        
+        
+         mostrarSucesso("Cadastro realizado", 
+                          tipoUsuario + " '" + nome + "' cadastrado com sucesso!");
+             
+        comService.configurarEmail("smtp.gmail.com", "587", "lilianolicumba42@gmail.com", "jwqa yltv iqic iqpr");
+        comService.enviarEmailBoasVindas(email, nome);
+             
+        
+        return true;
+        
+    } catch (Exception e) {
+        mostrarErro("Erro", "Erro ao cadastrar: " + e.getMessage());
+        return false;
     }
+}
     
     //Metodos de busca e consulta
-    
     public Pessoa buscarUsuarioPorEmail(String email){
         if(email == null) return null;
         

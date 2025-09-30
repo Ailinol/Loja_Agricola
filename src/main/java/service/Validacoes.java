@@ -5,6 +5,7 @@
 package service;
 
 import java.util.regex.Pattern;
+import model.Produto;
 
 /**
  *
@@ -268,6 +269,36 @@ public class Validacoes {
         resultado.mensagem = "O bairro e valido";
         return resultado;
     }
+    
+    
+    // O presente Metodo e responsavel por fazer a validacao de um produto novo
+    public static ResultadoValidacao validarProduto(Produto produto) {
+        ResultadoValidacao resultado = new ResultadoValidacao();
+        
+        if(produto.getNome() == null || produto.getNome().trim().isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "O nome tem que ser valido";
+            return resultado;
+        }
+        if(produto.getPreco() <= 0){
+            resultado.valido = false;
+            resultado.mensagem = "O preco tem que ser maior que 0";
+            return resultado;
+        }
+        if(produto.getQuantidadeDisponivel() < 0) {
+            resultado.valido = false;
+            resultado.mensagem = "A quantidade tem que ser maior que 0";
+            return resultado;
+        }
+        if(produto.getAgricultorId() <= 0){
+            resultado.valido = false;
+            resultado.mensagem = "O agricultor nao existe";
+        }
+        
+        resultado.valido = true;
+        return resultado;
+    }
+    
     
     
 }
