@@ -1,4 +1,5 @@
 model/Logistica.class
+dao/AgricultorDAO.class
 service/ResultadoValidacao.class
 model/Usuario.class
 model/Repositorio.class
@@ -7,6 +8,7 @@ model/Agricultor$Transacao.class
 service/AutenticacaoService$SessaoUsuario.class
 service/AutenticacaoService.class
 model/Notificacao.class
+service/ProdutoService.class
 model/Pedido.class
 service/Validacoes.class
 service/UsuarioService.class
@@ -16,12 +18,14 @@ model/Administrador.class
 model/Comprador$MetodoPagamento.class
 model/Comprador$Endereco.class
 com/mycompany/agri_projecto/Agri_Projecto.class
+util/HibernateUtil.class
 model/Pagamento.class
 model/Produto.class
 service/LocalizacaoService.class
 model/Avaliacao.class
 service/NotificacaoService$1.class
 model/Pessoa.class
+dao/CompradorDAO.class
 service/BloqueioService.class
 model/SistemaMarketPlace.class
 service/AutenticacaoService$TokenRecuperacao.class
@@ -29,3 +33,5 @@ model/Relatorio.class
 model/SistemaRecomendacao.class
 model/Comprador.class
 service/AutenticacaoService$ResultadoLogin.class
+controller/CadastroAgricultorController.class
+view/GreenMatch.class

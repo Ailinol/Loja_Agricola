@@ -22,12 +22,19 @@ public class UsuarioService {
                                   String provincia, String distrito, String bairro, 
                                   String senha, String tipoAgricultura, int anosExperiencia,
                                   String biografia, double tamanhoPropriedade, 
-                                  boolean certificadoOrganico, boolean ofereceEntrega) {
+                                  boolean certificadoOrganico, boolean ofereceEntrega,
+                                  double raioEntrega, double custoEntrega) {
     
-    return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro, 
-                                   senha, "AGRICULTOR", tipoAgricultura, anosExperiencia, 
-                                   biografia, tamanhoPropriedade, certificadoOrganico, 
-                                   ofereceEntrega, null, null);
+    List<String> outrasCertificacoes = new ArrayList<>(); // lista vazia
+    double classificacaoMedia = 0.0; // valor padrão
+    
+    return cadastrarUsuario(
+        nome, email, telefone, provincia, distrito, bairro,
+        senha, "AGRICULTOR", tipoAgricultura, anosExperiencia, 
+        biografia, tamanhoPropriedade, certificadoOrganico, 
+        ofereceEntrega, outrasCertificacoes, classificacaoMedia, 
+        raioEntrega, custoEntrega
+    );
 }
      
     public boolean cadastrarComprador(String nome, String email, String telefone, 
@@ -37,7 +44,7 @@ public class UsuarioService {
     
     return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro,
                                    senha, "COMPRADOR", null, 0, null, 0, false, false,
-                                   preferenciasCategorias, raioBuscaPreferido);
+                                   preferenciasCategorias, raioBuscaPreferido, 0.0, 0.0);
 }
     
     
@@ -46,7 +53,7 @@ public class UsuarioService {
                                        String senha, String tipoUsuario, String tipoAgricultura, 
                                        int anosExperiencia, String biografia, double tamanhoPropriedade,
                                        boolean certificadoOrganico, boolean ofereceEntrega,
-                                       List<String> preferenciasCategorias, Double raioBuscaPreferido) {
+                                       List<String> preferenciasCategorias, Double raioBuscaPreferido, double raioEntrega, double custoEntrega) {
     
     // Validações existentes...
     ResultadoValidacao resultadoEmail = validarEmail(email);
@@ -95,7 +102,14 @@ public class UsuarioService {
         Pessoa novoUsuario;
         
         if ("AGRICULTOR".equals(tipoUsuario)) {
-            Agricultor agricultor = new Agricultor(senha, nome, email, telefone, provincia, distrito, bairro);
+            Agricultor agricultor = new Agricultor(
+            senha, nome, email, telefone, 
+            provincia, distrito, bairro, 
+            null, null,
+            tipoAgricultura, tamanhoPropriedade, anosExperiencia,
+            biografia, certificadoOrganico, ofereceEntrega,
+            raioEntrega, custoEntrega
+        );
             
             agricultor.setTipoAgricultura(tipoAgricultura);
             agricultor.setAnosExperiencia(anosExperiencia);

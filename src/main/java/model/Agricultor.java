@@ -12,17 +12,13 @@ public class Agricultor extends Usuario {
     
     @OneToMany
     @JoinColumn(name = "agricultor_id")
-    private List<Avaliacao> avaliacoes;
-    private double saldo;
-    private double saldoBloqueado;
+    private List<Avaliacao> avaliacoes; 
+    
     private String tipoAgricultura;
     private double tamanhoPropriedade;
     private int anosExperiencia;
     private String biografia;
     private String fotoPerfil;
-    private String metodoPagamentoPreferido;
-    private String contaBancaria;
-    private String nib;
     private boolean certificadoOrganico;
     private boolean certificadoSustentavel;
     
@@ -33,19 +29,34 @@ public class Agricultor extends Usuario {
     )
     @Column(name = "certificacao")
     private List<String> outrasCertificacoes;
+    
     private String horarioFuncionamento;
     private boolean ofereceEntrega;
     private double raioEntrega;
     private double custoEntrega;
-    private double classificacaoMedia;
-    private int totalVendas;
-    private int totalAvaliacoes;
     private LocalDateTime dataCadastroComoAgricultor;
     
-    @OneToMany
-    @JoinColumn(name = "agricultor_id")
-    private List<Transacao> historicoTransacoes;
+    private double classificacaoMedia; 
+    private int totalAvaliacoes; 
     
+    // Novos atributos
+    private String whatsapp;
+    private boolean aceitaVisitas;
+    private boolean aceitaEncomendas;
+    private int prazoMinimoEncomenda;
+    
+    @ElementCollection
+    @CollectionTable(
+        name = "agricultor_metodos_contato",
+        joinColumns = @JoinColumn(name = "agricultor_id")
+    )
+    @Column(name = "metodo_contato")
+    private List<String> metodosContato;
+    
+    private boolean disponivelParaContato;
+    private int totalClientesAtendidos;
+    private boolean recomendado;
+
     // Construtor padrão
     public Agricultor() {
         super();
@@ -69,7 +80,8 @@ public class Agricultor extends Usuario {
     public Agricultor(String senha, String nome, String email, String telefone, 
                      String provincia, String distrito, String bairro, String rua, String numeroCasa,
                      String tipoAgricultura, double tamanhoPropriedade, int anosExperiencia,
-                     String biografia, boolean certificadoOrganico) {
+                     String biografia, boolean certificadoOrganico, boolean ofereceEntrega, 
+                     double raioEntrega, double custoEntrega) {
         super(senha, nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa);
         inicializarAtributos();
         this.tipoAgricultura = tipoAgricultura;
@@ -77,15 +89,17 @@ public class Agricultor extends Usuario {
         this.anosExperiencia = anosExperiencia;
         this.biografia = biografia;
         this.certificadoOrganico = certificadoOrganico;
+        this.ofereceEntrega = ofereceEntrega;
+        this.raioEntrega = raioEntrega;
+        this.custoEntrega = custoEntrega;
     }
-    
+
     // Construtor para testes ou carga de dados
-    public Agricultor(List<Produto> produtos, List<Avaliacao> avaliacoes, double saldo) {
+    public Agricultor(List<Produto> produtos, List<Avaliacao> avaliacoes) {
         super();
         inicializarAtributos();
         this.produtos = produtos != null ? new ArrayList<>(produtos) : new ArrayList<>();
         this.avaliacoes = avaliacoes != null ? new ArrayList<>(avaliacoes) : new ArrayList<>();
-        this.saldo = saldo;
     }
     
     // Método privado para inicializar atributos comuns
@@ -93,21 +107,22 @@ public class Agricultor extends Usuario {
         this.produtos = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
         this.outrasCertificacoes = new ArrayList<>();
-        this.historicoTransacoes = new ArrayList<>();
-        this.saldo = 0.0;
-        this.saldoBloqueado = 0.0;
+        this.metodosContato = new ArrayList<>();
         this.classificacaoMedia = 0.0;
         this.dataCadastroComoAgricultor = LocalDateTime.now();
         this.ofereceEntrega = false;
         this.raioEntrega = 0.0;
+        this.custoEntrega = 0.0;
         this.tipoAgricultura = "FAMILIAR";
-        this.totalVendas = 0;
         this.totalAvaliacoes = 0;
+        this.totalClientesAtendidos = 0;
+        this.disponivelParaContato = true;
+        this.aceitaVisitas = false;
+        this.aceitaEncomendas = false;
+        this.prazoMinimoEncomenda = 1;
     }
     
-    // RESTANTE DOS GETTERS, SETTERS E MÉTODOS DE NEGÓCIO 
-    // (mantidos iguais da versão anterior)
-    
+    // GETTERS E SETTERS
     public List<Produto> getProdutos() { 
         return new ArrayList<>(produtos); 
     }
@@ -122,26 +137,6 @@ public class Agricultor extends Usuario {
     
     public void setAvaliacoes(List<Avaliacao> avaliacoes) { 
         this.avaliacoes = avaliacoes != null ? new ArrayList<>(avaliacoes) : new ArrayList<>();
-    }
-    
-    public double getSaldo() { 
-        return saldo; 
-    }
-    
-    public void setSaldo(double saldo) { 
-        this.saldo = saldo; 
-    }
-    
-    public double getSaldoBloqueado() {
-        return saldoBloqueado;
-    }
-    
-    public void setSaldoBloqueado(double saldoBloqueado) {
-        this.saldoBloqueado = saldoBloqueado;
-    }
-    
-    public double getSaldoDisponivel() {
-        return saldo - saldoBloqueado;
     }
     
     public String getTipoAgricultura() {
@@ -184,30 +179,6 @@ public class Agricultor extends Usuario {
         this.fotoPerfil = fotoPerfil;
     }
     
-    public String getMetodoPagamentoPreferido() {
-        return metodoPagamentoPreferido;
-    }
-    
-    public void setMetodoPagamentoPreferido(String metodoPagamentoPreferido) {
-        this.metodoPagamentoPreferido = metodoPagamentoPreferido;
-    }
-    
-    public String getContaBancaria() {
-        return contaBancaria;
-    }
-    
-    public void setContaBancaria(String contaBancaria) {
-        this.contaBancaria = contaBancaria;
-    }
-    
-    public String getNib() {
-        return nib;
-    }
-    
-    public void setNib(String nib) {
-        this.nib = nib;
-    }
-    
     public boolean isCertificadoOrganico() {
         return certificadoOrganico;
     }
@@ -230,12 +201,6 @@ public class Agricultor extends Usuario {
     
     public void setOutrasCertificacoes(List<String> outrasCertificacoes) {
         this.outrasCertificacoes = outrasCertificacoes != null ? new ArrayList<>(outrasCertificacoes) : new ArrayList<>();
-    }
-    
-    public void adicionarCertificacao(String certificacao) {
-        if (!outrasCertificacoes.contains(certificacao)) {
-            outrasCertificacoes.add(certificacao);
-        }
     }
     
     public String getHorarioFuncionamento() {
@@ -278,14 +243,6 @@ public class Agricultor extends Usuario {
         this.classificacaoMedia = classificacaoMedia;
     }
     
-    public int getTotalVendas() {
-        return totalVendas;
-    }
-    
-    public void setTotalVendas(int totalVendas) {
-        this.totalVendas = totalVendas;
-    }
-    
     public int getTotalAvaliacoes() {
         return totalAvaliacoes;
     }
@@ -302,12 +259,69 @@ public class Agricultor extends Usuario {
         this.dataCadastroComoAgricultor = dataCadastroComoAgricultor;
     }
     
-    public List<Transacao> getHistoricoTransacoes() {
-        return new ArrayList<>(historicoTransacoes);
+    // Novos getters e setters
+    public String getWhatsapp() {
+        return whatsapp;
     }
     
-    public void setHistoricoTransacoes(List<Transacao> historicoTransacoes) {
-        this.historicoTransacoes = historicoTransacoes != null ? new ArrayList<>(historicoTransacoes) : new ArrayList<>();
+    public void setWhatsapp(String whatsapp) {
+        this.whatsapp = whatsapp;
+    }
+    
+    public boolean isAceitaVisitas() {
+        return aceitaVisitas;
+    }
+    
+    public void setAceitaVisitas(boolean aceitaVisitas) {
+        this.aceitaVisitas = aceitaVisitas;
+    }
+    
+    public boolean isAceitaEncomendas() {
+        return aceitaEncomendas;
+    }
+    
+    public void setAceitaEncomendas(boolean aceitaEncomendas) {
+        this.aceitaEncomendas = aceitaEncomendas;
+    }
+    
+    public int getPrazoMinimoEncomenda() {
+        return prazoMinimoEncomenda;
+    }
+    
+    public void setPrazoMinimoEncomenda(int prazoMinimoEncomenda) {
+        this.prazoMinimoEncomenda = prazoMinimoEncomenda;
+    }
+    
+    public List<String> getMetodosContato() {
+        return new ArrayList<>(metodosContato);
+    }
+    
+    public void setMetodosContato(List<String> metodosContato) {
+        this.metodosContato = metodosContato != null ? new ArrayList<>(metodosContato) : new ArrayList<>();
+    }
+    
+    public boolean isDisponivelParaContato() {
+        return disponivelParaContato;
+    }
+    
+    public void setDisponivelParaContato(boolean disponivelParaContato) {
+        this.disponivelParaContato = disponivelParaContato;
+    }
+    
+    public int getTotalClientesAtendidos() {
+        return totalClientesAtendidos;
+    }
+    
+    public void setTotalClientesAtendidos(int totalClientesAtendidos) {
+        this.totalClientesAtendidos = totalClientesAtendidos;
+    }
+    
+    public boolean isRecomendado() {
+        return recomendado;
+    }
+    
+    public void setRecomendado(boolean recomendado) {
+        this.recomendado = recomendado;
     }
     
     // Métodos de negócio
@@ -317,7 +331,6 @@ public class Agricultor extends Usuario {
                            getNome(), getEmail(), getBairro(), getDistrito(), 
                            produtos.size(), avaliacoes.size(), classificacaoMedia);
     }
-    
     
     public void cadastrarProduto(Produto p) {
         if (p != null) {
@@ -343,71 +356,49 @@ public class Agricultor extends Usuario {
     public void receberAvaliacao(Avaliacao a) {
         if (a != null) {
             this.avaliacoes.add(a);
-            //this.atualizarClassificacaoMedia(a.getClassificacao());
+            this.atualizarClassificacaoMedia();
             this.totalAvaliacoes++;
         }
     }
     
-    private void atualizarClassificacaoMedia(int novaClassificacao) {
-        if (totalAvaliacoes == 0) {
-            this.classificacaoMedia = novaClassificacao;
-        } else {
-            this.classificacaoMedia = (classificacaoMedia * totalAvaliacoes + novaClassificacao) / (totalAvaliacoes + 1);
+    private void atualizarClassificacaoMedia() {
+        if (avaliacoes.isEmpty()) {
+            this.classificacaoMedia = 0.0;
+            return;
+        }
+        
+       // double soma = avaliacoes.stream()
+         //   .mapToInt(Avaliacao::getClassificacao)
+        //    .sum();
+        //this.classificacaoMedia = soma / avaliacoes.size();
+    }
+    
+    public void adicionarCertificacao(String certificacao) {
+        if (!outrasCertificacoes.contains(certificacao)) {
+            outrasCertificacoes.add(certificacao);
         }
     }
     
-    public void creditarSaldo(double valor) {
-        this.saldo += valor;
-        this.registrarTransacao("CREDITO", valor, "Crédito no saldo");
-    }
-    
-    public boolean debitarSaldo(double valor) {
-        if (this.saldo >= valor) {
-            this.saldo -= valor;
-            this.registrarTransacao("DEBITO", valor, "Débito no saldo");
-            return true;
+    public void adicionarMetodoContato(String metodo) {
+        if (!metodosContato.contains(metodo)) {
+            metodosContato.add(metodo);
         }
-        return false;
-    }
-    
-    public void bloquearSaldo(double valor) {
-        if (this.saldo >= valor) {
-            this.saldoBloqueado += valor;
-            this.saldo -= valor;
-        }
-    }
-    
-    public void liberarSaldoBloqueado(double valor) {
-        if (this.saldoBloqueado >= valor) {
-            this.saldoBloqueado -= valor;
-            this.saldo += valor;
-        }
-    }
-    
-    private void registrarTransacao(String tipo, double valor, String descricao) {
-        Transacao transacao = new Transacao(tipo, valor, descricao, LocalDateTime.now());
-        this.historicoTransacoes.add(transacao);
     }
     
     public boolean podeEntregar(String provinciaCliente, String distritoCliente) {
         if (!ofereceEntrega) return false;
-        
         return this.getProvincia().equalsIgnoreCase(provinciaCliente) && 
                this.getDistrito().equalsIgnoreCase(distritoCliente);
     }
     
-    public double calcularDistanciaParaEntrega(Comprador cliente) {
-        if (!ofereceEntrega || raioEntrega <= 0) return -1;
-        
-        double distancia = this.calcularDistancia(cliente);
-        return distancia <= raioEntrega ? distancia : -1;
-    }
-    
-    public int calcularTempoEntrega(Comprador cliente) {
-        double distancia = calcularDistanciaParaEntrega(cliente);
-        if (distancia == -1) return -1;
-        
-        return (int) (distancia * 10 + 30);
+    public List<Produto> getProdutosDisponiveis() {
+        List<Produto> resultado = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.isDisponivel()) {
+                resultado.add(produto);
+            }
+        }
+        return resultado;
     }
     
     public List<Produto> getProdutosPorCategoria(String categoria) {
@@ -421,34 +412,25 @@ public class Agricultor extends Usuario {
     }
     
     public boolean isProdutorOrganico() {
-        return certificadoOrganico || tipoAgricultura.equalsIgnoreCase("ORGANICO");
+        return certificadoOrganico || "ORGANICO".equalsIgnoreCase(tipoAgricultura);
     }
     
     public int getTempoComoAgricultor() {
         return LocalDateTime.now().getYear() - dataCadastroComoAgricultor.getYear();
     }
     
-    // Classe interna para transações
-    @Entity
-    public class Transacao {
-        @Id
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
-        private int id;
-        private String tipo;
-        private double valor;
-        private String descricao;
-        private LocalDateTime data;
-        
-        public Transacao(String tipo, double valor, String descricao, LocalDateTime data) {
-            this.tipo = tipo;
-            this.valor = valor;
-            this.descricao = descricao;
-            this.data = data;
+    public String getReputacao() {
+        if (totalAvaliacoes == 0) {
+            return "Sem avaliações";
         }
-        
-        public String getTipo() { return tipo; }
-        public double getValor() { return valor; }
-        public String getDescricao() { return descricao; }
-        public LocalDateTime getData() { return data; }
+        return String.format("⭐ %.1f/5.0 (%d avaliações)", classificacaoMedia, totalAvaliacoes);
+    }
+    
+    public void incrementarClientesAtendidos() {
+        this.totalClientesAtendidos++;
+    }
+    
+    public boolean estaAtivo() {
+        return !produtos.isEmpty() && disponivelParaContato;
     }
 }

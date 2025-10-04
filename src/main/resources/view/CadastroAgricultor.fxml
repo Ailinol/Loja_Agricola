@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroAgricultorController">
+   
+   <children>
+      <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+         <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+         <AnchorPane.bottomAnchor>0.0</AnchorPane.bottomAnchor>
+         <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+         <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+         
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0" />
+         </effect>
+         <children>
+            <!-- Barra de título elegante -->
+            <HBox alignment="CENTER_RIGHT" prefWidth="900.0" spacing="8.0" style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2)); -fx-background-radius: 0 0 8 8;">
+               <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <prefHeight>40.0</prefHeight>
+               <padding>
+                  <Insets bottom="20.0" right="15.0" top="8.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <!-- Cabeçalho centralizado com destaque -->
+            <VBox alignment="CENTER" spacing="12.0">
+               <AnchorPane.topAnchor>50.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <children>
+                  <StackPane>
+                     <children>
+                        <FontAwesomeIconView fill="#4CAF50" glyphName="LEAF" size="4.5em" />
+                        <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" wrappingWidth="66.85713958740234" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+            
+            <!-- Card do formulário com sombra e bordas arredondadas -->
+            <VBox spacing="0.0" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15; -fx-border-width: 1;">
+               <AnchorPane.topAnchor>160.0</AnchorPane.topAnchor>
+               <AnchorPane.bottomAnchor>100.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>40.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>40.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="25.0" left="30.0" right="30.0" top="25.0" />
+               </padding>
+               <children>
+                  <!-- Container principal do formulário -->
+                  <HBox spacing="40.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <!-- Coluna esquerda -->
+                        <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Nome Completo" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtNome" onAction="#validarNome" onKeyPressed="#validarNomeOnEnter" prefHeight="42.0" promptText="Digite o nome completo" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="E-mail" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtEmail" onAction="#validarEmail" onKeyPressed="#validarEmailOnEnter" prefHeight="42.0" promptText="exemplo@email.com" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Telefone" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtTelefone" onAction="#validarTelefone" onKeyPressed="#validarTelefoneOnEnter" prefHeight="42.0" promptText="+258 XX XXX XXXX" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Província" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="txtProvincia" onAction="#validarProvincia" prefHeight="42.0" promptText="Selecione a província" style="-fx-background-color: rgba(255,255,255,0.08);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                     -fx-border-radius: 8;                                                     -fx-background-radius: 8;                                                     -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Distrito" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="txtDistrito" onAction="#validarDistrito" prefHeight="42.0" promptText="Selecione o distrito" style="-fx-background-color: rgba(255,255,255,0.08);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                     -fx-border-radius: 8;                                                     -fx-background-radius: 8;                                                     -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Bairro" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtBairro" onAction="#validarBairro" onKeyPressed="#validarBairroOnEnter" prefHeight="42.0" promptText="Digite o bairro" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Número da Casa" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtNumeroCasa" onAction="#validarNumeroCasa" onKeyPressed="#validarNumeroCasaOnEnter" prefHeight="42.0" promptText="Nº da casa" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Tipo de Agricultura" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="txtTipoAgricultura" onAction="#validarTipoAgricultura" prefHeight="42.0" promptText="Selecione o tipo" style="-fx-background-color: rgba(255,255,255,0.08);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                     -fx-border-radius: 8;                                                     -fx-background-radius: 8;                                                     -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </VBox>
+                        
+                        <!-- Separador vertical elegante -->
+                        <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                        
+                        <!-- Coluna direita -->
+                        <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Biografia" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea fx:id="txtBiografia" onKeyReleased="#validarBiografia" prefHeight="100.0" promptText="Conte sobre sua experiência agrícola..." style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: black; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-control-inner-background: rgba(255,255,255,0.08);" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Anos de Experiência" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtAnosExperiencia" onAction="#validarAnosExperiencia" onKeyPressed="#validarAnosExperienciaOnEnter" prefHeight="42.0" promptText="Ex: 5" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <Label text="Tamanho da Propriedade (hectares)" textFill="#b3e5d1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtTamanhoPropiedade" onAction="#validarTamanhoPropriedade" onKeyPressed="#validarTamanhoPropriedadeOnEnter" prefHeight="42.0" promptText="Ex: 2.5" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Oferece Entrega -->
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label text="Oferece Entrega?" textFill="#b3e5d1">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Label>
+                                <ComboBox fx:id="txtOfereceEntrega" onAction="#onOfereceEntregaChanged" prefHeight="42.0" promptText="Selecione" style="-fx-background-color: rgba(255,255,255,0.08);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                     -fx-border-radius: 8;                                                     -fx-background-radius: 8;                                                     -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                            </children>
+                        </VBox>
+
+                        <!-- Campos de entrega (inicialmente invisíveis) -->
+                        <VBox fx:id="containerEntrega" managed="false" spacing="8.0" visible="false">
+                            <children>
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label text="Raio de Entrega (km)" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtRaioEntrega" onAction="#validarRaioEntrega" prefHeight="42.0" promptText="Ex: 10" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label text="Custo de Entrega (MT)" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtCustoEntrega" onAction="#validarCustoEntrega" prefHeight="42.0" promptText="Ex: 50.00" style="-fx-background-color: rgba(255,255,255,0.08);                                                       -fx-text-fill: white;                                                       -fx-prompt-text-fill: rgba(255,255,255,0.4);                                                      -fx-border-color: rgba(255,255,255,0.15);                                                      -fx-border-radius: 8;                                                      -fx-background-radius: 8;                                                      -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <effect>
+                  <InnerShadow color="rgba(0,0,0,0.2)" radius="8.0" />
+               </effect>
+            </VBox>
+            
+            <!-- Botões de ação com destaque -->
+            <HBox alignment="CENTER" spacing="25.0">
+               <AnchorPane.bottomAnchor>30.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarAgricultor" prefHeight="48.0" prefWidth="180.0" style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049);                                   -fx-text-fill: white;                                   -fx-font-size: 15px;                                  -fx-font-weight: bold;                                  -fx-cursor: hand;                                  -fx-background-radius: 25;                                  -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.4), 15, 0, 0, 5);" text="CADASTRAR">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="1.1em" />
+                     </graphic>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="8.0" radius="4.0" width="8.0" />
+                     </effect>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  
+                  <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#handleLimparCampos" prefHeight="48.0" prefWidth="180.0" style="-fx-background-color: transparent;                                   -fx-text-fill: #b3e5d1;                                   -fx-font-size: 15px;                                  -fx-font-weight: bold;                                  -fx-border-color: #b3e5d1;                                  -fx-border-width: 2;                                  -fx-cursor: hand;                                  -fx-background-radius: 25;                                  -fx-border-radius: 25;                                  -fx-effect: dropshadow(gaussian, rgba(179,229,209,0.2), 10, 0, 0, 3);" text="LIMPAR CAMPOS">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="ERASER" size="1.1em" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Label alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="300.0" layoutY="118.0" style="-fx-alignment: center;" text="CADASTRO DE AGRICULTOR" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

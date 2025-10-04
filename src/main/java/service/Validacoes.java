@@ -135,13 +135,6 @@ public class Validacoes {
         return resultado;
     }
     
-    // Verificar se começa com letra maiúscula
-    if (!Character.isUpperCase(nome.charAt(0))) {
-        resultado.valido = false;
-        resultado.mensagem = "Nome deve começar com letra maiúscula";
-        return resultado;
-    }
-    
     // Verificar caracteres válidos
     for (int i = 0; i < nome.length(); i++) {
         char c = nome.charAt(i);
@@ -300,5 +293,161 @@ public class Validacoes {
     }
     
     
+    public static ResultadoValidacao validarBiografia(String biografia){
+        ResultadoValidacao resultado = new ResultadoValidacao();
+        
+        if(biografia == null || biografia.trim().isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "O campo nao pode estar vazio";
+            return resultado;
+        }
+        
+        if(biografia.length() < 50){
+            resultado.valido = false;
+            resultado.mensagem = "A biografia deve conter um minimo de 50 caracteres";
+            return resultado;
+        }
+        
+        resultado.valido = true;
+        return resultado;
+    }
     
+    
+    //Metodo Responssavel por validar os anos de esperiencia como agricultor
+    public static ResultadoValidacao validarAnosExperiencia(String anos) {
+        ResultadoValidacao resultado = new ResultadoValidacao();
+
+        if(anos == null || anos.isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "Os anos de experiência são um campo obrigatório";
+            return resultado;
+        }
+
+        try {
+            int valor = Integer.parseInt(anos.trim());
+            if(valor < 0) {
+                resultado.valido = false;
+                resultado.mensagem = "Os anos de experiência não podem ser negativos";
+                return resultado;
+            }
+
+            if(valor > 100) {
+                resultado.valido = false;
+                resultado.mensagem = "Os anos de experiência não podem ser maiores que 100";
+                return resultado;
+            }
+
+            resultado.valido = true;
+            resultado.mensagem = "Os anos de experiência são válidos";
+            return resultado;
+        } catch (NumberFormatException e) {
+            resultado.valido = false;
+            resultado.mensagem = "Os anos de experiência devem conter apenas números inteiros";
+            return resultado;
+        }
+    }
+    
+    // Metodo responsavel por validar o tamanho dapropiedade
+    public static ResultadoValidacao validarTamanhoPropriedade(String tamanho) {
+        ResultadoValidacao resultado = new ResultadoValidacao();
+
+        if(tamanho == null || tamanho.isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "O tamanho da propriedade é um campo obrigatório";
+            return resultado;
+        }
+
+        try {
+            double valor = Double.parseDouble(tamanho.trim());
+            if(valor <= 0) {
+                resultado.valido = false;
+                resultado.mensagem = "O tamanho da propriedade deve ser maior que zero";
+                return resultado;
+            }
+
+            if(valor > 10000) {
+                resultado.valido = false;
+                resultado.mensagem = "O tamanho da propriedade não pode ser maior que 10.000 hectares";
+                return resultado;
+            }
+
+            resultado.valido = true;
+            resultado.mensagem = "O tamanho da propriedade é válido";
+            return resultado;
+        } catch (NumberFormatException e) {
+            resultado.valido = false;
+            resultado.mensagem = "O tamanho da propriedade deve conter apenas números decimais";
+            return resultado;
+        }
+    }
+    
+    
+    //Metodo responsavel por validar o raio de entrega
+    public static ResultadoValidacao validarRaioEntrega(String raio) {
+        ResultadoValidacao resultado = new ResultadoValidacao();
+
+        if(raio == null || raio.isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "O raio de entrega é um campo obrigatório";
+            return resultado;
+        }
+
+        try {
+            double valor = Double.parseDouble(raio.trim());
+            if(valor < 0) {
+                resultado.valido = false;
+                resultado.mensagem = "O raio de entrega não pode ser negativo";
+                return resultado;
+            }
+
+            if(valor > 500) {
+                resultado.valido = false;
+                resultado.mensagem = "O raio de entrega não pode ser maior que 500 km";
+                return resultado;
+            }
+
+            resultado.valido = true;
+            resultado.mensagem = "O raio de entrega é válido";
+            return resultado;
+        } catch (NumberFormatException e) {
+            resultado.valido = false;
+            resultado.mensagem = "O raio de entrega deve conter apenas números decimais";
+            return resultado;
+        }
+    }
+    
+    
+    //Metodo Responsavel por validar o Custo de entrega
+    public static ResultadoValidacao validarCustoEntrega(String custo) {
+        ResultadoValidacao resultado = new ResultadoValidacao();
+
+        if(custo == null || custo.isEmpty()){
+            resultado.valido = false;
+            resultado.mensagem = "O custo de entrega é um campo obrigatório";
+            return resultado;
+        }
+
+        try {
+            double valor = Double.parseDouble(custo.trim());
+            if(valor < 0) {
+                resultado.valido = false;
+                resultado.mensagem = "O custo de entrega não pode ser negativo";
+                return resultado;
+            }
+
+            if(valor > 10000) {
+                resultado.valido = false;
+                resultado.mensagem = "O custo de entrega não pode ser maior que 10.000 MT";
+                return resultado;
+            }
+
+            resultado.valido = true;
+            resultado.mensagem = "O custo de entrega é válido";
+            return resultado;
+        } catch (NumberFormatException e) {
+            resultado.valido = false;
+            resultado.mensagem = "O custo de entrega deve conter apenas números decimais";
+                return resultado;
+        }
+    }
 }
