@@ -17,6 +17,8 @@ public class Comprador extends Usuario implements Serializable {
     )
     @Column(name = "preferencias")
     private List<String> preferenciasCategorias;
+    
+    @Column(nullable = true)
     private double saldo;
     
     @OneToMany
@@ -37,7 +39,7 @@ public class Comprador extends Usuario implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoPadrao;
-    
+   /* 
     @ManyToMany
     @JoinTable(
         name = "comprador_metodo_pagamento",
@@ -45,6 +47,7 @@ public class Comprador extends Usuario implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "metodo_pagamento_id")
     )
     private List<MetodoPagamento> metodosPagamento;
+    */
     private double raioBuscaPreferido;
     private boolean recebeNewsletter;
     
@@ -63,7 +66,7 @@ public class Comprador extends Usuario implements Serializable {
         super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
         inicializarAtributos();
     }
-    
+
     public Comprador(String senha, String nome, String email, String telefone, 
                     String provincia, String distrito, String bairro, double saldo) {
         super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
@@ -73,11 +76,11 @@ public class Comprador extends Usuario implements Serializable {
     
     public Comprador(String senha, String nome, String email, String telefone, 
                     String provincia, String distrito, String bairro, 
-                    List<String> preferenciasCategorias, double saldo) {
+                    List<String> preferenciasCategorias) {
         super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
         inicializarAtributos();
         this.preferenciasCategorias = preferenciasCategorias != null ? new ArrayList<>(preferenciasCategorias) : new ArrayList<>();
-        this.saldo = saldo;
+        //this.saldo = saldo;
     }
     
     // Método para inicializar atributos comuns
@@ -86,8 +89,8 @@ public class Comprador extends Usuario implements Serializable {
         this.carrinhoCompras = new ArrayList<>();
        // this.historicoCompras = new ArrayList<>();
         //this.enderecosEntrega = new ArrayList<>();
-        this.metodosPagamento = new ArrayList<>();
-        this.saldo = 0.0;
+        //this.metodosPagamento = new ArrayList<>();
+        //this.saldo = 0.0;
         this.valorTotalGasto = 0.0;
         this.totalCompras = 0;
         this.pontosFidelidade = 0;
@@ -103,7 +106,7 @@ public class Comprador extends Usuario implements Serializable {
     public void setPreferenciasCategorias(List<String> preferenciasCategorias) { 
         this.preferenciasCategorias = preferenciasCategorias != null ? new ArrayList<>(preferenciasCategorias) : new ArrayList<>();
     }
-    
+    /*
     public double getSaldo() { 
         return saldo; 
     }
@@ -111,7 +114,7 @@ public class Comprador extends Usuario implements Serializable {
     public void setSaldo(double saldo) { 
         this.saldo = saldo; 
     }
-    
+    */
     public List<Produto> getCarrinhoCompras() { 
         return new ArrayList<>(carrinhoCompras); 
     }
@@ -167,7 +170,7 @@ public class Comprador extends Usuario implements Serializable {
     public void setEnderecoPadrao(Endereco enderecoPadrao) {
         this.enderecoPadrao = enderecoPadrao;
     }
-    
+    /*
     public List<MetodoPagamento> getMetodosPagamento() {
         return new ArrayList<>(metodosPagamento);
     }
@@ -175,7 +178,7 @@ public class Comprador extends Usuario implements Serializable {
     public void setMetodosPagamento(List<MetodoPagamento> metodosPagamento) {
         this.metodosPagamento = metodosPagamento != null ? new ArrayList<>(metodosPagamento) : new ArrayList<>();
     }
-    
+    */
     public double getRaioBuscaPreferido() {
         return raioBuscaPreferido;
     }
@@ -254,11 +257,11 @@ public class Comprador extends Usuario implements Serializable {
             this.enderecoPadrao = endereco;
         }
     }*/
-    
+    /*
     public void adicionarMetodoPagamento(MetodoPagamento metodo) {
         this.metodosPagamento.add(metodo);
     }
-    
+    */
    /** public void adicionarCompra(Compra compra) {
         this.historicoCompras.add(compra);
         this.totalCompras++;
@@ -407,10 +410,10 @@ public class Comprador extends Usuario implements Serializable {
         }
     }
     
-    @Entity
+    //@Entity
     public class MetodoPagamento {
-        @Id
-        @GeneratedValue (strategy=GenerationType.IDENTITY)
+        //@Id
+        //@GeneratedValue (strategy=GenerationType.IDENTITY)
         private int id;
         private String tipo; // CARTAO, TRANSFERENCIA, etc.
         private String descricao;

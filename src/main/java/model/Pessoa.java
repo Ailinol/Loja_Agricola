@@ -5,8 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class Pessoa implements Serializable {
     // Identificação
 
