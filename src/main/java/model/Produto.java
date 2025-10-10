@@ -60,12 +60,10 @@ public class Produto {
     private List<String> imagens;
     private String imagemPrincipal;
     
-    // Estatísticas
     private double classificacaoMedia;
     private int totalAvaliacoes;
     private int totalVendidos;
     
-    // Informações para entrega
     private boolean perecivel;
     private int prazoValidadeDias;
     private boolean requerRefrigeracao;

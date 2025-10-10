@@ -5,8 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class Pessoa implements Serializable {
     // Identificação
 
@@ -28,7 +27,9 @@ public abstract class Pessoa implements Serializable {
     protected String numeroCasa;
     
     // Coordenadas geográficas (para Google Maps)
+    @Transient
     protected Double latitude;
+    @Transient
     protected Double longitude;
     
     // Datas importantes

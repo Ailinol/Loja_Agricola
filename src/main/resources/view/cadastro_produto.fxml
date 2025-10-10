@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroProdutoController">
+   
+   <children>
+        <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+         <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+         <AnchorPane.bottomAnchor>0.0</AnchorPane.bottomAnchor>
+         <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+         <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+         
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0" />
+         </effect>
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefWidth="1100.0" spacing="8.0" style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2)); -fx-background-radius: 0 0 8 8;">
+               <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <prefHeight>40.0</prefHeight>
+               <padding>
+                  <Insets bottom="20.0" right="15.0" top="8.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <VBox alignment="CENTER" spacing="12.0">
+               <AnchorPane.topAnchor>40.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <children>
+                  <StackPane>
+                     <children>
+                        <FontAwesomeIconView fill="#4CAF50" glyphName="SHOPPING_BASKET" size="4.5em" />
+                        <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" wrappingWidth="66.85713958740234" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+            
+            <VBox spacing="0.0" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15; -fx-border-width: 1;">
+               <AnchorPane.topAnchor>140.0</AnchorPane.topAnchor>
+               <AnchorPane.bottomAnchor>100.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>40.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>40.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="25.0" left="30.0" right="30.0" top="25.0" />
+               </padding>
+               <children>
+                  <TabPane fx:id="tabPane" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-tab-min-width: 140; -fx-tab-max-width: 140;" tabClosingPolicy="UNAVAILABLE">
+                     
+                     <Tab style="-fx-background-color: transparent;" text="Informações Básicas">
+                        <content>
+                           <HBox spacing="40.0" style="-fx-padding: 20;">
+                              <children>
+  
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Nome do Produto" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtNome" maxWidth="Infinity" onAction="#validarNome" onKeyPressed="#validarNomeOnEnter" prefHeight="42.0" promptText="Digite o nome do produto" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Código do Produto" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtCodigo" maxWidth="Infinity" onAction="#validarCodigo" onKeyPressed="#validarCodigoOnEnter" prefHeight="42.0" promptText="Código único do produto" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Categoria" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboCategoria" maxWidth="Infinity" onAction="#validarCategoria" prefHeight="42.0" promptText="Selecione a categoria" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Subcategoria" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboSubcategoria" maxWidth="Infinity" onAction="#validarSubcategoria" prefHeight="42.0" promptText="Selecione a subcategoria" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets right="20.0" />
+                                    </padding>
+                                 </VBox>
+                                 
+                                 <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                                 
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Unidade de Medida" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboUnidadeMedida" maxWidth="Infinity" onAction="#validarUnidadeMedida" prefHeight="42.0" promptText="Selecione a unidade" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Qualidade" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboQualidade" maxWidth="Infinity" onAction="#validarQualidade" prefHeight="42.0" promptText="Selecione a qualidade" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                          <CheckBox fx:id="checkOrganico" text="Produto Orgânico" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                          <CheckBox fx:id="checkSustentavel" text="Sustentável" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                       </HBox>
+                                       
+                                       <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                          <CheckBox fx:id="checkPerecivel" text="Perecível" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                          <CheckBox fx:id="checkRequerRefrigeracao" text="Requer Refrigeração" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                       </HBox>
+                                    </children>
+                                    <padding>
+                                       <Insets left="20.0" />
+                                    </padding>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                        </content>
+                     </Tab>
+                     
+                     <Tab style="-fx-background-color: transparent;" text="Preço e Estoque">
+                        <content>
+                           <HBox spacing="40.0" style="-fx-padding: 20;">
+                              <children>
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Preço (MT)" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtPreco" maxWidth="Infinity" onAction="#validarPreco" onKeyPressed="#validarPrecoOnEnter" prefHeight="42.0" promptText="Ex: 150.00" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Quantidade Disponível" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtQuantidadeDisponivel" maxWidth="Infinity" onAction="#validarQuantidadeDisponivel" onKeyPressed="#validarQuantidadeDisponivelOnEnter" prefHeight="42.0" promptText="Ex: 100" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Quantidade Mínima" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtQuantidadeMinima" maxWidth="Infinity" onAction="#validarQuantidadeMinima" onKeyPressed="#validarQuantidadeMinimaOnEnter" prefHeight="42.0" promptText="Ex: 10" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Peso Unitário (kg)" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtPesoUnitario" maxWidth="Infinity" onAction="#validarPesoUnitario" onKeyPressed="#validarPesoUnitarioOnEnter" prefHeight="42.0" promptText="Ex: 0.5" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets right="20.0" />
+                                    </padding>
+                                 </VBox>
+                                 
+                                 <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                                 
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Disponível para Venda?" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboDisponivel" maxWidth="Infinity" onAction="#validarDisponivel" prefHeight="42.0" promptText="Selecione" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Prazo de Validade (dias)" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtPrazoValidade" maxWidth="Infinity" onAction="#validarPrazoValidade" onKeyPressed="#validarPrazoValidadeOnEnter" prefHeight="42.0" promptText="Ex: 30" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Data da Colheita" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <DatePicker fx:id="dateDataColheita" maxWidth="Infinity" prefHeight="42.0" promptText="Selecione a data" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Data de Validade" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <DatePicker fx:id="dateDataValidade" maxWidth="Infinity" prefHeight="42.0" promptText="Selecione a data" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets left="20.0" />
+                                    </padding>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                        </content>
+                     </Tab>
+                     
+                     <Tab style="-fx-background-color: transparent;" text="Descrição">
+                        <content>
+                           <HBox spacing="40.0" style="-fx-padding: 20;">
+                              <children>
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+                                          <children>
+                                             <Label text="Descrição do Produto" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextArea fx:id="txtDescricao" maxWidth="Infinity" onKeyReleased="#validarDescricao" prefHeight="250.0" promptText="Descreva o produto em detalhes..." style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-control-inner-background: rgba(255,255,255,0.08);" VBox.vgrow="ALWAYS" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Certificações" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtCertificacoes" maxWidth="Infinity" onAction="#validarCertificacoes" onKeyPressed="#validarCertificacoesOnEnter" prefHeight="42.0" promptText="Certificações (separadas por vírgula)" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets right="20.0" />
+                                    </padding>
+                                 </VBox>
+                                 
+                                 <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                                 
+                                 <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="URL da Imagem Principal" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextField fx:id="txtImagemPrincipal" maxWidth="Infinity" onAction="#validarImagemPrincipal" onKeyPressed="#validarImagemPrincipalOnEnter" prefHeight="42.0" promptText="URL da imagem principal" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="URLs de Imagens Adicionais" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <TextArea fx:id="txtImagensAdicionais" maxWidth="Infinity" onKeyReleased="#validarImagensAdicionais" prefHeight="150.0" promptText="URLs adicionais (uma por linha)" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-control-inner-background: rgba(255,255,255,0.08);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                       
+                                       <VBox spacing="8.0">
+                                          <children>
+                                             <Label text="Agricultor" textFill="#b3e5d1">
+                                                <font>
+                                                   <Font name="System Bold" size="12.0" />
+                                                </font>
+                                             </Label>
+                                             <ComboBox fx:id="comboAgricultor" maxWidth="Infinity" onAction="#validarAgricultor" prefHeight="42.0" promptText="Selecione o agricultor" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
+                                          </children>
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets left="20.0" />
+                                    </padding>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                        </content>
+                     </Tab>
+                  </TabPane>
+               </children>
+               <effect>
+                  <InnerShadow color="rgba(0,0,0,0.2)" radius="8.0" />
+               </effect>
+            </VBox>
+            
+            <HBox alignment="CENTER" spacing="30.0">
+               <AnchorPane.bottomAnchor>35.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarProduto" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 25; -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.4), 15, 0, 0, 5);" text="CADASTRAR PRODUTO">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CHECK" size="1.1em" />
+                     </graphic>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="8.0" radius="4.0" width="8.0" />
+                     </effect>
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  
+                  <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#handleLimparCampos" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-text-fill: #b3e5d1; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #b3e5d1; -fx-border-width: 2; -fx-cursor: hand; -fx-background-radius: 25; -fx-border-radius: 25; -fx-effect: dropshadow(gaussian, rgba(179,229,209,0.2), 10, 0, 0, 3);" text="LIMPAR CAMPOS">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="ERASER" size="1.1em" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Label alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="315.0" layoutY="100.0" style="-fx-alignment: center;" text="CADASTRO DE PRODUTO" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

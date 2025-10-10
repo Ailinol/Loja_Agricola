@@ -139,6 +139,5 @@ public class NotificacaoService {
     public void configurarGmail(String email, String senhaApp) {
         configurarEmail("smtp.gmail.com", "587", email, senhaApp);
     }
-
   }
 

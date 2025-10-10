@@ -3,20 +3,36 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+@MappedSuperclass
 public abstract class Usuario extends Pessoa {
+    @Transient
     private String senha;
+    @Transient
     private String salt; 
+    @Transient
     private LocalDateTime ultimoLogin;
+    @Transient
     private String status;
+    @Transient
     private int tentativasLogin;
+    @Transient
     private boolean contaBloqueada;
+    @Transient
     private LocalDateTime dataExpiracaoSenha;
+    @Transient
     private List<String> historicoSenhas;
+    @Transient
     private List<String> permissoes;
+    @Transient
     private String tokenRecuperacao;
+    @Transient
     private LocalDateTime expiracaoTokenRecuperacao;
+    @Transient
     private boolean receberNotificacoes;
+    @Transient
     private String preferenciaComunicacao;
     
     public Usuario() {
