@@ -27,10 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
-import javax.persistence.EntityManager;
-import model.Agricultor;
-import model.Pessoa;
-import util.HibernateUtil;
+
 
 public class CadastroAgricultorController implements Initializable {
 
@@ -70,21 +67,6 @@ public class CadastroAgricultorController implements Initializable {
     public CadastroAgricultorController() {      
         this.usuarioService = new UsuarioService();
         System.out.println("🔄 Controller instanciado!");
-        
-        Agricultor agr = new Agricultor(
-        "0000",
-        "Tomas",
-        "tmacuacua@gmail.com",
-        "865786123",
-        "Maputo",
-        "Kamaxaquene",
-        "Maxaquene D"
-        );
-        
-        EntityManager em = HibernateUtil.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(agr);
-        em.getTransaction().commit();
     }
     
     

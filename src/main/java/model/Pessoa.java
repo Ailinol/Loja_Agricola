@@ -27,7 +27,9 @@ public abstract class Pessoa implements Serializable {
     protected String numeroCasa;
     
     // Coordenadas geográficas (para Google Maps)
+    @Transient
     protected Double latitude;
+    @Transient
     protected Double longitude;
     
     // Datas importantes

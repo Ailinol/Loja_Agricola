@@ -20,13 +20,18 @@ public class Comprador extends Usuario implements Serializable {
     
     @Column(nullable = true)
     private double saldo;
-    
+    /*
     @OneToMany
     @JoinColumn(name = "comprador_id") //adiciona a FK na tabela Produto
+    */
+    @Transient
     private List<Produto> carrinhoCompras;
    // private List<Compra> historicoCompras;
+    @Transient
     private double valorTotalGasto;
+    @Transient
     private int totalCompras;
+    @Transient
     private int pontosFidelidade;
     
    /* @ManyToMany
@@ -39,16 +44,10 @@ public class Comprador extends Usuario implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoPadrao;
-   /* 
-    @ManyToMany
-    @JoinTable(
-        name = "comprador_metodo_pagamento",
-        joinColumns = @JoinColumn(name = "comprador_id"),
-        inverseJoinColumns = @JoinColumn(name = "metodo_pagamento_id")
-    )
-    private List<MetodoPagamento> metodosPagamento;
-    */
+
+    
     private double raioBuscaPreferido;
+    @Transient
     private boolean recebeNewsletter;
     
     public Comprador() {

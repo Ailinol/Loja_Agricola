@@ -18,43 +18,63 @@ public class Agricultor extends Usuario {
     private double tamanhoPropriedade;
     private int anosExperiencia;
     private String biografia;
-    private String fotoPerfil;
-    private boolean certificadoOrganico;
-    private boolean certificadoSustentavel;
     
+    @Transient
+    private String fotoPerfil;
+            
+    private boolean certificadoOrganico;
+    
+    @Transient
+    private boolean certificadoSustentavel;
+    /*
     @ElementCollection
     @CollectionTable(
         name = "agricultor_certificacoes",
         joinColumns = @JoinColumn(name = "agricultor_id")
     )
     @Column(name = "certificacao")
+    */
+    @Transient
     private List<String> outrasCertificacoes;
-    
+    @Transient
     private String horarioFuncionamento;
+    
     private boolean ofereceEntrega;
     private double raioEntrega;
     private double custoEntrega;
-    private LocalDateTime dataCadastroComoAgricultor;
     
+    @Transient
+    private LocalDateTime dataCadastroComoAgricultor;
+    @Transient
     private double classificacaoMedia; 
+    @Transient
     private int totalAvaliacoes; 
     
     // Novos atributos
+    @Transient
     private String whatsapp;
+    @Transient
     private boolean aceitaVisitas;
+    @Transient
     private boolean aceitaEncomendas;
+    @Transient
     private int prazoMinimoEncomenda;
     
+    /*
     @ElementCollection
     @CollectionTable(
         name = "agricultor_metodos_contato",
         joinColumns = @JoinColumn(name = "agricultor_id")
     )
     @Column(name = "metodo_contato")
+    */
+    @Transient
     private List<String> metodosContato;
-    
+    @Transient
     private boolean disponivelParaContato;
+    @Transient
     private int totalClientesAtendidos;
+    @Transient
     private boolean recomendado;
 
     // Construtor padrão
