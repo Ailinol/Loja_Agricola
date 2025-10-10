@@ -12,12 +12,10 @@ public class GreenMatch extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // 🔥 CARREGAR O FXML E SEU CONTROLLER
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CadastroAgricultor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cadastro_produto.fxml"));
         Parent root = loader.load();
         
-        // 🔥 OPcional: Acessar o controller se precisar
-        CadastroAgricultorController controller = loader.getController();
+        //CadastroAgricultorController controller = loader.getController();
         
         Scene scene = new Scene(root);
         primaryStage.setTitle("GreenMatch - Cadastro Agricultor");

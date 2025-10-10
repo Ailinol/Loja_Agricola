@@ -196,3 +196,289 @@
     -fx-text-fill: #4CAF50;
     -fx-font-size: 11px;
 }
+
+/* ===== CONTAINER DOS CARDS COM FUNDO DO PROJETO ===== */
+.container-produtos {
+    -fx-background-color: linear-gradient(to bottom right, #1a1e2e, #16213e, #0f3b2c);
+    -fx-padding: 20;
+}
+
+/* ===== CARDS COM EFEITO GLASS/BLUR ===== */
+.product-card-premium {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(76, 175, 80, 0.3);
+    -fx-border-radius: 15;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 20, 0.3, 0, 5);
+}
+
+/* Efeito glass com blur (simulado) */
+.product-card-premium .glass-effect {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 15;
+    -fx-border-width: 1;
+}
+
+/* Container da imagem com efeito glass */
+.image-section-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 15 15 0 0;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Gradientes para as imagens (mais suaves para combinar) */
+.gradient-bg-1 {
+    -fx-background-color: linear-gradient(to right, rgba(76, 175, 80, 0.6), rgba(69, 160, 73, 0.6));
+}
+
+.gradient-bg-2 {
+    -fx-background-color: linear-gradient(to right, rgba(255, 152, 0, 0.6), rgba(245, 124, 0, 0.6));
+}
+
+.gradient-bg-3 {
+    -fx-background-color: linear-gradient(to right, rgba(33, 150, 243, 0.6), rgba(25, 118, 210, 0.6));
+}
+
+.gradient-bg-4 {
+    -fx-background-color: linear-gradient(to right, rgba(156, 39, 176, 0.6), rgba(123, 31, 162, 0.6));
+}
+
+/* Container da imagem circular com efeito glass */
+.image-container-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 70;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+}
+
+/* Seção de informações com efeito glass */
+.info-section-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 0 0 15 15;
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ===== EFEITOS HOVER PARA CARDS ===== */
+.product-card-premium:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(76, 175, 80, 0.6);
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.4), 25, 0.5, 0, 8);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+/* Efeito hover para a seção de imagem */
+.image-section-glass:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== BADGES COM ESTILO DO PROJETO ===== */
+.badge-premium {
+    -fx-font-weight: bold;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+    -fx-font-size: 10px;
+}
+
+.badge-organic {
+    -fx-background-color: rgba(76, 175, 80, 0.8);
+    -fx-text-fill: white;
+}
+
+.badge-fresh {
+    -fx-background-color: rgba(33, 150, 243, 0.8);
+    -fx-text-fill: white;
+}
+
+/* ===== TEXTO NOS CARDS ===== */
+.product-name-glass {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.farmer-info-glass {
+    -fx-text-fill: #b3e5d1;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Métricas com cores do projeto */
+.metric-value.rating {
+    -fx-text-fill: #FFD700;
+}
+
+.metric-value.distance {
+    -fx-text-fill: #b3e5d1;
+}
+
+.metric-value.stock {
+    -fx-text-fill: #4CAF50;
+}
+
+.metric-label-glass {
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-font-size: 10px;
+}
+
+/* Preço destacado */
+.price-label-glass {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.3), 10, 0, 0, 3);
+}
+
+/* ===== BOTÕES NOS CARDS ===== */
+.card-button-primary {
+    -fx-background-color: linear-gradient(to right, #4CAF50, #45a049);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 8 15 8 15;
+    -fx-font-size: 11px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 2);
+}
+
+.card-button-primary:hover {
+    -fx-background-color: linear-gradient(to right, #45a049, #3d8b40);
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.4), 12, 0, 0, 4);
+}
+
+.card-button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #b3e5d1;
+    -fx-font-weight: bold;
+    -fx-border-color: #b3e5d1;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 8 15 8 15;
+    -fx-font-size: 11px;
+}
+
+.card-button-secondary:hover {
+    -fx-background-color: rgba(179, 229, 209, 0.1);
+    -fx-text-fill: #ffffff;
+}
+
+/* ===== SCROLLBAR PERSONALIZADA PARA O CONTAINER ===== */
+.scroll-pane-produtos {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane-produtos .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane-produtos .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane-produtos .scroll-bar:vertical .track {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 10;
+}
+
+.scroll-pane-produtos .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(76, 175, 80, 0.5);
+    -fx-background-radius: 10;
+}
+
+.scroll-pane-produtos .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(76, 175, 80, 0.7);
+}
+
+/* ===== FLOWPANE DOS CARDS ===== */
+.flow-pane-produtos {
+    -fx-background-color: transparent;
+    -fx-padding: 20;
+}
+
+/* ===== HEADER DA BARRA DE PESQUISA ===== */
+.search-header-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 5);
+}
+
+/* Campo de pesquisa com estilo glass */
+.search-field-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-font-size: 13px;
+}
+
+.search-field-glass:focused {
+    -fx-border-color: #4CAF50;
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== PAINEL DO MAPA ===== */
+.map-panel-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 15;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+}
+
+/* Container do mapa */
+.map-container-glass {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 10;
+}
+
+/* ===== ANIMAÇÕES SUAVES ===== */
+@keyframes cardFadeIn {
+    from {
+        -fx-opacity: 0;
+        -fx-translate-y: 20;
+    }
+    to {
+        -fx-opacity: 1;
+        -fx-translate-y: 0;
+    }
+}
+
+.product-card-premium {
+    -fx-animation: cardFadeIn 0.5s ease-out;
+}
+
+/* Efeito de destaque quando selecionado */
+.card-selected {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.6), 30, 0.7, 0, 10);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1200px) {
+    .product-card-premium {
+        -fx-pref-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-card-premium {
+        -fx-pref-width: 100%;
+    }
+}

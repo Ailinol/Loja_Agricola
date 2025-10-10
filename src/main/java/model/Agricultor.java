@@ -94,7 +94,6 @@ public class Agricultor extends Usuario {
         this.custoEntrega = custoEntrega;
     }
 
-    // Construtor para testes ou carga de dados
     public Agricultor(List<Produto> produtos, List<Avaliacao> avaliacoes) {
         super();
         inicializarAtributos();

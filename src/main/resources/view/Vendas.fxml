@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.web.WebView?>
+
+<StackPane fx:id="rootPane" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VendasController">
+   
+   <children>
+        <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+         <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+         <AnchorPane.bottomAnchor>0.0</AnchorPane.bottomAnchor>
+         <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+         <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+         
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0" />
+         </effect>
+         <children>
+            <!-- Barra de título -->
+            <HBox alignment="CENTER_RIGHT" prefWidth="1400.0" spacing="8.0" style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2)); -fx-background-radius: 0 0 8 8;">
+               <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <prefHeight>40.0</prefHeight>
+               <padding>
+                  <Insets bottom="20.0" right="15.0" top="8.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" styleClass="title-bar-button">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" styleClass="title-bar-button">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <!-- Cabeçalho centralizado -->
+            <VBox alignment="CENTER" spacing="12.0">
+               <AnchorPane.topAnchor>40.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <children>
+                  <StackPane>
+                     <children>
+                        <FontAwesomeIconView fill="#4CAF50" glyphName="SHOPPING_CART" size="4.5em" />
+                        <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+
+            <!-- Barra de pesquisa e filtros -->
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="search-header-glass">
+               <AnchorPane.topAnchor>140.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>30.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>30.0</AnchorPane.rightAnchor>
+               <prefHeight>80.0</prefHeight>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+               <children>
+                  <!-- Campo de pesquisa -->
+                  <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <StackPane style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-background-radius: 25; -fx-padding: 5;">
+                           <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="1.3em" />
+                        </StackPane>
+                        <TextField fx:id="txtPesquisa" styleClass="search-field-glass" promptText="Pesquisar produtos, agricultores..." HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+
+                  <!-- Filtros -->
+                  <HBox spacing="15.0" alignment="CENTER_RIGHT">
+                     <ComboBox fx:id="comboCategoria" styleClass="combo-box" promptText="🌿 Categoria" prefWidth="160.0" />
+                     
+                     <ComboBox fx:id="comboOrdenacao" styleClass="combo-box" promptText="📊 Ordenar" prefWidth="160.0" />
+                     
+                     <ComboBox fx:id="comboDistancia" styleClass="combo-box" promptText="📍 Raio" prefWidth="130.0" />
+                  </HBox>
+               </children>
+            </HBox>
+
+            <!-- Área principal com SplitPane -->
+            <SplitPane fx:id="splitPane" dividerPositions="0.7" style="-fx-background-color: transparent; -fx-padding: 0;">
+               <AnchorPane.topAnchor>245.0</AnchorPane.topAnchor>
+               <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
+               
+               <items>
+                  <!-- LADO ESQUERDO - Cards dos Produtos -->
+                  <ScrollPane fx:id="scrollProdutos" styleClass="scroll-pane-produtos" fitToWidth="true">
+                     <content>
+                        <FlowPane fx:id="containerProdutos" styleClass="flow-pane-produtos" hgap="25" vgap="25">
+                           <!-- Cards serão adicionados dinamicamente -->
+                        </FlowPane>
+                     </content>
+                  </ScrollPane>
+                  
+                  <!-- LADO DIREITO - Mapa e Detalhes -->
+                  <VBox spacing="20.0" style="-fx-padding: 20;">
+                     <children>
+                        <!-- Header do mapa -->
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="search-header-glass">
+                           <children>
+                              <StackPane style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-background-radius: 20; -fx-padding: 8;">
+                                 <FontAwesomeIconView fill="WHITE" glyphName="MAP_MARKER" size="1.3em" />
+                              </StackPane>
+                              <VBox spacing="2.0">
+                                 <Label text="Mapa Real - Localização" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+                                 <Label text="OpenStreetMap com agricultores reais" style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 12px;" />
+                              </VBox>
+                           </children>
+                        </HBox>
+                        
+                        <!-- Container do Mapa REAL -->
+                        <StackPane styleClass="map-container-glass" VBox.vgrow="ALWAYS">
+                           <children>
+                              <!-- WebView para mapa real -->
+                              <WebView fx:id="webViewMapa" 
+                                       style="-fx-border-color: #4CAF50; -fx-border-width: 2; -fx-border-radius: 10;"
+                                       prefWidth="400.0" 
+                                       prefHeight="350.0"/>
+                           </children>
+                        </StackPane>
+
+                        <!-- Detalhes da Localização -->
+                        <VBox spacing="15.0" styleClass="map-panel-glass">
+                           <children>
+                              <Label text="📋 Informações de Localização" style="-fx-text-fill: #b3e5d1; -fx-font-size: 15px; -fx-font-weight: bold;" />
+                              
+                              <VBox spacing="12.0">
+                                 <!-- Distância -->
+                                 <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                    <StackPane style="-fx-background-color: rgba(76,175,80,0.2); -fx-background-radius: 20; -fx-padding: 8;">
+                                       <FontAwesomeIconView fill="#4CAF50" glyphName="ROAD" size="1em" />
+                                    </StackPane>
+                                    <VBox spacing="2.0">
+                                       <Label text="Distância" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" />
+                                       <Label fx:id="lblDistancia" text="-- km" style="-fx-text-fill: #4CAF50; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                                    </VBox>
+                                 </HBox>
+                                 
+                                 <!-- Tempo -->
+                                 <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                    <StackPane style="-fx-background-color: rgba(179,229,209,0.2); -fx-background-radius: 20; -fx-padding: 8;">
+                                       <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOCK_ALT" size="1em" />
+                                    </StackPane>
+                                    <VBox spacing="2.0">
+                                       <Label text="Tempo estimado" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" />
+                                       <Label fx:id="lblTempoViagem" text="-- min" style="-fx-text-fill: #b3e5d1; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                                    </VBox>
+                                 </HBox>
+                                 
+                                 <!-- Endereço -->
+                                 <HBox spacing="15.0" alignment="CENTER_LEFT">
+                                    <StackPane style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 20; -fx-padding: 8;">
+                                       <FontAwesomeIconView fill="#b3e5d1" glyphName="MAP_PIN" size="1em" />
+                                    </StackPane>
+                                    <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                       <Label text="Localização" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" />
+                                       <Label fx:id="lblEndereco" text="Selecione um produto para ver detalhes" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px; -fx-wrap-text: true;" />
+                                    </VBox>
+                                 </HBox>
+                              </VBox>
+                              
+                              <Button fx:id="btnRotas" mnemonicParsing="false" onAction="#onCalcularRotas" 
+                                      styleClass="button-primary" text="🗺️ CALCULAR ROTA COMPLETA">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="LOCATION_ARROW" size="1.1em" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
+
+            <!-- Título principal -->
+            <Label alignment="CENTER" style="-fx-alignment: center;" text="MERCADO AGRÍCOLA" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="5.0" />
+               </effect>
+               <AnchorPane.topAnchor>100.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

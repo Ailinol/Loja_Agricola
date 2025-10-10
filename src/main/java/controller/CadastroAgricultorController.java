@@ -33,6 +33,8 @@ public class CadastroAgricultorController implements Initializable {
     @FXML private TextField txtNome;
     @FXML private TextField txtEmail;
     @FXML private TextField txtTelefone;
+    @FXML private PasswordField txtSenha;
+    @FXML private PasswordField txtConfirmarSenha;
     @FXML private TextField txtBairro;
     @FXML private ComboBox<String> txtProvincia;
     @FXML private ComboBox<String> txtDistrito;
@@ -44,6 +46,15 @@ public class CadastroAgricultorController implements Initializable {
     @FXML private TextField txtRaioEntrega;
     @FXML private TextField txtCustoEntrega;
     @FXML private ComboBox<String> txtOfereceEntrega;
+    @FXML private TextField txtWhatsapp;
+    @FXML private ComboBox<String> comboCertificadoOrganico;
+    @FXML private ComboBox<String> comboAceitaVisitas;
+    @FXML private ComboBox<String> comboAceitaEncomendas;
+    @FXML private ComboBox<String> comboDisponivelContato;
+    @FXML private TextField txtPrazoEncomenda;
+    @FXML private TextField txtHorarioAbertura;
+    @FXML private TextField txtHorarioFechamento;
+    @FXML private VBox containerPrazoEncomenda;
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
     @FXML private StackPane rootPane; 
@@ -71,6 +82,10 @@ public class CadastroAgricultorController implements Initializable {
         "Fruticultura");
         
         txtOfereceEntrega.getItems().addAll("Sim", "Nao");
+        comboCertificadoOrganico.getItems().addAll("Sim", "Não");
+        comboAceitaVisitas.getItems().addAll("Sim", "Não");
+        comboAceitaEncomendas.getItems().addAll("Sim", "Não");
+        comboDisponivelContato.getItems().addAll("Sim", "Não");
         
         txtProvincia.setOnAction(e -> carregarDistritos());
         adicionarListeners();
@@ -213,6 +228,35 @@ private void adicionarListeners() {
             aplicarEstiloValidacao(txtCustoEntrega, valido);
         }
     });
+    
+    txtSenha.textProperty().addListener((obs, oldVal, newVal) -> {
+        if (newVal == null || newVal.isEmpty()) {
+            limparEstilosValidacao();
+            return;
+        }
+
+        boolean valido = Validacoes.validarSenha(newVal).valido;
+        aplicarEstiloValidacao(txtSenha, valido);
+
+        if (txtConfirmarSenha != null && !txtConfirmarSenha.getText().isEmpty()) {
+            validarConfirmarSenha();
+        }
+    });
+    
+    txtConfirmarSenha.textProperty().addListener((obs, oldVal, newVal) -> {
+    if (!newVal.isEmpty()) {
+        String senha = txtSenha.getText();
+        String confirmacao = txtConfirmarSenha.getText();
+        
+        if (confirmacao.equals(senha)) {
+            aplicarEstiloValidacao(txtConfirmarSenha, true);
+        } else {
+            aplicarEstiloValidacao(txtConfirmarSenha, false);
+        }
+    } else {
+        limparEstilosValidacao();
+    }
+});
 
 }
      
@@ -302,17 +346,19 @@ private void adicionarListeners() {
     }
     
     private void limparEstilosValidacao() {
-        javafx.scene.Node[] campos = {txtNome, txtEmail, txtTelefone, txtProvincia, 
-                                     txtDistrito, txtBairro, txtNumeroCasa, txtTipoAgricultura};
-        
-        for (javafx.scene.Node campo : campos) {
-            if (campo instanceof TextField) {
-                ((TextField) campo).setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.5); -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 5; -fx-background-radius: 5;");
-            } else if (campo instanceof ComboBox) {
-                ((ComboBox<?>) campo).setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 5; -fx-background-radius: 5;");
-            }
+    javafx.scene.Node[] campos = {txtNome, txtEmail, txtTelefone, txtWhatsapp, txtSenha, txtConfirmarSenha,
+                                 txtProvincia, txtDistrito, txtBairro, txtNumeroCasa, txtTipoAgricultura,
+                                 txtHorarioAbertura, txtHorarioFechamento, txtPrazoEncomenda,
+                                 comboCertificadoOrganico, comboAceitaVisitas, comboAceitaEncomendas, comboDisponivelContato};
+    
+    for (javafx.scene.Node campo : campos) {
+        if (campo instanceof TextField) {
+            ((TextField) campo).setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.5); -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 5; -fx-background-radius: 5;");
+        } else if (campo instanceof ComboBox) {
+            ((ComboBox<?>) campo).setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 5; -fx-background-radius: 5;");
         }
     }
+}
     
     private void validarCampoObrigatorio(TextField campo, String nomeCampo) {
         if (campo.getText() == null || campo.getText().trim().isEmpty()) {
@@ -356,6 +402,38 @@ private void adicionarListeners() {
             }
         }
     }
+    
+    @FXML
+    private void validarSenha() {
+        ResultadoValidacao resultado = Validacoes.validarSenha(txtSenha.getText());
+        aplicarEstiloValidacao(txtSenha, resultado.valido);
+    }
+
+    @FXML
+    private void validarSenhaOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ResultadoValidacao resultado = Validacoes.validarSenha(txtSenha.getText());
+            if(!resultado.valido) {
+                mostrarErroValidacao(txtSenha, resultado.mensagem);
+            } else {
+                aplicarEstiloValidacao(txtSenha, true);
+            }
+        }
+    }
+    
+    @FXML
+    private void validarConfirmarSenha() {
+        String senha = txtSenha.getText();
+        String confirmacao = txtConfirmarSenha.getText();
+
+        if (confirmacao.isEmpty()) {
+            limparEstilosValidacao();
+        } else if (confirmacao.equals(senha)) {
+            aplicarEstiloValidacao(txtConfirmarSenha, true);
+        } else {
+            aplicarEstiloValidacao(txtConfirmarSenha, false);
+        }
+    }
 
     @FXML
     private void validarEmail() {
@@ -374,6 +452,7 @@ private void adicionarListeners() {
             }
         }
     }
+    
     
     @FXML
     private void validarTelefone() {
@@ -522,6 +601,116 @@ private void adicionarListeners() {
         validarComboBoxObrigatorio(txtOfereceEntrega, "Oferece Entrega");
     }
     
+    // Adicione estes métodos na classe CadastroAgricultorController
+
+    @FXML
+    private void validarConfirmarSenhaOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            validarConfirmarSenha();
+        }
+    }
+
+    @FXML
+    private void validarWhatsapp() {
+        ResultadoValidacao resultado = Validacoes.validarTelefone(txtWhatsapp.getText());
+        aplicarEstiloValidacao(txtWhatsapp, resultado.valido);
+    }
+
+    @FXML
+    private void validarWhatsappOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ResultadoValidacao resultado = Validacoes.validarTelefone(txtWhatsapp.getText());
+            if (!resultado.valido) {
+                mostrarErroValidacao(txtWhatsapp, resultado.mensagem);
+            } else {
+                aplicarEstiloValidacao(txtWhatsapp, true);
+            }
+        }
+    }
+
+    @FXML
+    private void validarCertificadoOrganico() {
+        validarComboBoxObrigatorio(comboCertificadoOrganico, "Certificado Orgânico");
+    }
+
+    @FXML
+    private void validarAceitaVisitas() {
+        validarComboBoxObrigatorio(comboAceitaVisitas, "Aceita Visitas");
+    }
+
+    @FXML
+    private void onAceitaEncomendasChanged() {
+        String selecao = comboAceitaEncomendas.getValue();
+        boolean aceitaEncomendas = "Sim".equals(selecao);
+
+        containerPrazoEncomenda.setVisible(aceitaEncomendas);
+        containerPrazoEncomenda.setManaged(aceitaEncomendas);
+
+        if (!aceitaEncomendas) {
+            txtPrazoEncomenda.clear();
+            limparEstilosValidacao();
+        }
+    }
+
+    @FXML
+    private void validarPrazoEncomenda() {
+        ResultadoValidacao resultado = Validacoes.validarPrazoEncomenda(txtPrazoEncomenda.getText());
+        aplicarEstiloValidacao(txtPrazoEncomenda, resultado.valido);
+    }
+
+    @FXML
+    private void validarPrazoEncomendaOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ResultadoValidacao resultado = Validacoes.validarPrazoEncomenda(txtPrazoEncomenda.getText());
+            if (!resultado.valido) {
+                mostrarErroValidacao(txtPrazoEncomenda, resultado.mensagem);
+            } else {
+                aplicarEstiloValidacao(txtPrazoEncomenda, true);
+            }
+        }
+    }
+
+    @FXML
+    private void validarHorarioAbertura() {
+        ResultadoValidacao resultado = Validacoes.validarHorario(txtHorarioAbertura.getText());
+        aplicarEstiloValidacao(txtHorarioAbertura, resultado.valido);
+    }
+
+    @FXML
+    private void validarHorarioAberturaOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ResultadoValidacao resultado = Validacoes.validarHorario(txtHorarioAbertura.getText());
+            if (!resultado.valido) {
+                mostrarErroValidacao(txtHorarioAbertura, resultado.mensagem);
+            } else {
+                aplicarEstiloValidacao(txtHorarioAbertura, true);
+            }
+        }
+    }
+
+    @FXML
+    private void validarHorarioFechamento() {
+        ResultadoValidacao resultado = Validacoes.validarHorario(txtHorarioFechamento.getText());
+        aplicarEstiloValidacao(txtHorarioFechamento, resultado.valido);
+    }
+
+    @FXML
+    private void validarHorarioFechamentoOnEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ResultadoValidacao resultado = Validacoes.validarHorario(txtHorarioFechamento.getText());
+            if (!resultado.valido) {
+                mostrarErroValidacao(txtHorarioFechamento, resultado.mensagem);
+            } else {
+                aplicarEstiloValidacao(txtHorarioFechamento, true);
+            }
+        }
+    }
+
+    @FXML
+    private void validarDisponivelContato() {
+        validarComboBoxObrigatorio(comboDisponivelContato, "Disponível para Contato");
+    }
+    
     
     
 
@@ -529,7 +718,6 @@ private void adicionarListeners() {
     public void handleCadastrarAgricultor() {
         System.out.println("✅ FXML inicializado! Configurando botão...");
         
-        // ✅ CONFIGURAÇÃO PROGRAMÁTICA - sem onAction no FXML
         btnCadastrar.setOnAction(event -> {
             cadastrarAgricultor();
         });
@@ -538,22 +726,33 @@ private void adicionarListeners() {
     }
 
     private void cadastrarAgricultor() {
-        try {
+    try {
         String nome = txtNome.getText();
         String email = txtEmail.getText();
         String telefone = txtTelefone.getText();
+        String whatsapp = txtWhatsapp.getText();
         String bairro = txtBairro.getText();
         String provincia = txtProvincia.getValue();
         String distrito = txtDistrito.getValue();
         String tipoAgricultura = txtTipoAgricultura.getValue();
         String biografia = txtBiografia.getText();
+        String senha = txtSenha.getText();
         int anosExperiencia = Integer.parseInt(txtAnosExperiencia.getText());
         double tamanhoPropriedade = Double.parseDouble(txtTamanhoPropiedade.getText());
         boolean ofereceEntrega = "Sim".equals(txtOfereceEntrega.getValue());
         
-        // Só obter raio e custo se oferecer entrega
+        boolean certificadoOrganico = "Sim".equals(comboCertificadoOrganico.getValue());
+        boolean aceitaVisitas = "Sim".equals(comboAceitaVisitas.getValue());
+        boolean aceitaEncomendas = "Sim".equals(comboAceitaEncomendas.getValue());
+        boolean disponivelParaContato = "Sim".equals(comboDisponivelContato.getValue());
+        
+        String horarioAbertura = txtHorarioAbertura.getText();
+        String horarioFechamento = txtHorarioFechamento.getText();
+        
+        // Só obter raio, custo e prazo se oferecer entrega/encomendas
         double raioEntrega = ofereceEntrega ? Double.parseDouble(txtRaioEntrega.getText()) : 0.0;
         double custoEntrega = ofereceEntrega ? Double.parseDouble(txtCustoEntrega.getText()) : 0.0;
+        int prazoMinimoEncomenda = aceitaEncomendas ? Integer.parseInt(txtPrazoEncomenda.getText()) : 1;
         
         boolean sucesso = usuarioService.cadastrarAgricultor(
             nome, 
@@ -562,35 +761,51 @@ private void adicionarListeners() {
             provincia, 
             distrito, 
             bairro,
-            "Senha123@", 
+            senha, 
             tipoAgricultura, 
             anosExperiencia, 
             biografia, 
             tamanhoPropriedade, 
-            false,
+            certificadoOrganico,
             ofereceEntrega,
             raioEntrega,   
-            custoEntrega
+            custoEntrega,
+            whatsapp,
+            aceitaVisitas,
+            aceitaEncomendas,
+            prazoMinimoEncomenda,
+            horarioAbertura,
+            horarioFechamento,
+            disponivelParaContato
         );
            
-            if (sucesso) {
-                mostrarAlerta("Sucesso", "Agricultor cadastrado: " + nome);
-                limparCampos();
-            } else {
-                mostrarAlerta("Erro", "Falha no cadastro");
-            }
-
-        } catch (Exception e) {
-            System.err.println("💥 ERRO: " + e.getMessage());
-            mostrarAlerta("Erro", "Erro: " + e.getMessage());
+        if (sucesso) {
+            mostrarAlerta("Sucesso", "Agricultor cadastrado: " + nome);
+            limparCampos();
+        } else {
+            mostrarAlerta("Erro", "Falha no cadastro");
         }
-    }
 
+    } catch (Exception e) {
+        System.err.println("💥 ERRO: " + e.getMessage());
+        mostrarAlerta("Erro", "Erro: " + e.getMessage());
+    }
+}
     private void limparCampos() {
         txtNome.clear();
         txtEmail.clear();
         txtTelefone.clear();
-    }
+        txtWhatsapp.clear();
+        txtSenha.clear();
+        txtConfirmarSenha.clear();
+        comboCertificadoOrganico.getSelectionModel().clearSelection();
+        comboAceitaVisitas.getSelectionModel().clearSelection();
+        comboAceitaEncomendas.getSelectionModel().clearSelection();
+        comboDisponivelContato.getSelectionModel().clearSelection();
+        txtHorarioAbertura.clear();
+        txtHorarioFechamento.clear();
+        txtPrazoEncomenda.clear();
+}
 
     private void mostrarAlerta(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
