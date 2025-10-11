@@ -45,14 +45,7 @@ public class Produto {
     private boolean organico;
     @Transient
     private boolean sustentavel;
-    /*
-    @ElementCollection
-    @CollectionTable(
-        name = "produto_certificacoes",
-        joinColumns = @JoinColumn(name = "produto_id")
-    )
-    @Column(name = "certificacao")
-    */
+
     @Transient
     private List<String> certificacoes;
     
