@@ -5,13 +5,18 @@ import javax.persistence.*;
 
 @Entity
 public class Agricultor extends Usuario {
-    
+   /* 
     @OneToMany
     @JoinColumn(name = "agricultor_id")
+    */
+    @Transient
     private List<Produto> produtos;
     
+    /*
     @OneToMany
     @JoinColumn(name = "agricultor_id")
+    */
+    @Transient
     private List<Avaliacao> avaliacoes; 
     
     private String tipoAgricultura;

@@ -11,36 +11,49 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Transient
     private String codigo;
     
     // Informações básicas
     private String nome;
     private String descricao;
     private String categoria;
+    
+    @Transient
     private String subcategoria;
+    @Transient
     private String unidadeMedida;
     
     // Preço e quantidade
+    @Transient
     private double preco;
+    
+    private double pesoUnitario;
     private int quantidadeDisponivel;
     private int quantidadeMinima;
     private boolean disponivel;
     
     // Informações do produtor
     private int agricultorId;
+    @Transient
     private String agricultorNome;
     
     // Classificações e características
+    @Transient
     private String qualidade;
+    @Transient
     private boolean organico;
+    @Transient
     private boolean sustentavel;
-    
+    /*
     @ElementCollection
     @CollectionTable(
         name = "produto_certificacoes",
         joinColumns = @JoinColumn(name = "produto_id")
     )
     @Column(name = "certificacao")
+    */
+    @Transient
     private List<String> certificacoes;
     
     //private List<String> tags;
@@ -51,23 +64,30 @@ public class Produto {
     private LocalDate dataCadastro;
     
     // Imagens
-    @ElementCollection
+    /*@ElementCollection
     @CollectionTable(
         name = "produto_imagem",
         joinColumns = @JoinColumn(name = "produto_id")
     )
     @Column(name = "imagem_URL")
+    */
+    @Transient
     private List<String> imagens;
+    @Transient
     private String imagemPrincipal;
-    
+    @Transient
     private double classificacaoMedia;
+    @Transient
     private int totalAvaliacoes;
+    @Transient
     private int totalVendidos;
     
+    @Transient
     private boolean perecivel;
+    @Transient
     private int prazoValidadeDias;
+    @Transient
     private boolean requerRefrigeracao;
-    private double pesoUnitario;
     
     public Produto() {
         this.certificacoes = new ArrayList<>();
@@ -78,13 +98,21 @@ public class Produto {
         this.classificacaoMedia = 0.0;
     }
     
-    public Produto(String nome, String descricao, String categoria, double preco, int quantidadeDisponivel) {
+    public Produto(String nome, String descricao, String categoria, double precoUnitario, int quantidadeDisponivel,
+            int quantidadeMinima, boolean disponivel, LocalDate dataColheita, LocalDate dataValidade,
+            LocalDate dataCadastro, int agricultorId) {
         this();
         this.nome = nome;
         this.descricao = descricao;
         this.categoria = categoria;
-        this.preco = preco;
+        this.pesoUnitario = precoUnitario;
         this.quantidadeDisponivel = quantidadeDisponivel;
+        this.quantidadeMinima = quantidadeMinima;
+        this.disponivel = disponivel;
+        this.dataColheita = dataColheita;
+        this.dataValidade = dataValidade;
+        this.dataCadastro = dataCadastro;
+        this.agricultorId = agricultorId;
     }
     
     
