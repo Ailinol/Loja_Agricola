@@ -66,7 +66,7 @@ public class Produto {
     */
     @Transient
     private List<String> imagens;
-    @Transient
+    
     private String imagemPrincipal;
     @Transient
     private double classificacaoMedia;
@@ -93,7 +93,7 @@ public class Produto {
     
     public Produto(String nome, String descricao, String categoria, double precoUnitario, int quantidadeDisponivel,
             int quantidadeMinima, boolean disponivel, LocalDate dataColheita, LocalDate dataValidade,
-            LocalDate dataCadastro, int agricultorId) {
+            LocalDate dataCadastro, int agricultorId, String imagemPrincipal) {
         this();
         this.nome = nome;
         this.descricao = descricao;
@@ -106,6 +106,7 @@ public class Produto {
         this.dataValidade = dataValidade;
         this.dataCadastro = dataCadastro;
         this.agricultorId = agricultorId;
+        this.imagemPrincipal = imagemPrincipal;
     }
     
     

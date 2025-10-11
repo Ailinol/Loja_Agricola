@@ -1,6 +1,8 @@
 package controller;
 
+import dao.ProdutoDAO;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+import model.Produto;
 
 
 public class CadastroAgricultorController implements Initializable {
@@ -67,6 +70,14 @@ public class CadastroAgricultorController implements Initializable {
     public CadastroAgricultorController() {      
         this.usuarioService = new UsuarioService();
         System.out.println("🔄 Controller instanciado!");
+        /*
+        Produto prod = new Produto(
+           "Tomate", "AAA", "BBB", 400, 100, 10, true, LocalDate.now(), LocalDate.now(), LocalDate.now(),1, "ccc"
+        );
+        
+        ProdutoDAO dao = new ProdutoDAO();
+        dao.salvarProduto(prod);
+        */
     }
     
     
