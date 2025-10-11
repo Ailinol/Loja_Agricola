@@ -42,14 +42,10 @@ public class CadastroCompradorController implements Initializable {
     @FXML private TextField txtTelefone;
     @FXML private PasswordField txtSenha;
     @FXML private PasswordField txtConfirmarSenha;
-    @FXML private TextField txtWhatsapp;
     @FXML private TextField txtBairro;
-    @FXML private TextField txtRua;
-    @FXML private TextField txtNumeroCasa;
     @FXML private ComboBox<String> txtProvincia;
     @FXML private ComboBox<String> txtDistrito;
     @FXML private TextField txtRaioBusca;
-    @FXML private TextField txtSaldo;
     @FXML private TextArea txtPreferencias;
     @FXML private ComboBox<String> comboRecebeNewsletter;
     @FXML private Button btnCadastrar;
@@ -148,12 +144,6 @@ public class CadastroCompradorController implements Initializable {
             }
         });
 
-        txtWhatsapp.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
-                boolean valido = Validacoes.validarWhatsapp(newVal).valido;
-                aplicarEstiloValidacao(txtWhatsapp, valido);
-            }
-        });
 
         txtBairro.textProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
@@ -162,31 +152,12 @@ public class CadastroCompradorController implements Initializable {
             }
         });
 
-        txtRua.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
-                boolean valido = Validacoes.validarRegiao(newVal).valido;
-                aplicarEstiloValidacao(txtRua, valido);
-            }
-        });
-
-        txtNumeroCasa.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
-                boolean valido = Validacoes.validarRegiao(newVal).valido;
-                aplicarEstiloValidacao(txtNumeroCasa, valido);
-            }
-        });
+        
 
         txtRaioBusca.textProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
                 boolean valido = validarRaioBusca(newVal);
                 aplicarEstiloValidacao(txtRaioBusca, valido);
-            }
-        });
-
-        txtSaldo.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.isEmpty() && !newVal.equals(oldVal)) {
-                boolean valido = validarSaldo(newVal);
-                aplicarEstiloValidacao(txtSaldo, valido);
             }
         });
 
@@ -320,9 +291,9 @@ public class CadastroCompradorController implements Initializable {
     }
 
     private void limparEstilosValidacao() {
-        Node[] campos = {txtNome, txtEmail, txtTelefone, txtWhatsapp, txtSenha, txtConfirmarSenha,
-                        txtProvincia, txtDistrito, txtBairro, txtRua, txtNumeroCasa,
-                        txtRaioBusca, txtSaldo, txtPreferencias, comboRecebeNewsletter};
+        Node[] campos = {txtNome, txtEmail, txtTelefone, txtSenha, txtConfirmarSenha,
+                        txtProvincia, txtDistrito, txtBairro, 
+                        txtRaioBusca, txtPreferencias, comboRecebeNewsletter};
         
         for (Node campo : campos) {
             if (campo instanceof TextField) {
@@ -375,18 +346,7 @@ public class CadastroCompradorController implements Initializable {
         }
     }
 
-    @FXML
-    private void validarWhatsapp() {
-        ResultadoValidacao resultado = Validacoes.validarWhatsapp(txtWhatsapp.getText());
-        aplicarEstiloValidacao(txtWhatsapp, resultado.valido);
-    }
-
-    @FXML
-    private void validarWhatsappOnEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            validarWhatsapp();
-        }
-    }
+    
 
     @FXML
     private void validarSenha() {
@@ -445,30 +405,6 @@ public class CadastroCompradorController implements Initializable {
     }
 
     @FXML
-    private void validarRua() {
-        validarCampoObrigatorio(txtRua, "Rua");
-    }
-
-    @FXML
-    private void validarRuaOnEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            validarRua();
-        }
-    }
-
-    @FXML
-    private void validarNumeroCasa() {
-        validarCampoObrigatorio(txtNumeroCasa, "Número da Casa");
-    }
-
-    @FXML
-    private void validarNumeroCasaOnEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            validarNumeroCasa();
-        }
-    }
-
-    @FXML
     private void validarRaioBusca() {
         boolean valido = validarRaioBusca(txtRaioBusca.getText());
         aplicarEstiloValidacao(txtRaioBusca, valido);
@@ -478,19 +414,6 @@ public class CadastroCompradorController implements Initializable {
     private void validarRaioBuscaOnEnter(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             validarRaioBusca();
-        }
-    }
-
-    @FXML
-    private void validarSaldo() {
-        boolean valido = validarSaldo(txtSaldo.getText());
-        aplicarEstiloValidacao(txtSaldo, valido);
-    }
-
-    @FXML
-    private void validarSaldoOnEnter(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            validarSaldo();
         }
     }
 
@@ -526,16 +449,12 @@ public class CadastroCompradorController implements Initializable {
             String nome = txtNome.getText();
             String email = txtEmail.getText();
             String telefone = txtTelefone.getText();
-            String whatsapp = txtWhatsapp.getText();
             String provincia = txtProvincia.getValue();
             String distrito = txtDistrito.getValue();
             String bairro = txtBairro.getText();
-            String rua = txtRua.getText();
-            String numeroCasa = txtNumeroCasa.getText();
             String senha = txtSenha.getText();
 
             double raioBuscaPreferido = Double.parseDouble(txtRaioBusca.getText());
-            double saldoInicial = Double.parseDouble(txtSaldo.getText());
             boolean recebeNewsletter = "Sim".equals(comboRecebeNewsletter.getValue());
             
             List<String> preferenciasCategorias = new ArrayList<>();
@@ -577,14 +496,10 @@ public class CadastroCompradorController implements Initializable {
         txtNome.clear();
         txtEmail.clear();
         txtTelefone.clear();
-        txtWhatsapp.clear();
         txtSenha.clear();
         txtConfirmarSenha.clear();
         txtBairro.clear();
-        txtRua.clear();
-        txtNumeroCasa.clear();
         txtRaioBusca.clear();
-        txtSaldo.clear();
         txtPreferencias.clear();
 
         txtProvincia.getSelectionModel().clearSelection();

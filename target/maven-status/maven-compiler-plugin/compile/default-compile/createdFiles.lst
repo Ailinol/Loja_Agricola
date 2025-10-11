@@ -14,7 +14,6 @@ controller/DashboardClienteController.class
 model/Pagamento.class
 model/Produto.class
 model/Avaliacao.class
-controller/VendasController$ProdutoPremium.class
 dao/CompradorDAO.class
 controller/CadastroProdutoController.class
 service/BloqueioService.class
@@ -30,16 +29,18 @@ model/Notificacao.class
 controller/CadastroCompradorController.class
 service/Validacoes.class
 service/UsuarioService.class
+controller/GestaoPedidosAgricultorController.class
 model/Administrador.class
 model/Comprador$Endereco.class
 util/HibernateUtil.class
+controller/VendasController$Produto.class
 service/LocalizacaoService.class
 service/NotificacaoService$1.class
 model/Pessoa.class
 model/Relatorio.class
 model/SistemaRecomendacao.class
+service/AgricultorService.class
 model/Comprador.class
-controller/CatalogoProdutosController.class
 controller/VendasController.class
 controller/CadastroAgricultorController.class
 view/GreenMatch.class

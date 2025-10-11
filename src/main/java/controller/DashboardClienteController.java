@@ -31,13 +31,12 @@ public class DashboardClienteController implements Initializable {
     }
 
     private void carregarDadosUsuario() {
-        // Aqui você carrega os dados do usuário logado
+        // carrega os dados do usuário logado
         String nomeUsuario = "João Cliente"; // Exemplo
         lblSaudacao.setText("Bem-vindo, " + nomeUsuario + "!");
     }
 
     private void carregarEstatisticas() {
-        // Aqui você carrega as estatísticas do banco de dados
         lblPedidosAndamento.setText("3");
         lblPedidosPendentes.setText("2");
         lblPedidosConcluidos.setText("15");
@@ -78,7 +77,7 @@ public class DashboardClienteController implements Initializable {
         alert.setHeaderText("Deseja realmente sair do sistema?");
         alert.setContentText("Você será desconectado do GreenMatch.");
         
-        // Estilizar o alerta
+   
         alert.getDialogPane().setStyle("-fx-background-color: rgba(45,45,45,0.95); -fx-border-color: #4CAF50;");
         
         if (alert.showAndWait().get() == ButtonType.OK) {

@@ -56,13 +56,9 @@ public class Agricultor extends Usuario {
     private int totalAvaliacoes; 
     
     // Novos atributos
-    @Transient
     private String whatsapp;
-    @Transient
     private boolean aceitaVisitas;
-    @Transient
     private boolean aceitaEncomendas;
-    @Transient
     private int prazoMinimoEncomenda;
     
     /*

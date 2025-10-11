@@ -120,7 +120,7 @@
                                                    <Font name="System Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <PasswordField fx:id="txtSenha" onAction="#validarSenha" onKeyPressed="#validarSenhaOnEnter" maxWidth="Infinity" prefHeight="42.0" promptText="Digite sua senha" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                             <PasswordField fx:id="txtSenha" maxWidth="Infinity" onAction="#validarSenha" onKeyPressed="#validarSenhaOnEnter" prefHeight="42.0" promptText="Digite sua senha" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
                                           </children>
                                        </VBox>
                                        
@@ -131,7 +131,7 @@
                                                    <Font name="System Bold" size="12.0" />
                                                 </font>
                                              </Label>
-                                             <PasswordField fx:id="txtConfirmarSenha" onAction="#validarConfirmarSenha" onKeyPressed="#validarConfirmarSenhaOnEnter" maxWidth="Infinity" prefHeight="42.0" promptText="Confirme sua senha" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
+                                             <PasswordField fx:id="txtConfirmarSenha" maxWidth="Infinity" onAction="#validarConfirmarSenha" onKeyPressed="#validarConfirmarSenhaOnEnter" prefHeight="42.0" promptText="Confirme sua senha" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
                                           </children>
                                        </VBox>
                                        
@@ -146,16 +146,7 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="WhatsApp" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtWhatsapp" maxWidth="Infinity" onAction="#validarWhatsapp" onKeyPressed="#validarWhatsappOnEnter" prefHeight="42.0" promptText="+258 XX XXX XXXX" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                     </children>
                                     <padding>
                                        <Insets right="20.0" />
@@ -201,27 +192,9 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Rua" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtRua" maxWidth="Infinity" onAction="#validarRua" onKeyPressed="#validarRuaOnEnter" prefHeight="42.0" promptText="Digite o nome da rua" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Número da Casa" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtNumeroCasa" maxWidth="Infinity" onAction="#validarNumeroCasa" onKeyPressed="#validarNumeroCasaOnEnter" prefHeight="42.0" promptText="Número da residência" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                     </children>
                                     <padding>
                                        <Insets left="20.0" />
@@ -251,16 +224,7 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Saldo Inicial (MT)" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtSaldo" maxWidth="Infinity" onAction="#validarSaldo" onKeyPressed="#validarSaldoOnEnter" prefHeight="42.0" promptText="Ex: 1000.00" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                     </children>
                                     <padding>
                                        <Insets right="20.0" />

@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert.AlertType;
 import model.Produto;
+import model.Agricultor;
+import service.ProdutoService;
+import service.UsuarioService;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,9 +19,13 @@ import java.util.stream.Collectors;
 
 public class CadastroProdutoController implements Initializable {
 
+    // Serviços
+    private ProdutoService produtoService;
+    private UsuarioService usuarioService;
+    private Agricultor agricultorLogado;
+
     // Aba 1: Informações Básicas
     @FXML private TextField txtNome;
-    @FXML private TextField txtCodigo;
     @FXML private ComboBox<String> comboCategoria;
     @FXML private ComboBox<String> comboSubcategoria;
     @FXML private ComboBox<String> comboUnidadeMedida;
@@ -34,16 +41,13 @@ public class CadastroProdutoController implements Initializable {
     @FXML private TextField txtQuantidadeMinima;
     @FXML private TextField txtPesoUnitario;
     @FXML private ComboBox<String> comboDisponivel;
-    @FXML private TextField txtPrazoValidade;
     @FXML private DatePicker dateDataColheita;
     @FXML private DatePicker dateDataValidade;
 
     // Aba 3: Descrição & Certificações
     @FXML private TextArea txtDescricao;
-    @FXML private TextField txtCertificacoes;
     @FXML private TextField txtImagemPrincipal;
     @FXML private TextArea txtImagensAdicionais;
-    @FXML private ComboBox<String> comboAgricultor;
 
     // Componentes gerais
     @FXML private TabPane tabPane;
@@ -54,9 +58,35 @@ public class CadastroProdutoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Inicializar serviços
+        this.produtoService = new ProdutoService();
+        this.usuarioService = new UsuarioService();
+        
+        // Inicializar agricultor (por enquanto busca o primeiro disponível)
+        inicializarAgricultor();
+        
         inicializarComboboxes();
         configurarValidacoes();
         configurarDependencias();
+    }
+
+    private void inicializarAgricultor() {
+        try {
+            // Buscar algum agricultor no banco para teste
+            // EM PRODUÇÃO: Isso deve vir do login do usuário
+            List<Agricultor> agricultores = usuarioService.listarAgricultores();
+            if (!agricultores.isEmpty()) {
+                this.agricultorLogado = agricultores.get(0);
+                System.out.println("Agricultor para cadastro: " + agricultorLogado.getNome());
+            } else {
+                System.err.println("Nenhum agricultor cadastrado no sistema");
+                mostrarAlerta("Configuração Necessária", 
+                    "Nenhum agricultor encontrado. Cadastre um agricultor primeiro.");
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar agricultor: " + e.getMessage());
+            mostrarErro("Erro de conexão", "Não foi possível conectar ao banco de dados.");
+        }
     }
 
     private void inicializarComboboxes() {
@@ -76,19 +106,12 @@ public class CadastroProdutoController implements Initializable {
         
         // Qualidades
         comboQualidade.getItems().addAll(
-            "Premium", "Extra", "Primeira", "Segunda", "Comercial"
+            "Fresco","Colhido a dias", "Colhido a semanas"
         );
         
         // Disponibilidade
         comboDisponivel.getItems().addAll("Sim", "Não");
-        
-        // Agricultores (em um sistema real, viria do banco de dados)
-        comboAgricultor.getItems().addAll(
-            "João Silva - Nampula",
-            "Maria Santos - Maputo", 
-            "Pedro Mondlane - Sofala",
-            "Ana Muchanga - Zambézia"
-        );
+        comboDisponivel.setValue("Sim"); // Valor padrão
         
         // Configurar data de hoje como padrão para data de colheita
         dateDataColheita.setValue(LocalDate.now());
@@ -99,7 +122,6 @@ public class CadastroProdutoController implements Initializable {
         configurarMascaraNumerica(txtQuantidadeDisponivel);
         configurarMascaraNumerica(txtQuantidadeMinima);
         configurarMascaraDecimal(txtPesoUnitario);
-        configurarMascaraNumerica(txtPrazoValidade);
     }
 
     private void configurarDependencias() {
@@ -110,15 +132,6 @@ public class CadastroProdutoController implements Initializable {
             }
         });
         
-        checkPerecivel.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                txtPrazoValidade.setDisable(false);
-                dateDataValidade.setDisable(false);
-            } else {
-                txtPrazoValidade.setDisable(true);
-                dateDataValidade.setDisable(true);
-            }
-        });
     }
 
     // Validacoes
@@ -132,21 +145,6 @@ public class CadastroProdutoController implements Initializable {
     private void validarNomeOnEnter(javafx.scene.input.KeyEvent event) {
         if (event.getCode().toString().equals("ENTER")) {
             validarCampoObrigatorio(txtNome, "Nome do produto");
-        }
-    }
-
-    @FXML
-    private void validarCodigo(ActionEvent event) {
-        if (txtCodigo.getText().trim().isEmpty()) {
-            String codigoAuto = "PROD" + System.currentTimeMillis();
-            txtCodigo.setText(codigoAuto);
-        }
-    }
-
-    @FXML
-    private void validarCodigoOnEnter(javafx.scene.input.KeyEvent event) {
-        if (event.getCode().toString().equals("ENTER")) {
-            validarCodigo(new ActionEvent());
         }
     }
 
@@ -255,27 +253,6 @@ public class CadastroProdutoController implements Initializable {
     private void validarDisponivel(ActionEvent event) {
         // Campo opcional
     }
-
-    @FXML
-    private void validarPrazoValidade(ActionEvent event) {
-        if (!txtPrazoValidade.getText().trim().isEmpty()) {
-            if (!validarNumeroInteiro(txtPrazoValidade, "Prazo de validade")) {
-                return;
-            }
-            
-            int prazo = Integer.parseInt(txtPrazoValidade.getText());
-            if (prazo <= 0) {
-                mostrarErro(txtPrazoValidade, "O prazo de validade deve ser maior que zero");
-            }
-        }
-    }
-
-    @FXML
-    private void validarPrazoValidadeOnEnter(javafx.scene.input.KeyEvent event) {
-        if (event.getCode().toString().equals("ENTER")) {
-            validarPrazoValidade(new ActionEvent());
-        }
-    }
     
     @FXML
     private void validarDescricao(javafx.scene.input.KeyEvent event) {
@@ -313,27 +290,39 @@ public class CadastroProdutoController implements Initializable {
         // Validação em tempo real opcional
     }
 
-    @FXML
-    private void validarAgricultor(ActionEvent event) {
-        validarComboObrigatorio(comboAgricultor, "Agricultor");
-    }
-
     // Metodos principais
     
     @FXML
     private void handleCadastrarProduto(ActionEvent event) {
         if (validarFormularioCompleto()) {
             try {
+                // Verificar se temos um agricultor válido
+                if (agricultorLogado == null) {
+                    mostrarErro("Erro de Configuração", "Nenhum agricultor disponível para cadastrar o produto.");
+                    return;
+                }
+
                 Produto produto = criarProdutoFromFormulario();
                 
-                // AUsar banco de dados
-                salvarProduto(produto);
+                System.out.println("📦 Tentando cadastrar produto: " + produto.getNome());
+                System.out.println("👨‍🌾 Agricultor: " + agricultorLogado.getNome());
                 
-                mostrarSucesso("Produto cadastrado com sucesso!");
-                handleLimparCampos(new ActionEvent());
+                // CHAMADA REAL DO SERVICE PARA SALVAR NO BANCO
+                boolean sucesso = produtoService.cadastrarProduto(produto, agricultorLogado);
+                
+                if (sucesso) {
+                    mostrarSucesso("Produto cadastrado com sucesso!\n" +
+                                  "Nome: " + produto.getNome() + "\n" +
+                                  "Preço: " + produto.getPreco() + " MT\n" +
+                                  "Quantidade: " + produto.getQuantidadeDisponivel() + " " + produto.getUnidadeMedida());
+                    handleLimparCampos(new ActionEvent());
+                } else {
+                    mostrarErro("Falha no Cadastro", "Não foi possível cadastrar o produto no banco de dados.");
+                }
                 
             } catch (Exception e) {
-                mostrarErro("Erro ao cadastrar produto: " + e.getMessage());
+                mostrarErro("Erro no Cadastro", "Erro ao cadastrar produto: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -342,7 +331,6 @@ public class CadastroProdutoController implements Initializable {
     private void handleLimparCampos(ActionEvent event) {
         // Limpar Aba 1
         txtNome.clear();
-        txtCodigo.clear();
         comboCategoria.setValue(null);
         comboSubcategoria.setValue(null);
         comboUnidadeMedida.setValue(null);
@@ -358,19 +346,17 @@ public class CadastroProdutoController implements Initializable {
         txtQuantidadeMinima.clear();
         txtPesoUnitario.clear();
         comboDisponivel.setValue("Sim");
-        txtPrazoValidade.clear();
         dateDataColheita.setValue(LocalDate.now());
         dateDataValidade.setValue(null);
         
         // Limpar Aba 3
         txtDescricao.clear();
-        txtCertificacoes.clear();
         txtImagemPrincipal.clear();
         txtImagensAdicionais.clear();
-        comboAgricultor.setValue(null);
         
         tabPane.getSelectionModel().select(0);
         removerEstilosErro();
+        
     }
 
     // Validacoes auxiliares
@@ -407,9 +393,8 @@ public class CadastroProdutoController implements Initializable {
             erros.add("Quantidade disponível deve ser um número inteiro válido");
         }
         
-        if (comboAgricultor.getValue() == null) {
-            erros.add("Agricultor é obrigatório");
-            mostrarErro(comboAgricultor, "Campo obrigatório");
+        if (agricultorLogado == null) {
+            erros.add("Nenhum agricultor disponível para associar o produto");
         }
         
         if (erros.isEmpty()) {
@@ -423,67 +408,60 @@ public class CadastroProdutoController implements Initializable {
     private Produto criarProdutoFromFormulario() {
         Produto produto = new Produto();
         
+        // Informações básicas
         produto.setNome(txtNome.getText().trim());
-        produto.setCodigo(txtCodigo.getText().trim());
         produto.setCategoria(comboCategoria.getValue());
         produto.setSubcategoria(comboSubcategoria.getValue());
         produto.setUnidadeMedida(comboUnidadeMedida.getValue());
         produto.setQualidade(comboQualidade.getValue());
         produto.setOrganico(checkOrganico.isSelected());
         produto.setSustentavel(checkSustentavel.isSelected());
+        produto.setPerecivel(checkPerecivel.isSelected());
+        produto.setRequerRefrigeracao(checkRequerRefrigeracao.isSelected());
         
+        // Preço e estoque
         produto.setPreco(Double.parseDouble(txtPreco.getText().replace(",", ".")));
         produto.setQuantidadeDisponivel(Integer.parseInt(txtQuantidadeDisponivel.getText()));
         
         if (!txtQuantidadeMinima.getText().trim().isEmpty()) {
             produto.setQuantidadeMinima(Integer.parseInt(txtQuantidadeMinima.getText()));
+        } else {
+            produto.setQuantidadeMinima(5); // Valor padrão
         }
         
         produto.setDisponivel(comboDisponivel.getValue() != null && 
                             comboDisponivel.getValue().equals("Sim"));
         
-        produto.setPerecivel(checkPerecivel.isSelected());
-        produto.setRequerRefrigeracao(checkRequerRefrigeracao.isSelected());
-        
-        if (!txtPrazoValidade.getText().trim().isEmpty()) {
-            produto.setPrazoValidadeDias(Integer.parseInt(txtPrazoValidade.getText()));
-        }
-        
         if (!txtPesoUnitario.getText().trim().isEmpty()) {
             produto.setPesoUnitario(Double.parseDouble(txtPesoUnitario.getText().replace(",", ".")));
+        } else {
+            produto.setPesoUnitario(1.0); // Valor padrão
         }
         
         produto.setDataColheita(dateDataColheita.getValue());
         produto.setDataValidade(dateDataValidade.getValue());
         
+        // Descrição
         produto.setDescricao(txtDescricao.getText().trim());
         
-        if (!txtCertificacoes.getText().trim().isEmpty()) {
-            List<String> certificacoes = Arrays.stream(txtCertificacoes.getText().split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .collect(Collectors.toList());
-            produto.setCertificacoes(certificacoes);
-        }
         
-        // Processar imagens
+        // Imagens
         if (!txtImagemPrincipal.getText().trim().isEmpty()) {
             produto.setImagemPrincipal(txtImagemPrincipal.getText().trim());
-            produto.adicionarImagem(txtImagemPrincipal.getText().trim());
         }
         
         if (!txtImagensAdicionais.getText().trim().isEmpty()) {
-            Arrays.stream(txtImagensAdicionais.getText().split("\n"))
+            List<String> imagensAdicionais = Arrays.stream(txtImagensAdicionais.getText().split("\n"))
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
-                    .forEach(produto::adicionarImagem);
+                    .collect(Collectors.toList());
+            produto.setImagens(imagensAdicionais);
         }
         
-        String agricultorSelecionado = comboAgricultor.getValue();
-        if (agricultorSelecionado != null) {
-            produto.setAgricultorNome(agricultorSelecionado);
-            // produto.setAgricultorId(agricultor.getId());
-        }
+        // Valores padrão
+        produto.setClassificacaoMedia(0.0);
+        produto.setTotalAvaliacoes(0);
+        produto.setTotalVendidos(0);
         
         return produto;
     }
@@ -558,9 +536,9 @@ public class CadastroProdutoController implements Initializable {
     
     private void removerEstilosErro() {
         Control[] controls = {
-            txtNome, txtCodigo, comboCategoria, comboSubcategoria, comboUnidadeMedida,
+            txtNome, comboCategoria, comboSubcategoria, comboUnidadeMedida,
             comboQualidade, txtPreco, txtQuantidadeDisponivel, txtQuantidadeMinima,
-            txtPesoUnitario, comboDisponivel, txtPrazoValidade, comboAgricultor
+            txtPesoUnitario, comboDisponivel
         };
         
         for (Control control : controls) {
@@ -584,9 +562,9 @@ public class CadastroProdutoController implements Initializable {
         alert.showAndWait();
     }
     
-    private void mostrarErro(String mensagem) {
+    private void mostrarErro(String titulo, String mensagem) {
         Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erro");
+        alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();
@@ -599,8 +577,27 @@ public class CadastroProdutoController implements Initializable {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
-    
-    private void salvarProduto(Produto produto) {
-        
+
+    // Método para definir o agricultor logado (chame este método quando o usuário fizer login)
+    public void setAgricultorLogado(Agricultor agricultor) {
+        this.agricultorLogado = agricultor;
+        if (agricultor != null) {
+            System.out.println("✅ Agricultor definido no controller: " + agricultor.getNome());
+        }
+    }
+
+    // Método para limpar recursos
+    public void fecharServicos() {
+        try {
+            if (produtoService != null) {
+                produtoService.fecharConexao();
+            }
+            if (usuarioService != null) {
+                usuarioService.fecharConexao();
+            }
+            System.out.println("🔒 Serviços fechados com sucesso");
+        } catch (Exception e) {
+            System.err.println("Erro ao fechar serviços: " + e.getMessage());
+        }
     }
 }

@@ -3,15 +3,15 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -98,16 +98,7 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Código do Produto" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtCodigo" maxWidth="Infinity" onAction="#validarCodigo" onKeyPressed="#validarCodigoOnEnter" prefHeight="42.0" promptText="Código único do produto" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                        
                                        <VBox spacing="8.0">
                                           <children>
@@ -162,14 +153,14 @@
                                           </children>
                                        </VBox>
                                        
-                                       <HBox spacing="15.0" alignment="CENTER_LEFT">
-                                          <CheckBox fx:id="checkOrganico" text="Produto Orgânico" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
-                                          <CheckBox fx:id="checkSustentavel" text="Sustentável" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                       <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                          <CheckBox fx:id="checkOrganico" style="-fx-text-fill: #b3e5d1;" text="Produto Orgânico" textFill="#b3e5d1" />
+                                          <CheckBox fx:id="checkSustentavel" style="-fx-text-fill: #b3e5d1;" text="Sustentável" textFill="#b3e5d1" />
                                        </HBox>
                                        
-                                       <HBox spacing="15.0" alignment="CENTER_LEFT">
-                                          <CheckBox fx:id="checkPerecivel" text="Perecível" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
-                                          <CheckBox fx:id="checkRequerRefrigeracao" text="Requer Refrigeração" textFill="#b3e5d1" style="-fx-text-fill: #b3e5d1;" />
+                                       <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                          <CheckBox fx:id="checkPerecivel" style="-fx-text-fill: #b3e5d1;" text="Perecível" textFill="#b3e5d1" />
+                                          <CheckBox fx:id="checkRequerRefrigeracao" style="-fx-text-fill: #b3e5d1;" text="Requer Refrigeração" textFill="#b3e5d1" />
                                        </HBox>
                                     </children>
                                     <padding>
@@ -251,31 +242,22 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Prazo de Validade (dias)" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtPrazoValidade" maxWidth="Infinity" onAction="#validarPrazoValidade" onKeyPressed="#validarPrazoValidadeOnEnter" prefHeight="42.0" promptText="Ex: 30" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
+                                       <Label text="Data da Colheita" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
                                        
                                        <VBox spacing="8.0">
                                           <children>
-                                             <Label text="Data da Colheita" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
                                              <DatePicker fx:id="dateDataColheita" maxWidth="Infinity" prefHeight="42.0" promptText="Selecione a data" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8;" VBox.vgrow="NEVER" />
                                           </children>
                                        </VBox>
                                        
                                        <VBox spacing="8.0">
                                           <children>
-                                             <Label text="Data de Validade" textFill="#b3e5d1">
+                                             <Label text="Extimativa de Validade" textFill="#b3e5d1">
                                                 <font>
                                                    <Font name="System Bold" size="12.0" />
                                                 </font>
@@ -310,16 +292,7 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Certificações" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <TextField fx:id="txtCertificacoes" maxWidth="Infinity" onAction="#validarCertificacoes" onKeyPressed="#validarCertificacoesOnEnter" prefHeight="42.0" promptText="Certificações (separadas por vírgula)" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                     </children>
                                     <padding>
                                        <Insets right="20.0" />
@@ -352,16 +325,7 @@
                                           </children>
                                        </VBox>
                                        
-                                       <VBox spacing="8.0">
-                                          <children>
-                                             <Label text="Agricultor" textFill="#b3e5d1">
-                                                <font>
-                                                   <Font name="System Bold" size="12.0" />
-                                                </font>
-                                             </Label>
-                                             <ComboBox fx:id="comboAgricultor" maxWidth="Infinity" onAction="#validarAgricultor" prefHeight="42.0" promptText="Selecione o agricultor" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" VBox.vgrow="NEVER" />
-                                          </children>
-                                       </VBox>
+                                       <VBox spacing="8.0" />
                                     </children>
                                     <padding>
                                        <Insets left="20.0" />
