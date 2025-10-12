@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,7 +19,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import service.ResultadoValidacao;
+import service.SessaoActual;
 
 public class CadastroProdutoController implements Initializable {
 
@@ -60,17 +65,15 @@ public class CadastroProdutoController implements Initializable {
     @FXML private TabPane tabPane;
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
-    @FXML private Label lblTitulo; // Adicione este Label no FXML
+    @FXML private Label lblTitulo; 
 
     private Map<String, List<String>> categoriasMap;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Inicializar serviços
         this.produtoService = new ProdutoService();
         this.usuarioService = new UsuarioService();
         
-        // Inicializar agricultor (por enquanto busca o primeiro disponível)
         inicializarAgricultor();
         
         inicializarComboboxes();
@@ -190,20 +193,13 @@ public class CadastroProdutoController implements Initializable {
     }
 
     private void inicializarAgricultor() {
-        try {
-            // Buscar algum agricultor no banco para teste
-            List<Agricultor> agricultores = usuarioService.listarAgricultores();
-            if (!agricultores.isEmpty()) {
-                this.agricultorLogado = agricultores.get(0);
-                System.out.println("Agricultor para cadastro: " + agricultorLogado.getNome());
-            } else {
-                System.err.println("Nenhum agricultor cadastrado no sistema");
-                mostrarAlerta("Configuração Necessária", 
-                    "Nenhum agricultor encontrado. Cadastre um agricultor primeiro.");
-            }
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar agricultor: " + e.getMessage());
-            mostrarErro("Erro de conexão", "Não foi possível conectar ao banco de dados.");
+        Agricultor agricultorSeccao = SessaoActual.getAgricultorLogado();
+
+        if (agricultorSeccao != null) {
+            this.agricultorLogado = agricultorSeccao;
+
+        } else {
+            System.out.println("Impossivel logar");
         }
     }
 
@@ -418,7 +414,31 @@ public class CadastroProdutoController implements Initializable {
             System.out.println("Erro ao fechar tela: " + e.getMessage());
         }
     }
+    
+    
+    @FXML
+    private void handleVoltar(ActionEvent event){
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GestaoProdutos.fxml"));
+        Parent root = loader.load();
+  
+        Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+ 
+        Scene novaCena = new Scene(root);
+        stageAtual.setScene(novaCena);
+        
+        stageAtual.sizeToScene();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Mostra mensagem de erro
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Não foi possível carregar a tela");
+            alert.setContentText("Erro: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
     // VALIDAÇÕES
     @FXML
     private void validarNome(ActionEvent event) {
@@ -791,7 +811,7 @@ public class CadastroProdutoController implements Initializable {
     public void setAgricultorLogado(Agricultor agricultor) {
         this.agricultorLogado = agricultor;
         if (agricultor != null) {
-            System.out.println("✅ Agricultor definido no controller: " + agricultor.getNome());
+            System.out.println(" Agricultor definido no controller: " + agricultor.getNome());
         }
     }
 

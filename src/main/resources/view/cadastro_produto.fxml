@@ -64,6 +64,14 @@
                      <children>
                         <FontAwesomeIconView fill="#4CAF50" glyphName="SHOPPING_BASKET" size="4.5em" />
                         <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" wrappingWidth="66.85713958740234" />
+                        <Label alignment="TOP_RIGHT" contentDisplay="CENTER" style="-fx-alignment: center;" text="CADASTRO DE PRODUTO" textFill="#ffffff">
+                           <font>
+                              <Font name="System Bold" size="26.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
+                           </effect>
+                        </Label>
                      </children>
                   </StackPane>
                </children>
@@ -370,16 +378,16 @@
                         <Insets left="8.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="btnVoltar" layoutX="583.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleVoltar" prefHeight="49.0" prefWidth="196.0" style="-fx-background-color: linear-gradient(to right, #f44336, #d32f2f); -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #b3e5d1; -fx-border-width: 2; -fx-cursor: hand; -fx-background-radius: 25; -fx-border-radius: 25; -fx-effect: dropshadow(gaussian, rgba(179,229,209,0.2), 10, 0, 0, 3);" text="Voltar">
+                     <graphic>
+                        <FontAwesomeIconView fill="#fff6f594" glyphName="ARROW_LEFT" size="1.1em" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
-            <Label alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="315.0" layoutY="100.0" style="-fx-alignment: center;" text="CADASTRO DE PRODUTO" textFill="#ffffff">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
-               </effect>
-            </Label>
          </children>
       </AnchorPane>
    </children>

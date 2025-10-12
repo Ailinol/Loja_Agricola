@@ -143,11 +143,24 @@ private void abrirVendas() {
 
     @FXML
     private void abrirPerfil() {
-        System.out.println("Abrindo tela de Perfil...");
-        // Navegar para tela de perfil
-        // Main.trocarTela("PerfilCliente");
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PerfilCliente.fxml"));
+        Parent root = loader.load();
         
-        mostrarMensagem("Perfil", "Abrindo configurações do perfil...");
+        Stage stage = (Stage) lblSaudacao.getScene().getWindow();
+        
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        mostrarMensagem("Erro", "Não foi possível abrir o mercado: " + e.getMessage());
+    }
+
     }
 
     @FXML

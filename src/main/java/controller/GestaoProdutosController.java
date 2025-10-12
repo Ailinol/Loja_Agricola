@@ -29,10 +29,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jboss.jandex.Main;
 import service.ResultadoValidacao;
+import service.SessaoActual;
 
 public class GestaoProdutosController implements Initializable {
 
@@ -54,6 +56,8 @@ public class GestaoProdutosController implements Initializable {
     private Agricultor agricultorLogado;
     private ObservableList<Produto> produtosList;
     private ObservableList<Produto> produtosFiltrados;
+    
+    Agricultor agricultor = new Agricultor();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,15 +73,14 @@ public class GestaoProdutosController implements Initializable {
     }
 
     private void inicializarAgricultor() {
-        try {
-            List<Agricultor> agricultores = usuarioService.listarAgricultores();
-            if (!agricultores.isEmpty()) {
-                this.agricultorLogado = agricultores.get(0);
-                System.out.println("Agricultor para gestão: " + agricultorLogado.getNome());
-            }
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar agricultor: " + e.getMessage());
-        }
+    Agricultor agricultorLogado = SessaoActual.getAgricultorLogado();
+    
+    if (agricultorLogado != null) {
+        this.agricultor = agricultorLogado;
+        
+    } else {
+        System.out.println("Agricultor dislogado");
+    }
     }
 
     private void configurarTabela() {
@@ -256,9 +259,26 @@ public class GestaoProdutosController implements Initializable {
 
     @FXML
     private void handleVoltar(ActionEvent event) {
-        // Voltar para tela anterior (dashboard do agricultor)
-        System.out.println("Voltando para tela anterior...");
-        //Main.trocarCena("dashboard_agricultor.fxml");
+     try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard_Agricultor.fxml"));
+        Parent root = loader.load();
+  
+        Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+ 
+        Scene novaCena = new Scene(root);
+        stageAtual.setScene(novaCena);
+        
+        stageAtual.sizeToScene();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Mostra mensagem de erro
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Não foi possível carregar a tela");
+            alert.setContentText("Erro: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     private void editarProduto(Produto produto) {

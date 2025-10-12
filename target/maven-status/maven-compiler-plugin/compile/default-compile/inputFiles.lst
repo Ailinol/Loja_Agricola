@@ -22,6 +22,7 @@
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/CadastroProdutoController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/NotificacaoService.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/SistemaRecomendacao.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/PerfilAgricultorController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/AgricultorService.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/Validacoes.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Repositorio.java
@@ -30,10 +31,12 @@
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Comprador.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/AutenticacaoService.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/SistemaMarketPlace.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/PerfilCompradorController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Agricultor.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/ResultadoValidacao.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/view/GreenMatch.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/dao/AgricultorDAO.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/DashboardAgricultorController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/VendasController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/dao/CompradorDAO.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/PontoEncontro.java

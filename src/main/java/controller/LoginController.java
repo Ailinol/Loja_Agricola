@@ -94,8 +94,8 @@ public class LoginController implements Initializable {
             mostrarAlerta("Sucesso", "Login realizado com sucesso!");
 
             // Redirecionar para a tela principal
-            redirecionarParaTelaPrincipal(resultado.usuario, tipoUsuario);
             SessaoActual.setUsuarioLogado(resultado.usuario, resultado.tokenSessao);
+            redirecionarParaTelaPrincipal(resultado.usuario, tipoUsuario);
 
         } else {
             System.out.println("Falha no login: " + resultado.mensagem);
@@ -110,7 +110,7 @@ public class LoginController implements Initializable {
 
         switch (tipoUsuario.toUpperCase()) {
             case "AGRICULTOR":
-                fxmlFile = "/view/DashboardAgricultor.fxml"; 
+                fxmlFile = "/view/Dashboard_Agricultor.fxml"; 
                 titulo = "Dashboard do Agricultor - GreenMatch";
                 break;
             case "COMPRADOR":

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PerfilAgricultorController">
+   
+   <children>
+      <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+         <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+         <AnchorPane.bottomAnchor>0.0</AnchorPane.bottomAnchor>
+         <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+         <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+         
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0" />
+         </effect>
+         <children>
+            <!-- Barra de título elegante -->
+            <HBox alignment="CENTER_RIGHT" prefWidth="1100.0" spacing="8.0" style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2)); -fx-background-radius: 0 0 8 8;">
+               <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <prefHeight>40.0</prefHeight>
+               <padding>
+                  <Insets bottom="20.0" right="15.0" top="8.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <!-- Cabeçalho centralizado com destaque -->
+            <VBox alignment="CENTER" spacing="12.0">
+               <AnchorPane.topAnchor>40.0</AnchorPane.topAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <children>
+                  <StackPane>
+                     <children>
+                        <FontAwesomeIconView fill="#4CAF50" glyphName="USER_CIRCLE" size="4.5em" />
+                     </children>
+                  </StackPane>
+                  <Label fx:id="lblNomeUsuario" text="Nome do Agricultor" textFill="white">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
+                     </effect>
+                  </Label>
+                  <Label fx:id="lblEmail" text="email@exemplo.com" textFill="#b3e5d1">
+                     <font>
+                        <Font name="System" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            
+            <!-- Card do perfil com informações -->
+            <VBox spacing="0.0" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15; -fx-border-width: 1;">
+               <AnchorPane.topAnchor>180.0</AnchorPane.topAnchor>
+               <AnchorPane.bottomAnchor>150.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>40.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>40.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="25.0" left="30.0" right="30.0" top="25.0" />
+               </padding>
+               <children>
+                  <!-- Seção de Informações Pessoais -->
+                  <VBox spacing="20.0">
+                     <children>
+                        <Label text="INFORMAÇÕES PESSOAIS" textFill="#4CAF50" style="-fx-font-weight: bold;">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        
+                        <HBox spacing="40.0">
+                           <children>
+                              <!-- Coluna esquerda -->
+                              <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox spacing="5.0">
+                                       <Label text="Nome Completo" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblNome" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="E-mail" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblEmailInfo" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="Telefone" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblTelefone" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="WhatsApp" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblWhatsapp" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                              </VBox>
+                              
+                              <!-- Separador vertical -->
+                              <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                              
+                              <!-- Coluna direita -->
+                              <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox spacing="5.0">
+                                       <Label text="Localização" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblLocalizacao" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="Data de Cadastro" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblDataCadastro" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="Status" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblStatus" text="-" textFill="#4CAF50" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                                    </VBox>
+                                    
+                                    <VBox spacing="5.0">
+                                       <Label text="Disponível para Contato" textFill="#b3e5d1">
+                                          <font>
+                                             <Font name="System Bold" size="12.0" />
+                                          </font>
+                                       </Label>
+                                       <Label fx:id="lblDisponivelContato" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        
+                        <!-- Separador entre seções -->
+                        <Separator style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 15 0 15 0;" />
+                        
+                        <!-- Seção de Informações Agrícolas -->
+                        <VBox spacing="15.0">
+                           <Label text="INFORMAÇÕES AGRÍCOLAS" textFill="#4CAF50" style="-fx-font-weight: bold;">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           
+                           <HBox spacing="40.0">
+                              <children>
+                                 <!-- Coluna esquerda -->
+                                 <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="5.0">
+                                          <Label text="Tipo de Agricultura" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblTipoAgricultura" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Anos de Experiência" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblAnosExperiencia" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Tamanho da Propriedade" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblTamanhoPropriedade" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets right="20.0" />
+                                    </padding>
+                                 </VBox>
+                                 
+                                 <!-- Separador vertical -->
+                                 <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                                 
+                                 <!-- Coluna direita -->
+                                 <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="5.0">
+                                          <Label text="Certificado Orgânico" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblCertificadoOrganico" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Aceita Visitas" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblAceitaVisitas" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Horário de Funcionamento" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblHorarioFuncionamento" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets left="20.0" />
+                                    </padding>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                        </VBox>
+                        
+                        <!-- Separador entre seções -->
+                        <Separator style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 15 0 15 0;" />
+                        
+                        <!-- Seção de Serviços -->
+                        <VBox spacing="15.0">
+                           <Label text="SERVIÇOS OFERECIDOS" textFill="#4CAF50" style="-fx-font-weight: bold;">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           
+                           <HBox spacing="40.0">
+                              <children>
+                                 <!-- Coluna esquerda -->
+                                 <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="5.0">
+                                          <Label text="Oferece Entrega" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblOfereceEntrega" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Raio de Entrega" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblRaioEntrega" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Custo de Entrega" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblCustoEntrega" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets right="20.0" />
+                                    </padding>
+                                 </VBox>
+                                 
+                                 <!-- Separador vertical -->
+                                 <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                                 
+                                 <!-- Coluna direita -->
+                                 <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                       <VBox spacing="5.0">
+                                          <Label text="Aceita Encomendas" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblAceitaEncomendas" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Prazo Mínimo Encomenda" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblPrazoEncomenda" text="-" textFill="white" style="-fx-font-size: 14px;" />
+                                       </VBox>
+                                       
+                                       <VBox spacing="5.0">
+                                          <Label text="Biografia" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblBiografia" text="-" textFill="white" style="-fx-font-size: 14px; -fx-wrap-text: true;" wrapText="true" />
+                                       </VBox>
+                                    </children>
+                                    <padding>
+                                       <Insets left="20.0" />
+                                    </padding>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+               <effect>
+                  <InnerShadow color="rgba(0,0,0,0.2)" radius="8.0" />
+               </effect>
+            </VBox>
+            
+            <!-- Botões de ação -->
+            <HBox alignment="CENTER" spacing="20.0">
+               <AnchorPane.bottomAnchor>35.0</AnchorPane.bottomAnchor>
+               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
+               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#handleEditarDados" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: linear-gradient(to right, #4CAF50, #388E3C); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 25; -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.4), 15, 0, 0, 5);" text="EDITAR DADOS">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="1.1em" />
+                     </graphic>
+                  </Button>
+                  
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#handleEliminarConta" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: linear-gradient(to right, #F44336, #D32F2F); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 25; -fx-effect: dropshadow(gaussian, rgba(244,67,54,0.4), 15, 0, 0, 5);" text="ELIMINAR CONTA">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="1.1em" />
+                     </graphic>
+                  </Button>
+                  
+                  <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#handleVoltar" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-text-fill: #b3e5d1; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-color: #b3e5d1; -fx-border-width: 2; -fx-cursor: hand; -fx-background-radius: 25; -fx-border-radius: 25; -fx-effect: dropshadow(gaussian, rgba(179,229,209,0.2), 10, 0, 0, 3);" text="VOLTAR">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="ARROW_LEFT" size="1.1em" />
+                     </graphic>
+                  </Button>
+                  
+                  <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleSair" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-text-fill: #FF9800; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-color: #FF9800; -fx-border-width: 2; -fx-cursor: hand; -fx-background-radius: 25; -fx-border-radius: 25; -fx-effect: dropshadow(gaussian, rgba(255,152,0,0.2), 10, 0, 0, 3);" text="SAIR">
+                     <graphic>
+                        <FontAwesomeIconView fill="#FF9800" glyphName="SIGN_OUT" size="1.1em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <Label alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="315.0" layoutY="100.0" style="-fx-alignment: center;" text="PERFIL DO AGRICULTOR" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

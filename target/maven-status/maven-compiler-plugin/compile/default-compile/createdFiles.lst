@@ -29,6 +29,7 @@ service/AutenticacaoService$ResultadoLogin.class
 controller/CarrinhoController.class
 controller/GestaoProdutosController.class
 model/ItemCarrinho.class
+controller/PerfilAgricultorController.class
 dao/AgricultorDAO.class
 model/Usuario.class
 model/Repositorio.class
@@ -50,6 +51,8 @@ model/Relatorio.class
 model/SistemaRecomendacao.class
 service/AgricultorService.class
 model/Comprador.class
+controller/DashboardAgricultorController.class
+controller/PerfilCompradorController.class
 controller/VendasController.class
 controller/CadastroAgricultorController.class
 view/GreenMatch.class
