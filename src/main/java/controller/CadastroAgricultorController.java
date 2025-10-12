@@ -85,7 +85,7 @@ public class CadastroAgricultorController implements Initializable {
         
         ProdutoDAO dao = new ProdutoDAO();
         dao.salvarProduto(prod);
-        */
+        
         Produto prod = new Produto(
            "Tomate", "AAA", "BBB", 400, 100, 10, true, LocalDate.now(), LocalDate.now(), LocalDate.now(),1, "ccc"
         );
@@ -106,6 +106,7 @@ public class CadastroAgricultorController implements Initializable {
         
         PedidoDAO dao = new PedidoDAO();
         dao.salvarPedido(pedido);
+        */
     }
     
     
