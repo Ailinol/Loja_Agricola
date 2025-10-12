@@ -468,6 +468,7 @@
                </effect>
             </Label>
          </children>
+         
       </AnchorPane>
    </children>
 </StackPane>

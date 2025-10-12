@@ -6,28 +6,27 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Produto")
 public class Produto {
     // Identificação
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Transient
-    private String codigo;
+    
+    private String codigo; 
     
     // Informações básicas
     private String nome;
-    private String descricao;
-    private String categoria;
     
-    @Transient
-    private String subcategoria;
-    @Transient
+    @Column(length = 1000)
+    private String descricao;
+    
+    private String categoria;
+    private String subcategoria; 
     private String unidadeMedida;
     
     // Preço e quantidade
-    @Transient
-    private double preco;
-    
+    private double preco; 
     private double pesoUnitario;
     private int quantidadeDisponivel;
     private int quantidadeMinima;
@@ -35,21 +34,19 @@ public class Produto {
     
     // Informações do produtor
     private int agricultorId;
-    @Transient
-    private String agricultorNome;
+    private String agricultorNome; 
     
     // Classificações e características
-    @Transient
-    private String qualidade;
-    @Transient
+    private String qualidade; 
     private boolean organico;
-    @Transient
     private boolean sustentavel;
-
-    @Transient
-    private List<String> certificacoes;
-    
-    //private List<String> tags;
+    @ElementCollection
+    @CollectionTable(
+        name = "produto_certificacoes",
+        joinColumns = @JoinColumn(name = "produto_id")
+    )
+    @Column(name = "certificacao")
+    private List<String> certificacoes; // REMOVE @Transient
     
     // Datas importantes
     private LocalDate dataColheita;
@@ -57,12 +54,13 @@ public class Produto {
     private LocalDate dataCadastro;
     
     // Imagens
-    /*@ElementCollection
+    @ElementCollection
     @CollectionTable(
         name = "produto_imagem",
         joinColumns = @JoinColumn(name = "produto_id")
     )
     @Column(name = "imagem_URL")
+<<<<<<< HEAD
     */
     @Transient
     private List<String> imagens;
@@ -74,34 +72,43 @@ public class Produto {
     private int totalAvaliacoes;
     @Transient
     private int totalVendidos;
+=======
+    private List<String> imagens; 
+>>>>>>> 67a1f57 (Alteracoes gerais)
     
-    @Transient
-    private boolean perecivel;
-    @Transient
-    private int prazoValidadeDias;
-    @Transient
-    private boolean requerRefrigeracao;
+    private String imagemPrincipal; 
+    private double classificacaoMedia; 
+    private int totalAvaliacoes; 
+    private int totalVendidos; 
+    
+    private boolean perecivel; 
+    private int prazoValidadeDias; 
+    private boolean requerRefrigeracao; 
     
     @OneToMany(mappedBy = "produto")
     List<ItemPedido> itens = new ArrayList<>();
     
     public Produto() {
         this.certificacoes = new ArrayList<>();
-        //this.tags = new ArrayList<>();
         this.imagens = new ArrayList<>();
         this.dataCadastro = LocalDate.now();
         this.disponivel = true;
         this.classificacaoMedia = 0.0;
+        this.totalAvaliacoes = 0;
+        this.totalVendidos = 0;
+        this.quantidadeMinima = 5;
+        this.pesoUnitario = 1.0;
+        this.preco = 0.0;
     }
     
-    public Produto(String nome, String descricao, String categoria, double precoUnitario, int quantidadeDisponivel,
+    public Produto(String nome, String descricao, String categoria, double preco, int quantidadeDisponivel,
             int quantidadeMinima, boolean disponivel, LocalDate dataColheita, LocalDate dataValidade,
             LocalDate dataCadastro, int agricultorId, String imagemPrincipal) {
         this();
         this.nome = nome;
         this.descricao = descricao;
         this.categoria = categoria;
-        this.pesoUnitario = precoUnitario;
+        this.preco = preco;
         this.quantidadeDisponivel = quantidadeDisponivel;
         this.quantidadeMinima = quantidadeMinima;
         this.disponivel = disponivel;
@@ -233,14 +240,7 @@ public class Produto {
     public void setCertificacoes(List<String> certificacoes) { 
         this.certificacoes = certificacoes != null ? new ArrayList<>(certificacoes) : new ArrayList<>(); 
     }
-   /* 
-    public List<String> getTags() { 
-        return new ArrayList<>(tags); 
-    }
-    public void setTags(List<String> tags) { 
-        this.tags = tags != null ? new ArrayList<>(tags) : new ArrayList<>(); 
-    }
-    */
+    
     public LocalDate getDataColheita() { 
         return dataColheita; 
     }
@@ -325,7 +325,7 @@ public class Produto {
         this.pesoUnitario = pesoUnitario;
     }
     
-    // Métodos de negócio
+    // Métodos de negócio (mantenha os mesmos)
     public void adicionarImagem(String urlImagem) {
         this.imagens.add(urlImagem);
         if (this.imagemPrincipal == null) {

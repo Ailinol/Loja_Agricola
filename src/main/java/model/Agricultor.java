@@ -92,8 +92,8 @@ public class Agricultor extends Usuario {
     
     // Construtor básico com informações essenciais
     public Agricultor(String senha, String nome, String email, String telefone, 
-                     String provincia, String distrito, String bairro) {
-        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
+                     String provincia, String distrito, String bairro, double latitude, double longitude) {
+        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null, latitude, longitude);
         inicializarAtributos();
     }
     
@@ -102,8 +102,8 @@ public class Agricultor extends Usuario {
                      String provincia, String distrito, String bairro, String rua, String numeroCasa,
                      String tipoAgricultura, double tamanhoPropriedade, int anosExperiencia,
                      String biografia, boolean certificadoOrganico, boolean ofereceEntrega, 
-                     double raioEntrega, double custoEntrega) {
-        super(senha, nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa);
+                     double raioEntrega, double custoEntrega, double latitude, double longitude) {
+        super(senha, nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa, latitude, longitude);
         inicializarAtributos();
         this.tipoAgricultura = tipoAgricultura;
         this.tamanhoPropriedade = tamanhoPropriedade;
@@ -113,6 +113,8 @@ public class Agricultor extends Usuario {
         this.ofereceEntrega = ofereceEntrega;
         this.raioEntrega = raioEntrega;
         this.custoEntrega = custoEntrega;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Agricultor(List<Produto> produtos, List<Avaliacao> avaliacoes) {
@@ -140,6 +142,8 @@ public class Agricultor extends Usuario {
         this.aceitaVisitas = false;
         this.aceitaEncomendas = false;
         this.prazoMinimoEncomenda = 1;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
     }
     
     // GETTERS E SETTERS

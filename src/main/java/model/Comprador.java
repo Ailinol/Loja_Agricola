@@ -64,22 +64,22 @@ public class Comprador extends Usuario implements Serializable {
     }
     
     public Comprador(String senha, String nome, String email, String telefone, 
-                    String provincia, String distrito, String bairro) {
-        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
+                    String provincia, String distrito, String bairro, double latitude, double longitude) {
+        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null, latitude, longitude);
         inicializarAtributos();
     }
 
     public Comprador(String senha, String nome, String email, String telefone, 
-                    String provincia, String distrito, String bairro, double saldo) {
-        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
+                    String provincia, String distrito, String bairro, double saldo, double latitude, double longitude) {
+        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null, latitude, longitude);
         inicializarAtributos();
         this.saldo = saldo;
     }
     
     public Comprador(String senha, String nome, String email, String telefone, 
                     String provincia, String distrito, String bairro, 
-                    List<String> preferenciasCategorias) {
-        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null);
+                    List<String> preferenciasCategorias, double latitude, double longitude) {
+        super(senha, nome, email, telefone, provincia, distrito, bairro, null, null, latitude, longitude);
         inicializarAtributos();
         this.preferenciasCategorias = preferenciasCategorias != null ? new ArrayList<>(preferenciasCategorias) : new ArrayList<>();
         //this.saldo = saldo;

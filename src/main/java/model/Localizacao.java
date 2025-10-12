@@ -18,10 +18,9 @@ public class Localizacao {
     
     public Localizacao() {}
     
-    public Localizacao(double latitude, double longitude, String endereco) {
+    public Localizacao(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.endereco = endereco;
     }
     
     public double getLatitude() { 

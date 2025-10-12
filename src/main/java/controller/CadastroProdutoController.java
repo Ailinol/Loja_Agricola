@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 import model.Produto;
 import model.Agricultor;
 import service.ProdutoService;
@@ -16,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
+import service.ResultadoValidacao;
 
 public class CadastroProdutoController implements Initializable {
 
@@ -23,6 +26,10 @@ public class CadastroProdutoController implements Initializable {
     private ProdutoService produtoService;
     private UsuarioService usuarioService;
     private Agricultor agricultorLogado;
+
+    // Variáveis para modo edição (NOVAS)
+    private Produto produtoEditando;
+    private boolean modoEdicao = false;
 
     // Aba 1: Informações Básicas
     @FXML private TextField txtNome;
@@ -53,6 +60,7 @@ public class CadastroProdutoController implements Initializable {
     @FXML private TabPane tabPane;
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
+    @FXML private Label lblTitulo; // Adicione este Label no FXML
 
     private Map<String, List<String>> categoriasMap;
 
@@ -68,12 +76,122 @@ public class CadastroProdutoController implements Initializable {
         inicializarComboboxes();
         configurarValidacoes();
         configurarDependencias();
+        
+        // Atualizar interface baseada no modo
+        atualizarInterfaceParaModo();
+    }
+
+    /**
+     * Configura o controller para modo de edição
+     */
+    public void setProdutoParaEdicao(Produto produto) {
+        this.produtoEditando = produto;
+        this.modoEdicao = true;
+        preencherCamposComDadosProduto();
+        atualizarInterfaceParaModo();
+    }
+
+    /**
+     * Preenche todos os campos com os dados do produto em edição
+     */
+    private void preencherCamposComDadosProduto() {
+        if (produtoEditando != null) {
+            System.out.println("📝 Preenchendo campos para edição: " + produtoEditando.getNome());
+            
+            // Aba 1: Informações Básicas
+            txtNome.setText(produtoEditando.getNome());
+            
+            if (produtoEditando.getCategoria() != null) {
+                comboCategoria.setValue(produtoEditando.getCategoria());
+            }
+            
+            if (produtoEditando.getSubcategoria() != null) {
+                comboSubcategoria.setValue(produtoEditando.getSubcategoria());
+            }
+            
+            if (produtoEditando.getUnidadeMedida() != null) {
+                comboUnidadeMedida.setValue(produtoEditando.getUnidadeMedida());
+            }
+            
+            if (produtoEditando.getQualidade() != null) {
+                comboQualidade.setValue(produtoEditando.getQualidade());
+            }
+            
+            checkOrganico.setSelected(produtoEditando.isOrganico());
+            checkSustentavel.setSelected(produtoEditando.isSustentavel());
+            checkPerecivel.setSelected(produtoEditando.isPerecivel());
+            checkRequerRefrigeracao.setSelected(produtoEditando.isRequerRefrigeracao());
+            
+            // Aba 2: Preço e Estoque
+            txtPreco.setText(String.format("%.2f", produtoEditando.getPreco()).replace(".", ","));
+            txtQuantidadeDisponivel.setText(String.valueOf(produtoEditando.getQuantidadeDisponivel()));
+            txtQuantidadeMinima.setText(String.valueOf(produtoEditando.getQuantidadeMinima()));
+            txtPesoUnitario.setText(String.valueOf(produtoEditando.getPesoUnitario()));
+            
+            comboDisponivel.setValue(produtoEditando.isDisponivel() ? "Sim" : "Não");
+            
+            if (produtoEditando.getDataColheita() != null) {
+                dateDataColheita.setValue(produtoEditando.getDataColheita());
+            }
+            
+            if (produtoEditando.getDataValidade() != null) {
+                dateDataValidade.setValue(produtoEditando.getDataValidade());
+            }
+            
+            // Aba 3: Descrição & Certificações
+            txtDescricao.setText(produtoEditando.getDescricao());
+            
+            if (produtoEditando.getImagemPrincipal() != null) {
+                txtImagemPrincipal.setText(produtoEditando.getImagemPrincipal());
+            }
+            
+            // Atualizar título da janela
+            atualizarTituloJanela();
+        }
+    }
+
+    /**
+     * Atualiza a interface baseada no modo (cadastro/edição)
+     */
+    private void atualizarInterfaceParaModo() {
+        if (modoEdicao) {
+            if (lblTitulo != null) {
+                lblTitulo.setText("Editar Produto");
+            }
+            if (btnCadastrar != null) {
+                btnCadastrar.setText("Atualizar");
+                btnCadastrar.setStyle("-fx-background-color: #ffa500; -fx-text-fill: white;");
+            }
+        } else {
+            if (lblTitulo != null) {
+                lblTitulo.setText("Cadastro de Novo Produto");
+            }
+            if (btnCadastrar != null) {
+                btnCadastrar.setText("Cadastrar");
+                btnCadastrar.setStyle("");
+            }
+        }
+    }
+
+    /**
+     * Atualiza o título da janela para modo edição
+     */
+    private void atualizarTituloJanela() {
+        try {
+            Stage stage = (Stage) txtNome.getScene().getWindow();
+            if (modoEdicao && produtoEditando != null) {
+                stage.setTitle("Editar Produto - " + produtoEditando.getNome());
+            } else {
+                stage.setTitle("Cadastro de Novo Produto");
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível atualizar o título da janela: " + e.getMessage());
+        }
     }
 
     private void inicializarAgricultor() {
         try {
             // Buscar algum agricultor no banco para teste
-            // EM PRODUÇÃO: Isso deve vir do login do usuário
             List<Agricultor> agricultores = usuarioService.listarAgricultores();
             if (!agricultores.isEmpty()) {
                 this.agricultorLogado = agricultores.get(0);
@@ -111,7 +229,7 @@ public class CadastroProdutoController implements Initializable {
         
         // Disponibilidade
         comboDisponivel.getItems().addAll("Sim", "Não");
-        comboDisponivel.setValue("Sim"); // Valor padrão
+        comboDisponivel.setValue("Sim");
         
         // Configurar data de hoje como padrão para data de colheita
         dateDataColheita.setValue(LocalDate.now());
@@ -131,11 +249,177 @@ public class CadastroProdutoController implements Initializable {
                 comboSubcategoria.setValue(null);
             }
         });
-        
     }
 
-    // Validacoes
-    
+    // Métodos principais - ATUALIZADOS
+    @FXML
+    private void handleCadastrarProduto(ActionEvent event) {
+        if (validarFormularioCompleto()) {
+            try {
+                if (agricultorLogado == null) {
+                    mostrarErro("Erro de Configuração", "Nenhum agricultor disponível para cadastrar o produto.");
+                    return;
+                }
+
+                if (modoEdicao) {
+                    // MODO EDIÇÃO - Atualizar produto existente
+                    atualizarProdutoExistente();
+                } else {
+                    // MODO CADASTRO - Criar novo produto
+                    criarNovoProduto();
+                }
+                
+            } catch (Exception e) {
+                mostrarErro("Erro no Processamento", "Erro ao processar produto: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Atualiza um produto existente com os dados do formulário
+     */
+    private void atualizarProdutoExistente() {
+        try {
+            // Atualiza os dados do produto existente
+            produtoEditando.setNome(txtNome.getText().trim());
+            produtoEditando.setCategoria(comboCategoria.getValue());
+            produtoEditando.setSubcategoria(comboSubcategoria.getValue());
+            produtoEditando.setUnidadeMedida(comboUnidadeMedida.getValue());
+            produtoEditando.setQualidade(comboQualidade.getValue());
+            produtoEditando.setOrganico(checkOrganico.isSelected());
+            produtoEditando.setSustentavel(checkSustentavel.isSelected());
+            produtoEditando.setPerecivel(checkPerecivel.isSelected());
+            produtoEditando.setRequerRefrigeracao(checkRequerRefrigeracao.isSelected());
+            
+            // Preço e estoque
+            produtoEditando.setPreco(Double.parseDouble(txtPreco.getText().replace(",", ".")));
+            produtoEditando.setQuantidadeDisponivel(Integer.parseInt(txtQuantidadeDisponivel.getText()));
+            
+            if (!txtQuantidadeMinima.getText().trim().isEmpty()) {
+                produtoEditando.setQuantidadeMinima(Integer.parseInt(txtQuantidadeMinima.getText()));
+            }
+            
+            if (!txtPesoUnitario.getText().trim().isEmpty()) {
+                produtoEditando.setPesoUnitario(Double.parseDouble(txtPesoUnitario.getText().replace(",", ".")));
+            }
+            
+            produtoEditando.setDisponivel(comboDisponivel.getValue() != null && 
+                                        comboDisponivel.getValue().equals("Sim"));
+            
+            produtoEditando.setDataColheita(dateDataColheita.getValue());
+            produtoEditando.setDataValidade(dateDataValidade.getValue());
+            
+            // Descrição
+            produtoEditando.setDescricao(txtDescricao.getText().trim());
+            
+            // Imagens
+            if (!txtImagemPrincipal.getText().trim().isEmpty()) {
+                produtoEditando.setImagemPrincipal(txtImagemPrincipal.getText().trim());
+            }
+            
+            // Chama o service para atualizar
+            ResultadoValidacao sucesso = produtoService.actualizarProduto(produtoEditando);
+            
+            if (sucesso.valido == true) {
+                mostrarSucesso("Produto atualizado com sucesso!\n" +
+                              "Nome: " + produtoEditando.getNome() + "\n" +
+                              "Preço: " + produtoEditando.getPreco() + " MT");
+                fecharTela();
+            } else {
+                mostrarErro("Falha na Atualização", "Não foi possível atualizar o produto no banco de dados.");
+            }
+            
+        } catch (Exception e) {
+            mostrarErro("Erro na Atualização", "Erro ao atualizar produto: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Cria um novo produto
+     */
+    private void criarNovoProduto() {
+        Produto produto = criarProdutoFromFormulario();
+        
+        System.out.println("Tentando cadastrar produto: " + produto.getNome());
+        System.out.println("👨‍🌾 Agricultor: " + agricultorLogado.getNome());
+        
+        boolean sucesso = produtoService.cadastrarProduto(produto, agricultorLogado);
+        
+        if (sucesso) {
+            mostrarSucesso("Produto cadastrado com sucesso!\n" +
+                          "Nome: " + produto.getNome() + "\n" +
+                          "Preço: " + produto.getPreco() + " MT\n" +
+                          "Quantidade: " + produto.getQuantidadeDisponivel() + " " + produto.getUnidadeMedida());
+            handleLimparCampos(new ActionEvent());
+        } else {
+            mostrarErro("Falha no Cadastro", "Não foi possível cadastrar o produto no banco de dados.");
+        }
+    }
+
+    @FXML
+    private void handleLimparCampos(ActionEvent event) {
+        // Se estiver em modo edição, não limpa completamente - apenas reseta para valores originais
+        if (modoEdicao && produtoEditando != null) {
+            preencherCamposComDadosProduto(); // Recarrega os dados originais
+            removerEstilosErro();
+            return;
+        }
+        
+        // Limpar completa (modo cadastro)
+        // Aba 1
+        txtNome.clear();
+        comboCategoria.setValue(null);
+        comboSubcategoria.setValue(null);
+        comboUnidadeMedida.setValue(null);
+        comboQualidade.setValue(null);
+        checkOrganico.setSelected(false);
+        checkSustentavel.setSelected(false);
+        checkPerecivel.setSelected(false);
+        checkRequerRefrigeracao.setSelected(false);
+        
+        // Aba 2
+        txtPreco.clear();
+        txtQuantidadeDisponivel.clear();
+        txtQuantidadeMinima.clear();
+        txtPesoUnitario.clear();
+        comboDisponivel.setValue("Sim");
+        dateDataColheita.setValue(LocalDate.now());
+        dateDataValidade.setValue(null);
+        
+        // Aba 3
+        txtDescricao.clear();
+        txtImagemPrincipal.clear();
+        txtImagensAdicionais.clear();
+        
+        tabPane.getSelectionModel().select(0);
+        removerEstilosErro();
+        
+        // Resetar modo edição
+        this.modoEdicao = false;
+        this.produtoEditando = null;
+        atualizarInterfaceParaModo();
+    }
+
+    @FXML
+    private void handleCancelar(ActionEvent event) {
+        fecharTela();
+    }
+
+    /**
+     * Fecha a tela atual
+     */
+    private void fecharTela() {
+        try {
+            Stage stage = (Stage) txtNome.getScene().getWindow();
+            stage.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar tela: " + e.getMessage());
+        }
+    }
+
+    // VALIDAÇÕES
     @FXML
     private void validarNome(ActionEvent event) {
         validarCampoObrigatorio(txtNome, "Nome do produto");
@@ -168,7 +452,6 @@ public class CadastroProdutoController implements Initializable {
         // Qualidade é opcional
     }
 
-    
     @FXML
     private void validarPreco(ActionEvent event) {
         if (!validarNumeroDecimal(txtPreco, "Preço")) {
@@ -290,77 +573,7 @@ public class CadastroProdutoController implements Initializable {
         // Validação em tempo real opcional
     }
 
-    // Metodos principais
-    
-    @FXML
-    private void handleCadastrarProduto(ActionEvent event) {
-        if (validarFormularioCompleto()) {
-            try {
-                // Verificar se temos um agricultor válido
-                if (agricultorLogado == null) {
-                    mostrarErro("Erro de Configuração", "Nenhum agricultor disponível para cadastrar o produto.");
-                    return;
-                }
-
-                Produto produto = criarProdutoFromFormulario();
-                
-                System.out.println("📦 Tentando cadastrar produto: " + produto.getNome());
-                System.out.println("👨‍🌾 Agricultor: " + agricultorLogado.getNome());
-                
-                // CHAMADA REAL DO SERVICE PARA SALVAR NO BANCO
-                boolean sucesso = produtoService.cadastrarProduto(produto, agricultorLogado);
-                
-                if (sucesso) {
-                    mostrarSucesso("Produto cadastrado com sucesso!\n" +
-                                  "Nome: " + produto.getNome() + "\n" +
-                                  "Preço: " + produto.getPreco() + " MT\n" +
-                                  "Quantidade: " + produto.getQuantidadeDisponivel() + " " + produto.getUnidadeMedida());
-                    handleLimparCampos(new ActionEvent());
-                } else {
-                    mostrarErro("Falha no Cadastro", "Não foi possível cadastrar o produto no banco de dados.");
-                }
-                
-            } catch (Exception e) {
-                mostrarErro("Erro no Cadastro", "Erro ao cadastrar produto: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    private void handleLimparCampos(ActionEvent event) {
-        // Limpar Aba 1
-        txtNome.clear();
-        comboCategoria.setValue(null);
-        comboSubcategoria.setValue(null);
-        comboUnidadeMedida.setValue(null);
-        comboQualidade.setValue(null);
-        checkOrganico.setSelected(false);
-        checkSustentavel.setSelected(false);
-        checkPerecivel.setSelected(false);
-        checkRequerRefrigeracao.setSelected(false);
-        
-        // Limpar Aba 2
-        txtPreco.clear();
-        txtQuantidadeDisponivel.clear();
-        txtQuantidadeMinima.clear();
-        txtPesoUnitario.clear();
-        comboDisponivel.setValue("Sim");
-        dateDataColheita.setValue(LocalDate.now());
-        dateDataValidade.setValue(null);
-        
-        // Limpar Aba 3
-        txtDescricao.clear();
-        txtImagemPrincipal.clear();
-        txtImagensAdicionais.clear();
-        
-        tabPane.getSelectionModel().select(0);
-        removerEstilosErro();
-        
-    }
-
-    // Validacoes auxiliares
-    
+    // MÉTODOS AUXILIARES
     private boolean validarFormularioCompleto() {
         List<String> erros = new ArrayList<>();
         
@@ -419,7 +632,6 @@ public class CadastroProdutoController implements Initializable {
         produto.setPerecivel(checkPerecivel.isSelected());
         produto.setRequerRefrigeracao(checkRequerRefrigeracao.isSelected());
         
-        // Preço e estoque
         produto.setPreco(Double.parseDouble(txtPreco.getText().replace(",", ".")));
         produto.setQuantidadeDisponivel(Integer.parseInt(txtQuantidadeDisponivel.getText()));
         
@@ -444,7 +656,6 @@ public class CadastroProdutoController implements Initializable {
         // Descrição
         produto.setDescricao(txtDescricao.getText().trim());
         
-        
         // Imagens
         if (!txtImagemPrincipal.getText().trim().isEmpty()) {
             produto.setImagemPrincipal(txtImagemPrincipal.getText().trim());
@@ -465,8 +676,6 @@ public class CadastroProdutoController implements Initializable {
         
         return produto;
     }
-    
-    // Metodos auxiliares
     
     private void configurarMascaraNumerica(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -578,7 +787,7 @@ public class CadastroProdutoController implements Initializable {
         alert.showAndWait();
     }
 
-    // Método para definir o agricultor logado (chame este método quando o usuário fizer login)
+    // Método para definir o agricultor logado
     public void setAgricultorLogado(Agricultor agricultor) {
         this.agricultorLogado = agricultor;
         if (agricultor != null) {
@@ -599,5 +808,14 @@ public class CadastroProdutoController implements Initializable {
         } catch (Exception e) {
             System.err.println("Erro ao fechar serviços: " + e.getMessage());
         }
+    }
+
+    // Getters para modo de operação (úteis para testes)
+    public boolean isModoEdicao() {
+        return modoEdicao;
+    }
+
+    public Produto getProdutoEditando() {
+        return produtoEditando;
     }
 }

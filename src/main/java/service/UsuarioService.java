@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import model.Agricultor;
@@ -16,21 +15,22 @@ import static service.Validacoes.validarEmail;
 import static service.Validacoes.validarRegiao;
 import static service.Validacoes.validarSenha;
 import static service.Validacoes.validarTelefone;
+import util.HibernateUtil;
+import dao.AgricultorDAO;
+import service.AutenticacaoService.SessaoUsuario;
 
 public class UsuarioService {
-    private EntityManagerFactory emf;
     private EntityManager em;
-    private int ultimoId;
-    NotificacaoService comService = new NotificacaoService();
+    private AgricultorDAO agricultorDAO;
+    private NotificacaoService notificacaoService;
     
     public UsuarioService() {
-        this.emf = Persistence.createEntityManagerFactory("greenMatch-jpa");
-        this.em = emf.createEntityManager();
+        this.em = HibernateUtil.getEntityManager();
+        this.agricultorDAO = new AgricultorDAO(em);
+        this.notificacaoService = new NotificacaoService();
     }
     
-    // Método Responsavel por fazer o cadastro do Agricultor e do comprador
-    
-   public boolean cadastrarAgricultor(String nome, String email, String telefone, 
+    public boolean cadastrarAgricultor(String nome, String email, String telefone, 
                                   String provincia, String distrito, String bairro, 
                                   String senha, String tipoAgricultura, int anosExperiencia,
                                   String biografia, double tamanhoPropriedade, 
@@ -39,46 +39,47 @@ public class UsuarioService {
                                   String whatsapp, boolean aceitaVisitas, 
                                   boolean aceitaEncomendas, int prazoMinimoEncomenda,
                                   String horarioAbertura, String horarioFechamento,
-                                  boolean disponivelParaContato) {
+                                  boolean disponivelParaContato, double latitude, double longitude) {
     
-    List<String> outrasCertificacoes = new ArrayList<>();
-    double classificacaoMedia = 0.0;
-    
-    return cadastrarUsuario(
-        nome, email, telefone, provincia, distrito, bairro,
-        senha, "AGRICULTOR", tipoAgricultura, anosExperiencia, 
-        biografia, tamanhoPropriedade, certificadoOrganico, 
-        ofereceEntrega, outrasCertificacoes, classificacaoMedia, 
-        raioEntrega, custoEntrega, whatsapp, aceitaVisitas,
-        aceitaEncomendas, prazoMinimoEncomenda, horarioAbertura,
-        horarioFechamento, disponivelParaContato
-    );
-}
+        List<String> outrasCertificacoes = new ArrayList<>();
+        double classificacaoMedia = 0.0;
+        
+        return cadastrarUsuario(
+            nome, email, telefone, provincia, distrito, bairro,
+            senha, "AGRICULTOR", tipoAgricultura, anosExperiencia, 
+            biografia, tamanhoPropriedade, certificadoOrganico, 
+            ofereceEntrega, outrasCertificacoes, classificacaoMedia, 
+            raioEntrega, custoEntrega, whatsapp, aceitaVisitas,
+            aceitaEncomendas, prazoMinimoEncomenda, horarioAbertura,
+            horarioFechamento, disponivelParaContato, latitude, longitude
+        );
+    }
      
     public boolean cadastrarComprador(String nome, String email, String telefone, 
                                  String provincia, String distrito, String bairro, 
                                  String senha, List<String> preferenciasCategorias,
-                                 double raioBuscaPreferido, boolean recebeNewsletter) {
+                                 double raioBuscaPreferido, boolean recebeNewsletter, 
+                                 double latitude, double longitude) {
     
-    return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro,
-                                   senha, "COMPRADOR", null, 0, null, 0, false, false,
-                                   preferenciasCategorias, raioBuscaPreferido, 0.0, 0.0,
-                                   null, false, false, 1, null, null, true);
-}
-    
+        return cadastrarUsuario(nome, email, telefone, provincia, distrito, bairro,
+                               senha, "COMPRADOR", null, 0, null, 0, false, false,
+                               preferenciasCategorias, raioBuscaPreferido, 0.0, 0.0,
+                               null, false, false, 1, null, null, true, latitude , longitude);
+    }
     
     private boolean cadastrarUsuario(String nome, String email, String telefone, 
-                                       String provincia, String distrito, String bairro, 
-                                       String senha, String tipoUsuario, String tipoAgricultura, 
-                                       int anosExperiencia, String biografia, double tamanhoPropriedade,
-                                       boolean certificadoOrganico, boolean ofereceEntrega,
-                                       List<String> preferenciasCategorias, Double raioBuscaPreferido, 
-                                       double raioEntrega, double custoEntrega, String whatsapp,
-                                       boolean aceitaVisitas, boolean aceitaEncomendas, 
-                                       int prazoMinimoEncomenda, String horarioAbertura,
-                                       String horarioFechamento, boolean disponivelParaContato) {
+                                   String provincia, String distrito, String bairro, 
+                                   String senha, String tipoUsuario, String tipoAgricultura, 
+                                   int anosExperiencia, String biografia, double tamanhoPropriedade,
+                                   boolean certificadoOrganico, boolean ofereceEntrega,
+                                   List<String> preferenciasCategorias, Double raioBuscaPreferido, 
+                                   double raioEntrega, double custoEntrega, String whatsapp,
+                                   boolean aceitaVisitas, boolean aceitaEncomendas, 
+                                   int prazoMinimoEncomenda, String horarioAbertura,
+                                   String horarioFechamento, boolean disponivelParaContato, 
+                                   double latitude, double longitude) {
     
-        // Validações existentes...
+        // Validações
         ResultadoValidacao resultadoEmail = validarEmail(email);
         if (!resultadoEmail.valido) {
             JOptionPane.showMessageDialog(null, resultadoEmail.mensagem, "Email inválido", JOptionPane.ERROR_MESSAGE);
@@ -165,7 +166,7 @@ public class UsuarioService {
                     null, null,
                     tipoAgricultura, tamanhoPropriedade, anosExperiencia,
                     biografia, certificadoOrganico, ofereceEntrega,
-                    raioEntrega, custoEntrega
+                    raioEntrega, custoEntrega, latitude, longitude
                 );
                 
                 agricultor.setWhatsapp(whatsapp);
@@ -173,6 +174,7 @@ public class UsuarioService {
                 agricultor.setAceitaEncomendas(aceitaEncomendas);
                 agricultor.setPrazoMinimoEncomenda(prazoMinimoEncomenda);
                 agricultor.setDisponivelParaContato(disponivelParaContato);
+                agricultor.setSenha(senha);
                 
                 if (horarioAbertura != null && horarioFechamento != null) {
                     agricultor.setHorarioFuncionamento(horarioAbertura + " - " + horarioFechamento);
@@ -181,8 +183,8 @@ public class UsuarioService {
                 novoUsuario = agricultor;
                 
             } else {
-                Comprador comprador = new Comprador(senha, nome, email, telefone, provincia, distrito, bairro);
-                
+                Comprador comprador = new Comprador(senha, nome, email, telefone, provincia, distrito, bairro, latitude, longitude);
+                comprador.setSenha(senha);
                 if (preferenciasCategorias != null) {
                     comprador.setPreferenciasCategorias(preferenciasCategorias);
                 }
@@ -200,8 +202,8 @@ public class UsuarioService {
             mostrarSucesso("Cadastro realizado", 
                           tipoUsuario + " '" + nome + "' cadastrado com sucesso!");
                  
-            comService.configurarEmail("smtp.gmail.com", "587", "lilianolicumba42@gmail.com", "jwqa yltv iqic iqpr");
-            comService.enviarEmailBoasVindas(email, nome);
+            notificacaoService.configurarEmail("smtp.gmail.com", "587", "lilianolicumba42@gmail.com", "jwqa yltv iqic iqpr");
+            notificacaoService.enviarEmailBoasVindas(email, nome);
                  
             return true;
             
@@ -214,20 +216,36 @@ public class UsuarioService {
         }
     }
     
-    //Metodos de busca e consulta
+    // Métodos de busca e consulta
     public Pessoa buscarUsuarioPorEmail(String email){
         if(email == null) return null;
         
         try {
-            TypedQuery<Pessoa> query = em.createQuery(
-                "SELECT p FROM Pessoa p WHERE p.email = :email", Pessoa.class);
-            query.setParameter("email", email);
-            return query.getSingleResult();
+            System.out.println("Buscando email: " + email);
+            
+            // Buscar como Agricultor
+            var agricultor = agricultorDAO.buscarPorEmail(email);
+            if (agricultor.isPresent()) {
+                System.out.println("Encontrado como Agricultor: " + agricultor.get().getNome());
+                return agricultor.get();
+            }
+            
+            // Buscar como Comprador
+            TypedQuery<Comprador> queryComp = em.createQuery(
+                "SELECT c FROM Comprador c WHERE c.email = :email", Comprador.class);
+            queryComp.setParameter("email", email.trim());
+            Comprador comprador = queryComp.getSingleResult();
+            System.out.println("Encontrado como Comprador: " + comprador.getNome());
+            return comprador;
+            
+        } catch (NoResultException e) {
+            System.out.println("Email não encontrado: " + email);
+            return null;
         } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
             return null;
         }
     }
-    
     
     public Pessoa buscarUsuarioPorId(int id){
         return em.find(Pessoa.class, id);
@@ -244,8 +262,8 @@ public class UsuarioService {
     public List<Pessoa> listarPorTipo(String tipo){
         try {
             if("Agricultor".equalsIgnoreCase(tipo)) {
-                TypedQuery<Agricultor> query = em.createQuery("SELECT a FROM Agricultor a", Agricultor.class);
-                return new ArrayList<Pessoa>(query.getResultList());
+                List<Agricultor> agricultores = agricultorDAO.listarTodos();
+                return new ArrayList<Pessoa>(agricultores);
             } else if("Comprador".equalsIgnoreCase(tipo)) {
                 TypedQuery<Comprador> query = em.createQuery("SELECT c FROM Comprador c", Comprador.class);
                 return new ArrayList<Pessoa>(query.getResultList());
@@ -258,7 +276,7 @@ public class UsuarioService {
     
     public List<Agricultor> listarAgricultores() {
         try {
-            return em.createQuery("SELECT a FROM Agricultor a", Agricultor.class).getResultList();
+            return agricultorDAO.listarTodos();
         } catch (Exception e) {
             return new ArrayList<>();
         }
@@ -283,16 +301,93 @@ public class UsuarioService {
         }
     }
     
+    public Pessoa autenticar(String email, String senha) {
+        System.out.println("Tentando autenticar: " + email);
+        
+        try {
+            Pessoa pessoa = buscarUsuarioPorEmail(email);
+            
+            if (pessoa == null) {
+                System.out.println("Usuario não encontrado: " + email);
+                return null;
+            }
+            
+            System.out.println("Usuario encontrado: " + pessoa.getNome());
+            
+            if (pessoa instanceof Usuario) {
+                Usuario usuario = (Usuario) pessoa;
+                boolean senhaCorreta = usuario.verificarSenha(senha);
+                
+                if (senhaCorreta) {
+                    System.out.println("Senha correta - Autenticação bem-sucedida");
+                    return usuario;
+                } else {
+                    System.out.println("Senha incorreta");
+                    return null;
+                }
+            } else {
+                System.out.println("Tipo de usuario não suportado para autenticação");
+                return null;
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Erro durante autenticação: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    // Métodos de debug
+    public void debugCompleto() {
+        try {
+            System.out.println("=== DEBUG COMPLETO DO BANCO ===");
+            
+            // Listar agricultores
+            List<Agricultor> agricultores = agricultorDAO.listarTodos();
+            System.out.println("Agricultores: " + agricultores.size());
+            for (Agricultor a : agricultores) {
+                System.out.println("  - " + a.getNome() + " | " + a.getEmail());
+            }
+            
+            // Listar compradores
+            List<Comprador> compradores = listarCompradores();
+            System.out.println("Compradores: " + compradores.size());
+            for (Comprador c : compradores) {
+                System.out.println("  - " + c.getNome() + " | " + c.getEmail());
+            }
+            
+            // Testar busca específica
+            String emailTeste = "alf@gmail.com";
+            System.out.println("Busca específica para: " + emailTeste);
+            Pessoa encontrado = buscarUsuarioPorEmail(emailTeste);
+            System.out.println("Resultado: " + (encontrado != null ? encontrado.getNome() : "NULO"));
+            
+        } catch (Exception e) {
+            System.err.println("Erro no debug completo: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void verificarConexao() {
+        try {
+            long countAgric = agricultorDAO.getTotalAgricultores();
+            long countComp = em.createQuery("SELECT COUNT(c) FROM Comprador c", Long.class).getSingleResult();
+            System.out.println("Conexão com banco de dados estabelecida com sucesso!");
+            System.out.println("Agricultores: " + countAgric);
+            System.out.println("Compradores: " + countComp);
+        } catch (Exception e) {
+            System.err.println("Erro na conexão com banco de dados: " + e.getMessage());
+        }
+    }
+    
+    // Métodos auxiliares
     private void mostrarErro(String titulo, String mensagem) {
         JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.ERROR_MESSAGE);
     }
     
     private void mostrarSucesso(String titulo, String mensagem) {
         JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    public int gerarId(){
-        return ++ultimoId;
     }
     
     public boolean removerUsuario(String email) {
@@ -335,20 +430,6 @@ public class UsuarioService {
     public void fecharConexao() {
         if (em != null && em.isOpen()) {
             em.close();
-        }
-        if (emf != null && emf.isOpen()) {
-            emf.close();
-        }
-    }
-    
-    // Método para verificar se as tabelas foram criadas
-    public void verificarConexao() {
-        try {
-            long count = em.createQuery("SELECT COUNT(a) FROM Agricultor a", Long.class).getSingleResult();
-            System.out.println("✅ Conexão com banco de dados estabelecida com sucesso!");
-            System.out.println("✅ Tabelas criadas automaticamente pelo JPA");
-        } catch (Exception e) {
-            System.err.println("❌ Erro na conexão com banco de dados: " + e.getMessage());
         }
     }
 }

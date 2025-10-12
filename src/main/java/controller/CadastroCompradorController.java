@@ -30,6 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import service.LocalizacaoService;
 import service.NotificacaoService;
 import service.ResultadoValidacao;
 import service.UsuarioService;
@@ -445,7 +446,7 @@ public class CadastroCompradorController implements Initializable {
 
     private void cadastrarComprador() {
         try {
-            // Dados pessoais
+             // Dados pessoais
             String nome = txtNome.getText();
             String email = txtEmail.getText();
             String telefone = txtTelefone.getText();
@@ -453,6 +454,14 @@ public class CadastroCompradorController implements Initializable {
             String distrito = txtDistrito.getValue();
             String bairro = txtBairro.getText();
             String senha = txtSenha.getText();
+            
+            
+            LocalizacaoService.Coordenadas coords = 
+            LocalizacaoService.gerarCoordenadasParaAgricultor(provincia, distrito, nome);
+        
+            double latitude = coords.getLatitude();
+            double longitude = coords.getLongitude();
+            
 
             double raioBuscaPreferido = Double.parseDouble(txtRaioBusca.getText());
             boolean recebeNewsletter = "Sim".equals(comboRecebeNewsletter.getValue());
@@ -471,7 +480,7 @@ public class CadastroCompradorController implements Initializable {
 
             boolean sucesso = usuarioService.cadastrarComprador(
                 nome, email, telefone, provincia, distrito, bairro,
-                senha, preferenciasCategorias, raioBuscaPreferido, recebeNewsletter
+                senha, preferenciasCategorias, raioBuscaPreferido, recebeNewsletter,latitude,longitude
             );
 
             if (sucesso) {

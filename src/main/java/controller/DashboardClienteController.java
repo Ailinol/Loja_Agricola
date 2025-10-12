@@ -8,13 +8,25 @@ package controller;
  *
  * @author liliano
  */
+import java.lang.ModuleLayer.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+import javax.persistence.TypedQuery;
+import model.Comprador;
+import model.Produto;
+import service.UsuarioService;
 
 public class DashboardClienteController implements Initializable {
 
@@ -23,6 +35,9 @@ public class DashboardClienteController implements Initializable {
     @FXML private Label lblPedidosPendentes;
     @FXML private Label lblPedidosConcluidos;
     @FXML private Label lblPedidosCancelados;
+    
+    Produto produto = new Produto();
+    UsuarioService usuarioService = new UsuarioService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -31,10 +46,49 @@ public class DashboardClienteController implements Initializable {
     }
 
     private void carregarDadosUsuario() {
-        // carrega os dados do usuário logado
-        String nomeUsuario = "João Cliente"; // Exemplo
-        lblSaudacao.setText("Bem-vindo, " + nomeUsuario + "!");
+    String nomeUsuario = "Visitante";
+    
+    try {
+        // Tentativa 1: Buscar por ID específico
+        Object resultado = usuarioService.buscarUsuarioPorId(5);
+        
+        if (resultado instanceof Comprador) {
+            // Se retorna Comprador direto
+            Comprador comprador = (Comprador) resultado;
+            nomeUsuario = comprador.getNome();
+            System.out.println("✅ Comprador direto: " + nomeUsuario);
+            
+        } else if (resultado instanceof List) {
+            // Se retorna List<Comprador>
+            List<?> lista = (List<?>) resultado;
+            if (!lista.isEmpty() && lista.get(0) instanceof Comprador) {
+                Comprador comprador = (Comprador) lista.get(0);
+                nomeUsuario = comprador.getNome();
+                System.out.println("✅ Comprador da lista: " + nomeUsuario);
+            }
+        } else {
+            System.out.println("⚠️ Tipo de retorno não reconhecido: " + 
+                (resultado != null ? resultado.getClass().getSimpleName() : "null"));
+        }
+        
+    } catch (Exception e) {
+        System.err.println("❌ Erro ao carregar usuário: " + e.getMessage());
+        
+        // Fallback: buscar qualquer comprador
+        try {
+            List<Comprador> compradores = usuarioService.listarCompradores();
+            if (compradores != null && !compradores.isEmpty()) {
+                Comprador comprador = compradores.get(0);
+                nomeUsuario = comprador.getNome();
+                System.out.println("✅ Primeiro comprador do banco: " + nomeUsuario);
+            }
+        } catch (Exception ex) {
+            System.err.println("❌ Erro no fallback: " + ex.getMessage());
+        }
     }
+    
+    lblSaudacao.setText("Bem-vindo, " + nomeUsuario + "!");
+}
 
     private void carregarEstatisticas() {
         lblPedidosAndamento.setText("3");
@@ -45,20 +99,46 @@ public class DashboardClienteController implements Initializable {
 
     @FXML
     private void abrirRelatorios() {
-        System.out.println("Abrindo tela de Relatórios...");
-        // Navegar para tela de relatórios
-        // Main.trocarTela("RelatoriosCliente");
+         try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/carrinho.fxml"));
+        Parent root = loader.load();
         
-        mostrarMensagem("Relatórios", "Abrindo sistema de relatórios...");
+        CadastroProdutoController controller = loader.getController();
+        controller.setProdutoParaEdicao(produto);
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Editar Produto");
+        stage.setScene(scene);
+        stage.show();
+        
+    } catch (Exception e) {
+        mostrarMensagem("Erro", "Não foi possível abrir a edição: " + e.getMessage());
+    }
     }
 
-    @FXML
-    private void abrirVendas() {
-        System.out.println("Abrindo tela de Vendas/Mercado...");
-        // Navegar para tela de vendas (aquela que criamos com mapa)
-        // Main.trocarTela("Vendas");
+   @FXML
+private void abrirVendas() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Vendas.fxml"));
+        Parent root = loader.load();
         
-        mostrarMensagem("Mercado", "Abrindo mercado agrícola...");
+        Stage stage = (Stage) lblSaudacao.getScene().getWindow();
+        
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        mostrarMensagem("Erro", "Não foi possível abrir o mercado: " + e.getMessage());
+    }
+
+
+
     }
 
     @FXML

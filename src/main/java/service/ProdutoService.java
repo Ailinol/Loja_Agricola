@@ -1,11 +1,13 @@
 package service;
 
+import dao.ProdutoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
@@ -107,7 +109,7 @@ public class ProdutoService {
     }
     
     //Metodo responsavel por listar todos os produtos
-    public List<Produto> listarTodosProdutos(){
+    public  List<Produto> listarTodosProdutos(){
         try {
             return em.createQuery("SELECT p FROM Produto p", Produto.class).getResultList();
         } catch (Exception e) {
@@ -161,9 +163,9 @@ public class ProdutoService {
                 return resultadoProduto;
             }
             
-            em.getTransaction().begin();
-            Produto produtoManaged = em.merge(produtoActualizado);
-            em.getTransaction().commit();
+            
+            
+            ProdutoDAO.atualizarProduto(produtoActualizado);
             
             resultado.valido = true;
             resultado.mensagem = "Produto atualizado com sucesso";
@@ -180,44 +182,35 @@ public class ProdutoService {
     }
     
     public ResultadoValidacao removerProduto(int produtoId, int agricultorId){
-        ResultadoValidacao resultado = new ResultadoValidacao();
+    ResultadoValidacao resultado = new ResultadoValidacao();
+    
+    try {
+        Produto produto = em.find(Produto.class, produtoId);
         
-        try{
-            em.getTransaction().begin();
-            
-            Produto produto = em.find(Produto.class, produtoId);
-            
-            if(produto == null){
-                resultado.valido = false;
-                resultado.mensagem = "O produto não existe";
-                em.getTransaction().rollback();
-                return resultado;
-            }
-            
-            if(produto.getAgricultorId() != agricultorId){
-                resultado.valido = false;
-                resultado.mensagem = "O produto nao pertence a esse agricultor";
-                em.getTransaction().rollback();
-                return resultado;
-            }
-            
-            produto.setDisponivel(false);
-            em.merge(produto);
-            em.getTransaction().commit();
-            
-            resultado.valido = true;
-            resultado.mensagem = "Produto removido com sucesso";
-            
-        } catch(Exception e){
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
+        if(produto == null){
             resultado.valido = false;
-            resultado.mensagem = "Erro: " + e.getMessage();
+            resultado.mensagem = "O produto não existe";
+            return resultado;
         }
         
-        return resultado;
+        if(produto.getAgricultorId() != agricultorId){
+            resultado.valido = false;
+            resultado.mensagem = "O produto não pertence a esse agricultor";
+            return resultado;
+        }
+        
+        ProdutoDAO.removerProduto(produtoId);
+        
+        resultado.valido = true;
+        resultado.mensagem = "Produto removido com sucesso";
+        
+    } catch(Exception e){
+        resultado.valido = false;
+        resultado.mensagem = "Erro: " + e.getMessage();
     }
+    
+    return resultado;
+}
     
     //Metodo para efectuar uma venda
     public ResultadoValidacao reduzirEstoque(int produtoId, int quantidade){

@@ -27,9 +27,7 @@ public abstract class Pessoa implements Serializable {
     protected String numeroCasa;
     
     // Coordenadas geográficas (para Google Maps)
-    @Transient
     protected Double latitude;
-    @Transient
     protected Double longitude;
     
     // Datas importantes
@@ -57,7 +55,7 @@ public abstract class Pessoa implements Serializable {
     
     // NOVO CONSTRUTOR COMPLETO - RECOMENDADO
     public Pessoa(String nome, String email, String telefone, String provincia, 
-                 String distrito, String bairro, String rua, String numeroCasa) {
+                 String distrito, String bairro, String rua, String numeroCasa, double latitude, double longitude) {
         this();
         this.nome = nome;
         this.email = email;
@@ -67,6 +65,8 @@ public abstract class Pessoa implements Serializable {
         this.bairro = bairro;
         this.rua = rua;
         this.numeroCasa = numeroCasa;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
     
     // Getters e Setters (mantidos iguais)

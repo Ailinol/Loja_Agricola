@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import service.SenhaService;
 
 @MappedSuperclass
 public abstract class Usuario extends Pessoa {
-    @Transient
     private String senha;
     @Transient
     private String salt; 
@@ -46,6 +46,8 @@ public abstract class Usuario extends Pessoa {
         this.permissoes = new ArrayList<>();
         this.receberNotificacoes = true;
         this.preferenciaComunicacao = "EMAIL";
+        this.latitude = 0.0;
+        this.longitude = 0.0;
     }
     
     public Usuario(String senha) {
@@ -54,8 +56,8 @@ public abstract class Usuario extends Pessoa {
     }
     
     public Usuario(String senha, String nome, String email, String telefone, 
-                  String provincia, String distrito, String bairro) {
-        super(nome, email, telefone, provincia, distrito, bairro, null, null);
+                  String provincia, String distrito, String bairro,double latitude, double longitude) {
+        super(nome, email, telefone, provincia, distrito, bairro, null, null, latitude,longitude);
         this.senha = senha;
         this.status = "ATIVO";
         this.ultimoLogin = null;
@@ -70,8 +72,8 @@ public abstract class Usuario extends Pessoa {
     
     
      public Usuario(String senha, String nome, String email, String telefone, 
-                  String provincia, String distrito, String bairro, String rua, String numeroCasa) {
-        super(nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa);
+                  String provincia, String distrito, String bairro, String rua, String numeroCasa, double latitude, double longitude) {
+        super(nome, email, telefone, provincia, distrito, bairro, rua, numeroCasa, latitude, longitude);
         this.senha = senha;
         this.status = "ATIVO";
         this.ultimoLogin = null;
@@ -91,22 +93,21 @@ public abstract class Usuario extends Pessoa {
         this.status = status;
     }
     
-    public String getSenha() { 
-        return senha; 
+    
+    
+    public void setSenha(String senha) {
+        this.senha = SenhaService.gerarHash(senha); // Armazena o HASH, não a senha em texto
     }
     
-    public void setSenha(String senha) { 
-        // Adiciona a senha atual ao histórico antes de alterar
-        if (this.senha != null) {
-            this.historicoSenhas.add(this.senha);
-            // Mantém apenas as últimas 5 senhas
-            if (this.historicoSenhas.size() > 5) {
-                this.historicoSenhas.remove(0);
-            }
-        }
-        this.senha = senha;
-        this.dataExpiracaoSenha = LocalDateTime.now().plusMonths(3);
+    public boolean verificarSenha(String senha) {
+        return SenhaService.verificarSenha(senha, this.senha);
     }
+    
+    public String getSenha() {
+        return this.senha;
+    }
+    
+    
     
     public String getSalt() {
         return salt;

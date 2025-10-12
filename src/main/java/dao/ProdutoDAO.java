@@ -50,7 +50,7 @@ public class ProdutoDAO {
         }
     }
     
-    public void atualizarProduto(Produto produto){
+    public static void atualizarProduto(Produto produto){
         EntityManager em = HibernateUtil.getEntityManager();
         try{
             em.getTransaction().begin();
@@ -66,7 +66,7 @@ public class ProdutoDAO {
         }
     }
     
-    public void removerProduto(int id){
+    public static void removerProduto(int id){
         EntityManager em = HibernateUtil.getEntityManager();
         try{
             Produto produto = em.find(Produto.class, id);

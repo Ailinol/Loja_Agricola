@@ -1,4 +1,6 @@
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/dao/ProdutoDAO.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/ProdutoService.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/ItemCarrinho.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/com/mycompany/agri_projecto/Agri_Projecto.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Usuario.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Administrador.java
@@ -12,8 +14,11 @@
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Pagamento.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Relatorio.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/util/HibernateUtil.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/SenhaService.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/SessaoActual.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Logistica.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/CadastroAgricultorController.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/LoginController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/CadastroProdutoController.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/service/NotificacaoService.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/SistemaRecomendacao.java
@@ -36,3 +41,5 @@
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Localizacao.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Pessoa.java
 /home/liliano/NetBeansProjects/agri_Projecto/src/main/java/model/Notificacao.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/CarrinhoController.java
+/home/liliano/NetBeansProjects/agri_Projecto/src/main/java/controller/GestaoProdutosController.java

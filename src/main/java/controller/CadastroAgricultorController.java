@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -24,6 +26,7 @@ import javafx.scene.input.KeyEvent;
 import service.Validacoes;
 import service.ResultadoValidacao;
 import javafx.animation.*;
+import javafx.concurrent.Worker;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,11 +36,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
+
 import model.Comprador;
 import model.ItemPedido;
 import model.Pedido;
 import model.Produto;
+import service.LocalizacaoService;
 
 
 public class CadastroAgricultorController implements Initializable {
@@ -71,6 +78,8 @@ public class CadastroAgricultorController implements Initializable {
     @FXML private Button btnLimpar;
     @FXML private StackPane rootPane; 
     @FXML private VBox containerEntrega;
+    @FXML private WebView webViewLocalizacao;
+
 
 
     private UsuarioService usuarioService;
@@ -765,16 +774,29 @@ private void adicionarListeners() {
         
         System.out.println("🎉 Controller totalmente configurado!");
     }
+    
+    
 
     private void cadastrarAgricultor() {
     try {
         String nome = txtNome.getText();
+        String provincia = txtProvincia.getValue();
+        String distrito = txtDistrito.getValue();
+        
+        // 🎯 GERA AS COORDENADAS BASEADAS NA PROVÍNCIA E DISTRITO
+        LocalizacaoService.Coordenadas coords = 
+        LocalizacaoService.gerarCoordenadasParaAgricultor(provincia, distrito, nome);
+        
+        double latitude = coords.getLatitude();
+        double longitude = coords.getLongitude();
+        
+        System.out.println("📍 Coordenadas geradas: " + latitude + ", " + longitude);
+
+        // SEUS DADOS EXISTENTES
         String email = txtEmail.getText();
         String telefone = txtTelefone.getText();
         String whatsapp = txtWhatsapp.getText();
         String bairro = txtBairro.getText();
-        String provincia = txtProvincia.getValue();
-        String distrito = txtDistrito.getValue();
         String tipoAgricultura = txtTipoAgricultura.getValue();
         String biografia = txtBiografia.getText();
         String senha = txtSenha.getText();
@@ -790,11 +812,11 @@ private void adicionarListeners() {
         String horarioAbertura = txtHorarioAbertura.getText();
         String horarioFechamento = txtHorarioFechamento.getText();
         
-        // Só obter raio, custo e prazo se oferecer entrega/encomendas
         double raioEntrega = ofereceEntrega ? Double.parseDouble(txtRaioEntrega.getText()) : 0.0;
         double custoEntrega = ofereceEntrega ? Double.parseDouble(txtCustoEntrega.getText()) : 0.0;
         int prazoMinimoEncomenda = aceitaEncomendas ? Integer.parseInt(txtPrazoEncomenda.getText()) : 1;
         
+        // 🎯 CHAMA O SERVICE COM AS COORDENADAS
         boolean sucesso = usuarioService.cadastrarAgricultor(
             nome, 
             email, 
@@ -817,11 +839,15 @@ private void adicionarListeners() {
             prazoMinimoEncomenda,
             horarioAbertura,
             horarioFechamento,
-            disponivelParaContato
+            disponivelParaContato,
+            latitude,      
+            longitude      
         );
            
         if (sucesso) {
-            mostrarAlerta("Sucesso", "Agricultor cadastrado: " + nome);
+            String mensagem = "Agricultor cadastrado: " + nome + 
+                            "\n📍 Localização: " + latitude + ", " + longitude;
+            mostrarAlerta("Sucesso", mensagem);
             limparCampos();
         } else {
             mostrarAlerta("Erro", "Falha no cadastro");
