@@ -50,6 +50,9 @@ public class Comprador extends Usuario implements Serializable {
     @Transient
     private boolean recebeNewsletter;
     
+    @OneToMany(mappedBy = "comprador")
+    private List<Pedido> pedido = new ArrayList<>();
+    
     public Comprador() {
         super();
         inicializarAtributos();

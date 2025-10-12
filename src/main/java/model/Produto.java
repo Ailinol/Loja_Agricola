@@ -82,6 +82,9 @@ public class Produto {
     @Transient
     private boolean requerRefrigeracao;
     
+    @OneToMany(mappedBy = "produto")
+    List<ItemPedido> itens = new ArrayList<>();
+    
     public Produto() {
         this.certificacoes = new ArrayList<>();
         //this.tags = new ArrayList<>();

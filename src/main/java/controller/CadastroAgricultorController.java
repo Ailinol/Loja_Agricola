@@ -1,8 +1,13 @@
 package controller;
 
+import dao.CompradorDAO;
+import dao.ItemPedidoDAO;
+import dao.PedidoDAO;
 import dao.ProdutoDAO;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +34,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+import model.Comprador;
+import model.ItemPedido;
+import model.Pedido;
 import model.Produto;
 
 
@@ -78,6 +86,26 @@ public class CadastroAgricultorController implements Initializable {
         ProdutoDAO dao = new ProdutoDAO();
         dao.salvarProduto(prod);
         */
+        Produto prod = new Produto(
+           "Tomate", "AAA", "BBB", 400, 100, 10, true, LocalDate.now(), LocalDate.now(), LocalDate.now(),1, "ccc"
+        );
+        
+        ItemPedido item = new ItemPedido();
+        item.setProduto(prod);
+        item.setQuantidade(5);
+        List<ItemPedido> itens = new ArrayList<>();
+        itens.add(item);
+        
+        Comprador comprador = new Comprador();
+        CompradorDAO daoCompr = new CompradorDAO();
+        daoCompr.salvarComprador(comprador);
+        
+        Pedido pedido = new Pedido();
+        pedido.setComprador(comprador);
+        pedido.setItensPedidos(itens);
+        
+        PedidoDAO dao = new PedidoDAO();
+        dao.salvarPedido(pedido);
     }
     
     
