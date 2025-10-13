@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/24.0.1"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestaoUsuariosController">
+
+    <children>
+        <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0"/>
+            </effect>
+
+            <children>
+
+                <!-- Barra Superior -->
+                <HBox alignment="CENTER_RIGHT" prefWidth="1200.0" spacing="8.0"
+                      style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2));">
+                    <padding>
+                        <Insets top="8" right="15" bottom="20"/>
+                    </padding>
+                    <children>
+                        <Button style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 14; -fx-cursor: hand;"
+                                prefHeight="28" prefWidth="28">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="MINUS" fill="#b3e5d1" size="0.9em"/>
+                            </graphic>
+                        </Button>
+                        <Button style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 14; -fx-cursor: hand;"
+                                prefHeight="28" prefWidth="28">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="CLOSE" fill="#b3e5d1" size="0.9em"/>
+                            </graphic>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <!-- Ícone Central -->
+                <VBox alignment="CENTER" spacing="12" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
+                    <children>
+                        <StackPane>
+                            <children>
+                                <FontAwesomeIconView glyphName="USERS" fill="#4CAF50" size="4.5em"/>
+                                <FontAwesomeIconView glyphName="CIRCLE" fill="rgba(76,175,80,0.3)" size="6em"/>
+                            </children>
+                        </StackPane>
+                    </children>
+                </VBox>
+
+                <!-- Corpo Principal -->
+                <VBox spacing="0" AnchorPane.topAnchor="140" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.bottomAnchor="100"
+                      style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15;">
+                    <padding>
+                        <Insets top="25" left="25" right="25" bottom="25"/>
+                    </padding>
+
+                    <children>
+
+                        <!-- Filtros -->
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <children>
+                                <VBox spacing="8">
+                                    <children>
+                                        <Label text="Pesquisar Usuário" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="12"/>
+                                            </font>
+                                        </Label>
+                                        <HBox spacing="10">
+                                            <children>
+                                                <TextField fx:id="txtPesquisa" promptText="Digite o nome ou email..."
+                                                           onKeyReleased="#handlePesquisar"
+                                                           style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;"
+                                                           prefHeight="42" maxWidth="300"/>
+                                                <Button prefHeight="42" prefWidth="42" onAction="#handlePesquisar"
+                                                        style="-fx-background-color: rgba(76,175,80,0.3); -fx-background-radius: 8; -fx-cursor: hand;">
+                                                    <graphic>
+                                                        <FontAwesomeIconView glyphName="SEARCH" fill="#b3e5d1" size="1.1em"/>
+                                                    </graphic>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="8">
+                                    <children>
+                                        <Label text="Filtrar por Tipo" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="12"/>
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboTipoUsuario" promptText="Todos os tipos"
+                                                  onAction="#handleFiltrarTipo"
+                                                  style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);"
+                                                  prefHeight="42" maxWidth="200"/>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="8">
+                                    <children>
+                                        <Label text="Status" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="12"/>
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboStatus" promptText="Todos"
+                                                  onAction="#handleFiltrarStatus"
+                                                  style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);"
+                                                  prefHeight="42" maxWidth="150"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Tabela -->
+                        <VBox spacing="15" VBox.vgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <children>
+                                        <Label text="LISTA DE USUÁRIOS" textFill="#b3e5d1">
+                                            <font>
+                                                <Font name="System Bold" size="16"/>
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="lblTotalUsuarios" text="(0 usuários)" textFill="rgba(179,229,209,0.7)">
+                                            <font>
+                                                <Font name="System" size="12"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="tabelaUsuarios"
+                                           style="-fx-background-color: transparent; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8;"
+                                           VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colNome" text="NOME" prefWidth="180">
+                                            <cellValueFactory><PropertyValueFactory property="nome"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colEmail" text="EMAIL" prefWidth="220">
+                                            <cellValueFactory><PropertyValueFactory property="email"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colTelefone" text="TELEFONE" prefWidth="120">
+                                            <cellValueFactory><PropertyValueFactory property="telefone"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colTipo" text="TIPO" prefWidth="120">
+                                            <cellValueFactory><PropertyValueFactory property="tipoUsuario"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colStatus" text="STATUS" prefWidth="100">
+                                            <cellValueFactory><PropertyValueFactory property="ativo"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colDataCadastro" text="DATA CADASTRO" prefWidth="120">
+                                            <cellValueFactory><PropertyValueFactory property="dataCadastro"/></cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colAcoes" text="AÇÕES" prefWidth="150"/>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+
+                        <!-- Botões -->
+                        <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-padding: 20 0 0 0;">
+                            <children>
+                                <Button text="NOVO USUÁRIO" onAction="#handleNovoUsuario"
+                                        prefHeight="45" prefWidth="180"
+                                        style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand;">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="PLUS" fill="WHITE" size="1.1em"/>
+                                    </graphic>
+                                </Button>
+
+                                <Button text="EDITAR USUÁRIO" onAction="#handleEditarUsuario"
+                                        prefHeight="45" prefWidth="180"
+                                        style="-fx-background-color: linear-gradient(to right, #2196F3, #1976D2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand;">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="EDIT" fill="WHITE" size="1.1em"/>
+                                    </graphic>
+                                </Button>
+
+                                <Button text="ELIMINAR USUÁRIO" onAction="#handleEliminarUsuario"
+                                        prefHeight="45" prefWidth="180"
+                                        style="-fx-background-color: linear-gradient(to right, #f44336, #d32f2f); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand;">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="TRASH" fill="WHITE" size="1.1em"/>
+                                    </graphic>
+                                </Button>
+
+                                <Button text="VOLTAR" onAction="#handleVoltar"
+                                        prefHeight="45" prefWidth="150"
+                                        style="-fx-background-color: transparent; -fx-text-fill: #b3e5d1; -fx-border-color: #b3e5d1; -fx-border-width: 2; -fx-font-weight: bold; -fx-background-radius: 22; -fx-border-radius: 22; -fx-cursor: hand;">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="ARROW_LEFT" fill="#b3e5d1" size="1.1em"/>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Título -->
+                <Label text="GESTÃO DE USUÁRIOS" layoutX="460" layoutY="100" textFill="#ffffff">
+                    <font>
+                        <Font name="System Bold" size="26"/>
+                    </font>
+                    <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3"/>
+                    </effect>
+                </Label>
+
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>
+
