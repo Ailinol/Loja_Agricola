@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0"
+           xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controller.DashboardAdministradorController">
+
+    <children>
+        <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0"/>
+            </effect>
+
+            <!-- Barra Superior -->
+            <HBox alignment="CENTER_RIGHT" prefWidth="1200.0" spacing="8.0"
+                  style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2));">
+                <padding>
+                    <Insets right="15.0" top="8.0" bottom="20.0"/>
+                </padding>
+                <children>
+                    <Button style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                        <graphic>
+                            <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em"/>
+                        </graphic>
+                    </Button>
+                    <Button style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                        <graphic>
+                            <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em"/>
+                        </graphic>
+                    </Button>
+                </children>
+            </HBox>
+
+            <!-- Cabeçalho -->
+            <Label alignment="CENTER" text="DASHBOARD DO ADMINISTRADOR" textFill="#ffffff"
+                   AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <font>
+                    <Font name="System Bold" size="26.0"/>
+                </font>
+                <effect>
+                    <DropShadow color="rgba(0,0,0,0.5)" radius="3.0"/>
+                </effect>
+            </Label>
+
+            <!-- Corpo Principal -->
+            <VBox spacing="0.0" AnchorPane.topAnchor="140.0" AnchorPane.bottomAnchor="80.0"
+                  AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+                  style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15;
+                      -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15;">
+                <padding>
+                    <Insets top="40.0" left="40.0" right="40.0" bottom="30.0"/>
+                </padding>
+
+                <!-- Saudação -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <StackPane style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 40; -fx-padding: 15;">
+                            <FontAwesomeIconView fill="#cca962" glyphName="USER_SECRET" size="2.5em"/>
+                        </StackPane>
+                        <VBox spacing="5.0">
+                            <Label fx:id="lblSaudacao" text="Bem-vindo, Administrador!"
+                                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            <Label text="Supervisione e garanta o bom funcionamento da plataforma."
+                                   style="-fx-text-fill: rgba(255,255,255,0.7);"/>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <Separator style="-fx-background-color: rgba(255,255,255,0.1);"/>
+
+                <!-- Blocos principais -->
+                <HBox alignment="CENTER" spacing="30.0" style="-fx-padding: 20 0 20 0;">
+                    <children>
+
+                        <!-- Gestão de Usuários -->
+                        <VBox alignment="CENTER" spacing="15.0"
+                              style="-fx-background-color: rgba(255,255,255,0.08); -fx-background-radius: 15;
+                               -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 15;
+                               -fx-border-width: 1; -fx-cursor: hand; -fx-padding: 25;"
+                              onMouseClicked="#abrirGestaoUsuarios">
+                            <children>
+                                <StackPane style="-fx-background-color: rgba(255,193,7,0.2); -fx-background-radius: 30; -fx-padding: 20;">
+                                    <FontAwesomeIconView fill="#FFC107" glyphName="USERS" size="3em"/>
+                                </StackPane>
+                                <Label text="Gestão de Usuários" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                <Label text="Aprovar, bloquear ou corrigir informações de clientes e agricultores."
+                                       style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px; -fx-text-alignment: center; -fx-wrap-text: true;"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Gestão de Produtos -->
+                        <VBox alignment="CENTER" spacing="15.0"
+                              style="-fx-background-color: rgba(255,255,255,0.08); -fx-background-radius: 15;
+                               -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 15;
+                               -fx-border-width: 1; -fx-cursor: hand; -fx-padding: 25;"
+                              onMouseClicked="#abrirGestaoProdutos">
+                            <children>
+                                <StackPane style="-fx-background-color: rgba(76,175,80,0.2); -fx-background-radius: 30; -fx-padding: 20;">
+                                    <FontAwesomeIconView fill="#4CAF50" glyphName="LEAF" size="3em"/>
+                                </StackPane>
+                                <Label text="Gestão de Produtos" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                <Label text="Validar e remover produtos inapropriados antes de publicação."
+                                       style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px; -fx-text-alignment: center; -fx-wrap-text: true;"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Relatórios Globais -->
+                        <VBox alignment="CENTER" spacing="15.0"
+                              style="-fx-background-color: rgba(255,255,255,0.08); -fx-background-radius: 15;
+                               -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 15;
+                               -fx-border-width: 1; -fx-cursor: hand; -fx-padding: 25;"
+                              onMouseClicked="#abrirRelatoriosGlobais">
+                            <children>
+                                <StackPane style="-fx-background-color: rgba(33,150,243,0.2); -fx-background-radius: 30; -fx-padding: 20;">
+                                    <FontAwesomeIconView fill="#2196F3" glyphName="BAR_CHART" size="3em"/>
+                                </StackPane>
+                                <Label text="Relatórios Globais" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                <Label text="Clientes ativos, produtos populares, áreas mais movimentadas e desempenho dos agricultores."
+                                       style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px; -fx-text-alignment: center; -fx-wrap-text: true;"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Monitorização -->
+                        <VBox alignment="CENTER" spacing="15.0"
+                              style="-fx-background-color: rgba(255,255,255,0.08); -fx-background-radius: 15;
+                               -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 15;
+                               -fx-border-width: 1; -fx-cursor: hand; -fx-padding: 25;"
+                              onMouseClicked="#abrirMonitorizacao">
+                            <children>
+                                <StackPane style="-fx-background-color: rgba(244,67,54,0.2); -fx-background-radius: 30; -fx-padding: 20;">
+                                    <FontAwesomeIconView fill="#F44336" glyphName="EXCLAMATION_TRIANGLE" size="3em"/>
+                                </StackPane>
+                                <Label text="Monitorização" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                <Label text="Detetar inconsistências e garantir estabilidade do sistema."
+                                       style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px; -fx-text-alignment: center; -fx-wrap-text: true;"/>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </HBox>
+
+                <!-- Rodapé -->
+                <HBox alignment="CENTER_RIGHT" spacing="15.0"
+                      style="-fx-background-color: rgba(255,255,255,0.03); -fx-background-radius: 10; -fx-padding: 15;"
+                      AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                    <children>
+                        <Label text="GreenMatch - Sistema de Marketplace Agrícola"
+                               style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnSair" mnemonicParsing="false" onAction="#sairSistema"
+                                style="-fx-background-color: transparent; -fx-text-fill: #f44336; -fx-font-weight: bold;
+                                 -fx-border-color: #f44336; -fx-border-width: 2; -fx-cursor: hand;
+                                 -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 8 20 8 20;"
+                                text="SAIR DO SISTEMA">
+                            <graphic>
+                                <FontAwesomeIconView fill="#f44336" glyphName="SIGN_OUT" size="1em"/>
+                            </graphic>
+                        </Button>
+                    </children>
+                </HBox>
+
+            </VBox>
+        </AnchorPane>
+    </children>
+</StackPane>
