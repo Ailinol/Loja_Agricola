@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Produto")
-public class Produto {
+public class Produto{
     // Identificação
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,21 +61,9 @@ public class Produto {
         joinColumns = @JoinColumn(name = "produto_id")
     )
     @Column(name = "imagem_URL")
-<<<<<<< HEAD
-    */
-    @Transient
-    private List<String> imagens;
-    
-    private String imagemPrincipal;
-    @Transient
-    private double classificacaoMedia;
-    @Transient
-    private int totalAvaliacoes;
-    @Transient
-    private int totalVendidos;
-=======
+
     private List<String> imagens; 
->>>>>>> 67a1f57 (Alteracoes gerais)
+
     
     private String imagemPrincipal; 
     private double classificacaoMedia; 
