@@ -1,40 +1,47 @@
 package model;
 
-import java.io.*;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-/**
- * 
- */
 public class Relatorio {
 
-    /**
-     * Default constructor
-     */
+    private int numeroClientesAtivos;
+    private List<String> agricultoresMaisProdutivos;
+    private List<String> produtosMaisProcurados;
+    private Map<String, Integer> transacoesPorProvincia;
+
     public Relatorio() {
     }
 
-    /**
-     * 
-     */
-    private int id;
-
-    /**
-     * 
-     */
-    private String tipo;
-
-    /**
-     * 
-     */
-    private String dados;
-
-    /**
-     * @return
-     */
-    public String gerar() {
-        // TODO implement here
-        return "";
+    public int getNumeroClientesAtivos() {
+        return numeroClientesAtivos;
     }
 
+    public void setNumeroClientesAtivos(int numeroClientesAtivos) {
+        this.numeroClientesAtivos = numeroClientesAtivos;
+    }
+
+    public List<String> getAgricultoresMaisProdutivos() {
+        return agricultoresMaisProdutivos;
+    }
+
+    public void setAgricultoresMaisProdutivos(List<String> agricultoresMaisProdutivos) {
+        this.agricultoresMaisProdutivos = agricultoresMaisProdutivos;
+    }
+
+    public List<String> getProdutosMaisProcurados() {
+        return produtosMaisProcurados;
+    }
+
+    public void setProdutosMaisProcurados(List<String> produtosMaisProcurados) {
+        this.produtosMaisProcurados = produtosMaisProcurados;
+    }
+
+    public Map<String, Integer> getTransacoesPorProvincia() {
+        return transacoesPorProvincia;
+    }
+
+    public void setTransacoesPorProvincia(Map<String, Integer> transacoesPorProvincia) {
+        this.transacoesPorProvincia = transacoesPorProvincia;
+    }
 }
