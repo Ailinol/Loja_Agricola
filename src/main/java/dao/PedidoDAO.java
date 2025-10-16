@@ -7,6 +7,7 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import model.Pedido;
+import model.Produto;
 import util.HibernateUtil;
 
 /**
@@ -29,15 +30,21 @@ public class PedidoDAO {
         }
     }
     
-    public Pedido buscarPorId(int id){
-        EntityManager em = HibernateUtil.getEntityManager();
+    public Pedido buscarPedidoCompletoPorId(int pedidoId) {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        String jpql = "SELECT DISTINCT p FROM Pedido p " +
+                     "LEFT JOIN FETCH p.itensPedidos ip " +
+                     "LEFT JOIN FETCH ip.produto " +
+                     "WHERE p.id = :pedidoId";
         
-        try{
-            return em.find(Pedido.class, id);
-        } finally{
-            em.close();
-        }
+        return em.createQuery(jpql, Pedido.class)
+                .setParameter("pedidoId", pedidoId)
+                .getSingleResult();
+    } finally {
+        em.close();
     }
+}
     
     public List<Pedido> listarPedidos(){
         EntityManager em = HibernateUtil.getEntityManager();
@@ -80,4 +87,53 @@ public class PedidoDAO {
             em.close();
         }
     }
+    
+    public List<Pedido> buscarPedidosPorComprador(int compradorId) {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        String jpql = "SELECT DISTINCT p FROM Pedido p " +
+                     "LEFT JOIN FETCH p.itensPedidos ip " +
+                     "LEFT JOIN FETCH ip.produto " +
+                     "WHERE p.comprador.id = :compradorId " +
+                     "ORDER BY p.dataHora DESC";
+        
+        return em.createQuery(jpql, Pedido.class)
+                .setParameter("compradorId", compradorId)
+                .getResultList();
+    } finally {
+        em.close();
+    }
+}
+    
+    // MÉTODO CORRIGIDO - Versão mais segura
+    public List<Pedido> buscarPedidosPorAgricultor(int agricultorId) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            // Primeiro busca os produtos do agricultor
+            String jpqlProdutos = "SELECT p FROM Produto p WHERE p.agricultorId = :agricultorId";
+            List<Produto> produtosAgricultor = em.createQuery(jpqlProdutos, Produto.class)
+                    .setParameter("agricultorId", agricultorId)
+                    .getResultList();
+            
+            if (produtosAgricultor.isEmpty()) {
+              //  return new ArrayList<>();
+            }
+            
+            // Depois busca os pedidos que contêm esses produtos
+            String jpql = "SELECT DISTINCT p FROM Pedido p " +
+                         "LEFT JOIN FETCH p.itensPedidos ip " +
+                         "LEFT JOIN FETCH ip.produto " +
+                         "LEFT JOIN FETCH p.comprador " +
+                         "WHERE ip.produto IN :produtos " +
+                         "ORDER BY p.dataHora DESC";
+            
+            return em.createQuery(jpql, Pedido.class)
+                    .setParameter("produtos", produtosAgricultor)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
 }

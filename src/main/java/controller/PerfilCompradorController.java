@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
-/**
- *
- * @author liliano
- */
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -63,20 +55,17 @@ public class PerfilCompradorController implements Initializable {
         compradorLogado = SessaoActual.getCompradorLogado();
         
         if (compradorLogado != null) {
-            // Informações pessoais
             lblNomeUsuario.setText(compradorLogado.getNome());
             lblEmail.setText(compradorLogado.getEmail());
             lblNome.setText(compradorLogado.getNome());
             lblEmailInfo.setText(compradorLogado.getEmail());
             lblTelefone.setText(compradorLogado.getTelefone() != null ? compradorLogado.getTelefone() : "Não informado");
             
-            // Localização
             String localizacao = compradorLogado.getProvincia() + ", " + 
                                compradorLogado.getDistrito() + ", " + 
                                compradorLogado.getBairro();
             lblLocalizacao.setText(localizacao);
             
-            // Data de cadastro
             if (compradorLogado.getDataCadastro() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 lblDataCadastro.setText(compradorLogado.getDataCadastro().format(formatter));
@@ -84,17 +73,14 @@ public class PerfilCompradorController implements Initializable {
                 lblDataCadastro.setText("Não disponível");
             }
             
-            // Status
             lblStatus.setText(compradorLogado.isAtivo() ? "Ativo" : "Inativo");
             lblStatus.setStyle(compradorLogado.isAtivo() ? 
                 "-fx-text-fill: #4CAF50; -fx-font-weight: bold;" : 
                 "-fx-text-fill: #F44336; -fx-font-weight: bold;");
             
-            // Preferências
             lblRaioBusca.setText(compradorLogado.getRaioBuscaPreferido() + " km");
             lblNewsletter.setText(compradorLogado.isRecebeNewsletter() ? "Sim" : "Não");
             
-            // Preferências de categorias
             List<String> preferencias = compradorLogado.getPreferenciasCategorias();
             if (preferencias != null && !preferencias.isEmpty()) {
                 lblPreferencias.setText(String.join(", ", preferencias));
@@ -109,11 +95,7 @@ public class PerfilCompradorController implements Initializable {
     @FXML
     private void handleEditarDados() {
         try {
-            
             mostrarAlerta("Funcionalidade", "Abrindo tela de edição com dados preenchidos...");
-            
-            
-            
         } catch (Exception e) {
             mostrarAlerta("Erro", "Erro ao abrir edição: " + e.getMessage());
         }
@@ -132,6 +114,7 @@ public class PerfilCompradorController implements Initializable {
                 boolean sucesso = usuarioService.removerUsuario(compradorLogado.getEmail());
                 if (sucesso) {
                     mostrarAlerta("Sucesso", "Conta eliminada com sucesso!");
+                    SessaoActual.limparSessao();
                     handleSair();
                 } else {
                     mostrarAlerta("Erro", "Erro ao eliminar conta!");
@@ -145,24 +128,42 @@ public class PerfilCompradorController implements Initializable {
     @FXML
     private void handleVoltar(ActionEvent event) {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GestaoProdutos.fxml"));
-        Parent root = loader.load();
-  
-        Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
- 
-        Scene novaCena = new Scene(root);
-        stageAtual.setScene(novaCena);
-        
-        stageAtual.sizeToScene();
+            if (SessaoActual.getCompradorLogado() == null) {
+                mostrarAlerta("Erro", "Sessão perdida. Faça login novamente.");
+                voltarParaLogin(event);
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GestaoProdutos.fxml"));
+            Parent root = loader.load();
+      
+            Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+     
+            Scene novaCena = new Scene(root);
+            stageAtual.setScene(novaCena);
+            stageAtual.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            // Mostra mensagem de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setHeaderText("Não foi possível carregar a tela");
             alert.setContentText("Erro: " + e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    private void voltarParaLogin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+            Parent root = loader.load();
+            
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -175,8 +176,8 @@ public class PerfilCompradorController implements Initializable {
         
         Optional<ButtonType> resultado = confirmacao.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            SessaoActual.limparSessao();
             javafx.application.Platform.exit();
-            mostrarAlerta("Saída", "Saindo do sistema...");
         }
     }
 

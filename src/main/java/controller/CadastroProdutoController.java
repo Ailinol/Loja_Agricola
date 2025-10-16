@@ -32,11 +32,9 @@ public class CadastroProdutoController implements Initializable {
     private UsuarioService usuarioService;
     private Agricultor agricultorLogado;
 
-    // Variáveis para modo edição (NOVAS)
     private Produto produtoEditando;
     private boolean modoEdicao = false;
 
-    // Aba 1: Informações Básicas
     @FXML private TextField txtNome;
     @FXML private ComboBox<String> comboCategoria;
     @FXML private ComboBox<String> comboSubcategoria;
@@ -46,8 +44,6 @@ public class CadastroProdutoController implements Initializable {
     @FXML private CheckBox checkSustentavel;
     @FXML private CheckBox checkPerecivel;
     @FXML private CheckBox checkRequerRefrigeracao;
-
-    // Aba 2: Preço e Estoque
     @FXML private TextField txtPreco;
     @FXML private TextField txtQuantidadeDisponivel;
     @FXML private TextField txtQuantidadeMinima;
@@ -56,12 +52,10 @@ public class CadastroProdutoController implements Initializable {
     @FXML private DatePicker dateDataColheita;
     @FXML private DatePicker dateDataValidade;
 
-    // Aba 3: Descrição & Certificações
     @FXML private TextArea txtDescricao;
     @FXML private TextField txtImagemPrincipal;
     @FXML private TextArea txtImagensAdicionais;
 
-    // Componentes gerais
     @FXML private TabPane tabPane;
     @FXML private Button btnCadastrar;
     @FXML private Button btnLimpar;
@@ -70,7 +64,6 @@ public class CadastroProdutoController implements Initializable {
     private Map<String, List<String>> categoriasMap;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Inicializar serviços
         this.produtoService = new ProdutoService();
         this.usuarioService = new UsuarioService();
         
@@ -80,7 +73,6 @@ public class CadastroProdutoController implements Initializable {
         configurarValidacoes();
         configurarDependencias();
         
-        // Atualizar interface baseada no modo
         atualizarInterfaceParaModo();
     }
 
@@ -101,7 +93,6 @@ public class CadastroProdutoController implements Initializable {
         if (produtoEditando != null) {
             System.out.println("📝 Preenchendo campos para edição: " + produtoEditando.getNome());
             
-            // Aba 1: Informações Básicas
             txtNome.setText(produtoEditando.getNome());
             
             if (produtoEditando.getCategoria() != null) {
@@ -141,14 +132,12 @@ public class CadastroProdutoController implements Initializable {
                 dateDataValidade.setValue(produtoEditando.getDataValidade());
             }
             
-            // Aba 3: Descrição & Certificações
             txtDescricao.setText(produtoEditando.getDescricao());
             
             if (produtoEditando.getImagemPrincipal() != null) {
                 txtImagemPrincipal.setText(produtoEditando.getImagemPrincipal());
             }
             
-            // Atualizar título da janela
             atualizarTituloJanela();
         }
     }
@@ -227,7 +216,6 @@ public class CadastroProdutoController implements Initializable {
         comboDisponivel.getItems().addAll("Sim", "Não");
         comboDisponivel.setValue("Sim");
         
-        // Configurar data de hoje como padrão para data de colheita
         dateDataColheita.setValue(LocalDate.now());
     }
 
@@ -247,7 +235,6 @@ public class CadastroProdutoController implements Initializable {
         });
     }
 
-    // Métodos principais - ATUALIZADOS
     @FXML
     private void handleCadastrarProduto(ActionEvent event) {
         if (validarFormularioCompleto()) {
@@ -258,10 +245,8 @@ public class CadastroProdutoController implements Initializable {
                 }
 
                 if (modoEdicao) {
-                    // MODO EDIÇÃO - Atualizar produto existente
                     atualizarProdutoExistente();
                 } else {
-                    // MODO CADASTRO - Criar novo produto
                     criarNovoProduto();
                 }
                 
@@ -356,15 +341,13 @@ public class CadastroProdutoController implements Initializable {
 
     @FXML
     private void handleLimparCampos(ActionEvent event) {
-        // Se estiver em modo edição, não limpa completamente - apenas reseta para valores originais
         if (modoEdicao && produtoEditando != null) {
-            preencherCamposComDadosProduto(); // Recarrega os dados originais
+            preencherCamposComDadosProduto(); 
             removerEstilosErro();
             return;
         }
         
-        // Limpar completa (modo cadastro)
-        // Aba 1
+        
         txtNome.clear();
         comboCategoria.setValue(null);
         comboSubcategoria.setValue(null);
@@ -375,7 +358,6 @@ public class CadastroProdutoController implements Initializable {
         checkPerecivel.setSelected(false);
         checkRequerRefrigeracao.setSelected(false);
         
-        // Aba 2
         txtPreco.clear();
         txtQuantidadeDisponivel.clear();
         txtQuantidadeMinima.clear();
@@ -384,7 +366,6 @@ public class CadastroProdutoController implements Initializable {
         dateDataColheita.setValue(LocalDate.now());
         dateDataValidade.setValue(null);
         
-        // Aba 3
         txtDescricao.clear();
         txtImagemPrincipal.clear();
         txtImagensAdicionais.clear();
@@ -392,7 +373,6 @@ public class CadastroProdutoController implements Initializable {
         tabPane.getSelectionModel().select(0);
         removerEstilosErro();
         
-        // Resetar modo edição
         this.modoEdicao = false;
         this.produtoEditando = null;
         atualizarInterfaceParaModo();
@@ -431,7 +411,6 @@ public class CadastroProdutoController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            // Mostra mensagem de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setHeaderText("Não foi possível carregar a tela");
@@ -554,7 +533,6 @@ public class CadastroProdutoController implements Initializable {
 
     @FXML
     private void validarDisponivel(ActionEvent event) {
-        // Campo opcional
     }
     
     @FXML
@@ -563,7 +541,6 @@ public class CadastroProdutoController implements Initializable {
 
     @FXML
     private void validarCertificacoes(ActionEvent event) {
-        // Campo opcional
     }
 
     @FXML
@@ -641,7 +618,6 @@ public class CadastroProdutoController implements Initializable {
     private Produto criarProdutoFromFormulario() {
         Produto produto = new Produto();
         
-        // Informações básicas
         produto.setNome(txtNome.getText().trim());
         produto.setCategoria(comboCategoria.getValue());
         produto.setSubcategoria(comboSubcategoria.getValue());
@@ -667,7 +643,7 @@ public class CadastroProdutoController implements Initializable {
         if (!txtPesoUnitario.getText().trim().isEmpty()) {
             produto.setPesoUnitario(Double.parseDouble(txtPesoUnitario.getText().replace(",", ".")));
         } else {
-            produto.setPesoUnitario(1.0); // Valor padrão
+            produto.setPesoUnitario(1.0);
         }
         
         produto.setDataColheita(dateDataColheita.getValue());
@@ -815,7 +791,6 @@ public class CadastroProdutoController implements Initializable {
         }
     }
 
-    // Método para limpar recursos
     public void fecharServicos() {
         try {
             if (produtoService != null) {
@@ -824,13 +799,12 @@ public class CadastroProdutoController implements Initializable {
             if (usuarioService != null) {
                 usuarioService.fecharConexao();
             }
-            System.out.println("🔒 Serviços fechados com sucesso");
+            System.out.println("Serviços fechados com sucesso");
         } catch (Exception e) {
             System.err.println("Erro ao fechar serviços: " + e.getMessage());
         }
     }
 
-    // Getters para modo de operação (úteis para testes)
     public boolean isModoEdicao() {
         return modoEdicao;
     }

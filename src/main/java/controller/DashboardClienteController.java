@@ -49,17 +49,14 @@ public class DashboardClienteController implements Initializable {
     String nomeUsuario = "Visitante";
     
     try {
-        // Tentativa 1: Buscar por ID específico
         Object resultado = usuarioService.buscarUsuarioPorId(5);
         
         if (resultado instanceof Comprador) {
-            // Se retorna Comprador direto
             Comprador comprador = (Comprador) resultado;
             nomeUsuario = comprador.getNome();
-            System.out.println("✅ Comprador direto: " + nomeUsuario);
+            System.out.println("Comprador direto: " + nomeUsuario);
             
         } else if (resultado instanceof List) {
-            // Se retorna List<Comprador>
             List<?> lista = (List<?>) resultado;
             if (!lista.isEmpty() && lista.get(0) instanceof Comprador) {
                 Comprador comprador = (Comprador) lista.get(0);
@@ -67,12 +64,12 @@ public class DashboardClienteController implements Initializable {
                 System.out.println("✅ Comprador da lista: " + nomeUsuario);
             }
         } else {
-            System.out.println("⚠️ Tipo de retorno não reconhecido: " + 
+            System.out.println("Tipo de retorno não reconhecido: " + 
                 (resultado != null ? resultado.getClass().getSimpleName() : "null"));
         }
         
     } catch (Exception e) {
-        System.err.println("❌ Erro ao carregar usuário: " + e.getMessage());
+        System.err.println("Erro ao carregar usuário: " + e.getMessage());
         
         // Fallback: buscar qualquer comprador
         try {
@@ -80,10 +77,10 @@ public class DashboardClienteController implements Initializable {
             if (compradores != null && !compradores.isEmpty()) {
                 Comprador comprador = compradores.get(0);
                 nomeUsuario = comprador.getNome();
-                System.out.println("✅ Primeiro comprador do banco: " + nomeUsuario);
+                System.out.println("Primeiro comprador do banco: " + nomeUsuario);
             }
         } catch (Exception ex) {
-            System.err.println("❌ Erro no fallback: " + ex.getMessage());
+            System.err.println("Erro no fallback: " + ex.getMessage());
         }
     }
     
@@ -99,21 +96,22 @@ public class DashboardClienteController implements Initializable {
 
     @FXML
     private void abrirRelatorios() {
-         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/carrinho.fxml"));
+       try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/gestaoCompras.fxml"));
         Parent root = loader.load();
         
-        CadastroProdutoController controller = loader.getController();
-        controller.setProdutoParaEdicao(produto);
+        Stage stage = (Stage) lblSaudacao.getScene().getWindow();
+        
         
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setTitle("Editar Produto");
         stage.setScene(scene);
-        stage.show();
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         
     } catch (Exception e) {
-        mostrarMensagem("Erro", "Não foi possível abrir a edição: " + e.getMessage());
+        e.printStackTrace();
+        mostrarMensagem("Erro", "Não foi possível abrir o mercado: " + e.getMessage());
     }
     }
 
@@ -186,8 +184,6 @@ private void abrirVendas() {
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         
-        // Estilizar o alerta
-        alert.getDialogPane().setStyle("-fx-background-color: rgba(45,45,45,0.95); -fx-border-color: #4CAF50;");
         alert.showAndWait();
     }
 }

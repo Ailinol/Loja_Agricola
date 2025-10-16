@@ -75,7 +75,6 @@ public class PerfilAgricultorController implements Initializable {
         agricultorLogado = SessaoActual.getAgricultorLogado();
         
         if (agricultorLogado != null) {
-            // Informações pessoais
             lblNomeUsuario.setText(agricultorLogado.getNome());
             lblEmail.setText(agricultorLogado.getEmail());
             lblNome.setText(agricultorLogado.getNome());
@@ -83,13 +82,11 @@ public class PerfilAgricultorController implements Initializable {
             lblTelefone.setText(agricultorLogado.getTelefone() != null ? agricultorLogado.getTelefone() : "Não informado");
             lblWhatsapp.setText(agricultorLogado.getWhatsapp() != null ? agricultorLogado.getWhatsapp() : "Não informado");
             
-            // Localização
             String localizacao = agricultorLogado.getProvincia() + ", " + 
                                agricultorLogado.getDistrito() + ", " + 
                                agricultorLogado.getBairro();
             lblLocalizacao.setText(localizacao);
             
-            // Data de cadastro
             if (agricultorLogado.getDataCadastro() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 lblDataCadastro.setText(agricultorLogado.getDataCadastro().format(formatter));
@@ -103,10 +100,9 @@ public class PerfilAgricultorController implements Initializable {
                 "-fx-text-fill: #4CAF50; -fx-font-weight: bold;" : 
                 "-fx-text-fill: #F44336; -fx-font-weight: bold;");
             
-            // Disponibilidade para contato
+            
             lblDisponivelContato.setText(agricultorLogado.isDisponivelParaContato() ? "Sim" : "Não");
             
-            // Informações agrícolas
             lblTipoAgricultura.setText(agricultorLogado.getTipoAgricultura() != null ? 
                 agricultorLogado.getTipoAgricultura() : "Não informado");
             
@@ -124,7 +120,6 @@ public class PerfilAgricultorController implements Initializable {
                 lblHorarioFuncionamento.setText("Não definido");
             }
             
-            // Serviços oferecidos
             lblOfereceEntrega.setText(agricultorLogado.isOfereceEntrega() ? "Sim" : "Não");
             
             if (agricultorLogado.isOfereceEntrega()) {
@@ -194,7 +189,7 @@ public class PerfilAgricultorController implements Initializable {
     @FXML
     private void handleVoltar(ActionEvent event) {
        try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GestaoProdutos.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard_Agricultor.fxml"));
         Parent root = loader.load();
   
         Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();

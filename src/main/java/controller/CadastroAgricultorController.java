@@ -27,9 +27,12 @@ import service.Validacoes;
 import service.ResultadoValidacao;
 import javafx.animation.*;
 import javafx.concurrent.Worker;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
@@ -38,6 +41,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import model.Comprador;
@@ -86,36 +90,6 @@ public class CadastroAgricultorController implements Initializable {
 
     public CadastroAgricultorController() {      
         this.usuarioService = new UsuarioService();
-        System.out.println("🔄 Controller instanciado!");
-        /*
-        Produto prod = new Produto(
-           "Tomate", "AAA", "BBB", 400, 100, 10, true, LocalDate.now(), LocalDate.now(), LocalDate.now(),1, "ccc"
-        );
-        
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.salvarProduto(prod);
-        
-        Produto prod = new Produto(
-           "Tomate", "AAA", "BBB", 400, 100, 10, true, LocalDate.now(), LocalDate.now(), LocalDate.now(),1, "ccc"
-        );
-        
-        ItemPedido item = new ItemPedido();
-        item.setProduto(prod);
-        item.setQuantidade(5);
-        List<ItemPedido> itens = new ArrayList<>();
-        itens.add(item);
-        
-        Comprador comprador = new Comprador();
-        CompradorDAO daoCompr = new CompradorDAO();
-        daoCompr.salvarComprador(comprador);
-        
-        Pedido pedido = new Pedido();
-        pedido.setComprador(comprador);
-        pedido.setItensPedidos(itens);
-        
-        PedidoDAO dao = new PedidoDAO();
-        dao.salvarPedido(pedido);
-        */
     }
     
     
@@ -333,7 +307,6 @@ private void adicionarListeners() {
     }
     
     public void mostrarErroValidacao(Node node, String mensagem) {
-        // Aplicar estilo de erro
         aplicarEstiloValidacao(node, false);
         
         VBox popup = new VBox(5);
@@ -345,7 +318,6 @@ private void adicionarListeners() {
         );
         popup.setMaxWidth(250);
         
-        // Triângulo apontando para cima (seta do popup)
         Region arrow = new Region();
         arrow.setStyle(
             "-fx-shape: 'M 0 10 L 10 0 L 20 10 Z';" +
@@ -651,7 +623,6 @@ private void adicionarListeners() {
         validarComboBoxObrigatorio(txtOfereceEntrega, "Oferece Entrega");
     }
     
-    // Adicione estes métodos na classe CadastroAgricultorController
 
     @FXML
     private void validarConfirmarSenhaOnEnter(KeyEvent event) {
@@ -792,7 +763,6 @@ private void adicionarListeners() {
         
         System.out.println("📍 Coordenadas geradas: " + latitude + ", " + longitude);
 
-        // SEUS DADOS EXISTENTES
         String email = txtEmail.getText();
         String telefone = txtTelefone.getText();
         String whatsapp = txtWhatsapp.getText();
@@ -884,7 +854,6 @@ private void adicionarListeners() {
     
     @FXML
     private void handleLimparCampos() {
-        // Limpar todos os campos
         txtNome.clear();
         txtEmail.clear();
         txtTelefone.clear();

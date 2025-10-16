@@ -63,7 +63,6 @@ public class Produto{
     @Column(name = "imagem_URL")
 
     private List<String> imagens; 
-
     
     private String imagemPrincipal; 
     private double classificacaoMedia; 

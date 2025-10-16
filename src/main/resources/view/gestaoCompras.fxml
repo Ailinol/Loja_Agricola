@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.web.WebView?>
 
-<StackPane fx:id="rootPane" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GestaoPedidosAgricultorController">
+<StackPane fx:id="rootPane" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoricoPedidosController">
    
    <children>
         <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
@@ -60,7 +60,7 @@
                <children>
                   <StackPane>
                      <children>
-                        <FontAwesomeIconView fill="#4CAF50" glyphName="CLIPBOARD" size="4.5em" />
+                        <FontAwesomeIconView fill="#4CAF50" glyphName="HISTORY" size="4.5em" />
                         <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" />
                      </children>
                   </StackPane>
@@ -83,7 +83,7 @@
                         <StackPane style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-background-radius: 25; -fx-padding: 5;">
                            <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="1.3em" />
                         </StackPane>
-                        <TextField fx:id="txtPesquisa" styleClass="search-field-glass" promptText="Pesquisar cliente, produto..." HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtPesquisa" styleClass="search-field-glass" promptText="Pesquisar produtos, agricultores..." HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
 
@@ -98,24 +98,21 @@
                </children>
             </HBox>
 
-            <!-- Área principal COM FLOWPANE -->
+            <!-- Área principal -->
             <ScrollPane fx:id="scrollPedidos" styleClass="scroll-pane-produtos" fitToWidth="true">
                <AnchorPane.topAnchor>245.0</AnchorPane.topAnchor>
                <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
                <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
                <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
                <content>
-                  <FlowPane fx:id="containerPedidos" styleClass="flow-pane-produtos" 
-                            hgap="20" vgap="20" 
-                            alignment="TOP_CENTER"
-                            prefWrapLength="1400">
+                  <VBox fx:id="containerPedidos" styleClass="flow-pane-produtos" spacing="20">
                      <!-- Cards de pedidos serão adicionados dinamicamente -->
-                  </FlowPane>
+                  </VBox>
                </content>
             </ScrollPane>
 
             <!-- Título principal -->
-            <Label alignment="CENTER" style="-fx-alignment: center;" text="GESTÃO DE PEDIDOS" textFill="#ffffff">
+            <Label alignment="CENTER" style="-fx-alignment: center;" text="HISTÓRICO DE PEDIDOS" textFill="#ffffff">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>

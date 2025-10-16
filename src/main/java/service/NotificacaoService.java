@@ -47,7 +47,6 @@ public class NotificacaoService {
             email.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             email.setSubject(assunto);
             
-            // Instrucao para usar formatacao em HTML
             email.setContent(mensagem, "text/html; charset=utf-8");
             
             Transport.send(email);
@@ -81,44 +80,6 @@ public class NotificacaoService {
             + "</ul>"
             + "<br>"
             + "<p>Atenciosamente,<br><strong>Equipe do Marketplace Agrícola</strong></p>"
-            + "</body>"
-            + "</html>";
-        
-        return enviarEmail(destinatario, assunto, mensagem);
-    }
-    
-    
-    // 3. Email de recuperação de senha
-    public boolean enviarEmailRecuperacaoSenha(String destinatario, String token) {
-        String assunto = "🔐 Recuperação de Senha";
-        String mensagem = "<html>"
-            + "<body style='font-family: Arial, sans-serif; line-height: 1.6;'>"
-            + "<h2 style='color: #D32F2F;'>Recuperação de Senha</h2>"
-            + "<p>Você solicitou a recuperação de senha.</p>"
-            + "<div style='background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;'>"
-            + "<h3 style='text-align: center; color: #1976D2; font-size: 24px;'>" + token + "</h3>"
-            + "</div>"
-            + "<p><strong>Este código expira em 24 horas.</strong></p>"
-            + "<p>Se não foi você, ignore este email.</p>"
-            + "</body>"
-            + "</html>";
-        
-        return enviarEmail(destinatario, assunto, mensagem);
-    }
-    
-    //Notificacao de novo pedido
-    public boolean enviarEmailNovoPedido(String destinatario, String nomeAgricultor, int numeroPedido) {
-        String assunto = "🛒 Novo Pedido Recebido - #" + numeroPedido;
-        String mensagem = "<html>"
-            + "<body style='font-family: Arial, sans-serif; line-height: 1.6;'>"
-            + "<h2 style='color: #FF9800;'>Olá " + nomeAgricultor + "!</h2>"
-            + "<p>Você recebeu um novo pedido!</p>"
-            + "<div style='background-color: #FFF3E0; padding: 15px; border-radius: 5px; margin: 20px 0;'>"
-            + "<h3 style='color: #E65100;'>Número do Pedido: #" + numeroPedido + "</h3>"
-            + "</div>"
-            + "<p>Acesse sua conta para ver os detalhes completos do pedido.</p>"
-            + "<br>"
-            + "<p>Atenciosamente,<br>Equipe do Marketplace</p>"
             + "</body>"
             + "</html>";
         

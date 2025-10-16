@@ -171,8 +171,8 @@ public class CarrinhoController implements Initializable {
             
             comboCategoria.setValue("🌿 Todos");
             
-            comboOrdenacao.getItems().addAll("📍 Mais Próximo", "💰 Mais Barato", "⭐ Melhor Avaliado", "🆕 Mais Recente");
-            comboOrdenacao.setValue("🆕 Mais Recente");
+            comboOrdenacao.getItems().addAll("📍 Mais Próximo", "Mais Barato", "Melhor Avaliado", "Mais Recente");
+            comboOrdenacao.setValue(" Mais Recente");
             
             comboDistancia.getItems().addAll("📍 Todos", "📏 5 km", "📏 10 km", "📏 15 km", "📏 20 km");
             comboDistancia.setValue("📍 Todos");
@@ -594,7 +594,7 @@ public class CarrinhoController implements Initializable {
     private void onCalcularRotas() {
         if (produtoSelecionadoId != null && webMapService != null) {
             webMapService.calcularRotaParaAgricultor(produtoSelecionadoId);
-            mostrarAlertaPremium("🗺️ Rota Calculada", 
+            mostrarAlertaPremium(" Rota Calculada", 
                 "Rota calculada com sucesso no mapa real!\n\n" +
                 "📍 Distância: " + lblDistancia.getText() + "\n" +
                 "⏱️ Tempo estimado: " + lblTempoViagem.getText());
@@ -617,8 +617,8 @@ public class CarrinhoController implements Initializable {
 
     @FXML
     private void onContactarClick(Produto produto, int index) {
-        String tipoAgricultura = produto.isOrganico() ? "🌿 Produto Orgânico Certificado" : "🏭 Produção Convencional";
-        String sustentabilidade = produto.isSustentavel() ? "✅ Práticas Sustentáveis" : "🔍 Produção Regular";
+        String tipoAgricultura = produto.isOrganico() ? "🌿 Produto Orgânico Certificado" : "Produção Convencional";
+        String sustentabilidade = produto.isSustentavel() ? "Práticas Sustentáveis" : "Produção Regular";
         
         mostrarAlertaPremium("💬 Detalhes do Produto", 
             "**" + produto.getNome() + "**\n\n" +
@@ -671,14 +671,13 @@ public class CarrinhoController implements Initializable {
                         return Double.compare(dist1, dist2);
                     });
                     break;
-                case "💰 Mais Barato":
+                case "Mais Barato":
                     produtos.sort((p1, p2) -> Double.compare(p1.getPreco(), p2.getPreco()));
                     break;
-                case "⭐ Melhor Avaliado":
+                case "Melhor Avaliado":
                     produtos.sort((p1, p2) -> Double.compare(p2.getClassificacaoMedia(), p1.getClassificacaoMedia()));
                     break;
-                case "🆕 Mais Recente":
-                    // Mantém ordem original (mais recentes primeiro)
+                case "Mais Recente":
                     break;
             }
             
@@ -751,7 +750,6 @@ public class CarrinhoController implements Initializable {
         alert.showAndWait();
     }
 
-    // Método para limpar recursos
     public void fechar() {
         if (produtoService != null) {
             produtoService.fecharConexao();

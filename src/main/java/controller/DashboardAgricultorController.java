@@ -108,23 +108,22 @@ public class DashboardAgricultorController implements Initializable {
 
     @FXML
     private void abrirRelatorios() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RelatoriosAgricultor.fxml"));
+          try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GestaoPedidosAgricultor.fxml"));
             Parent root = loader.load();
-            
-            // Passar dados do agricultor para o controller de relatórios
-          //  RelatoriosAgricultorController controller = loader.getController();
-            //controller.setAgricultor(agricultor);
-            
-            Stage stage = new Stage();
-            stage.setTitle("Relatórios - GreenMatch");
-            stage.setScene(new Scene(root));
-            stage.setMinWidth(1000);
-            stage.setMinHeight(700);
-            stage.show();
-            
+
+           Stage stage = (Stage) lblSaudacao.getScene().getWindow();
+
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+
         } catch (Exception e) {
-            mostrarErro("Erro ao abrir relatórios: " + e.getMessage());
+            e.printStackTrace();
+            mostrarErro( "Não foi possível abrir o mercado: " + e.getMessage());
         }
     }
 
@@ -159,11 +158,9 @@ public class DashboardAgricultorController implements Initializable {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
-                    // Fechar a tela atual
                     Stage stage = (Stage) lblSaudacao.getScene().getWindow();
                     stage.close();
                     
-                    // Abrir tela de login
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
                     Parent root = loader.load();
                     
@@ -187,8 +184,6 @@ public class DashboardAgricultorController implements Initializable {
     }
 
     public void atualizarMetricasEmTempoReal() {
-        // Método para atualizar as métricas quando necessário
-        // Pode ser chamado por outros controllers ou serviços
         atualizarMetricas();
     }
 
@@ -208,13 +203,11 @@ public class DashboardAgricultorController implements Initializable {
         alert.showAndWait();
     }
 
-    // Método para fechar a aplicação completamente
     @FXML
     private void fecharAplicacao() {
         System.exit(0);
     }
 
-    // Método para minimizar a janela
     @FXML
     private void minimizarJanela() {
         Stage stage = (Stage) lblSaudacao.getScene().getWindow();

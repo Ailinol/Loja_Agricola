@@ -22,8 +22,7 @@ public class MapaService {
     
     private void configurarMapa() {
         webEngine.setJavaScriptEnabled(true);
-        
-        // IMPORTANTE: Usar apenas ASCII e converter caracteres especiais
+    
         String htmlContent = """
         <!DOCTYPE html>
         <html>
@@ -196,7 +195,7 @@ public class MapaService {
                 
                 function inicializarMapa() {
                     try {
-                        console.log("🌍 Inicializando mapa...");
+                        console.log("Inicializando mapa...");
                         
                         map = L.map('map', {
                             center: [-25.9692, 32.5732],
@@ -264,7 +263,7 @@ public class MapaService {
                         
                         // Handler para tiles carregados com sucesso
                         tiles.on('load', function() {
-                            console.log("✅ Tiles carregados!");
+                            console.log("Tiles carregados!");
                             tileLoadErrors = 0; // Reset contador de erros
                             setTimeout(function() {
                                 hideLoading();
@@ -273,7 +272,7 @@ public class MapaService {
                         
                         // Handler para tiles com erro - RETRY automático
                         tiles.on('tileerror', function(error) {
-                            console.warn("⚠️ Erro em tile, tentando reload...");
+                            console.warn("Erro em tile, tentando reload...");
                             tileLoadErrors++;
                             
                             // Tentar recarregar o tile específico
@@ -302,7 +301,7 @@ public class MapaService {
                         
                         // Handler para início de carregamento
                         tiles.on('loading', function() {
-                            console.log("⏳ Carregando tiles...");
+                            console.log("Carregando tiles...");
                         });
                         
                         // Forçar invalidação de tamanho após carregar
@@ -351,7 +350,7 @@ public class MapaService {
                             metric: true
                         }).addTo(map);
                         
-                        console.log("✅ Mapa inicializado com sistema anti-tile-cinza!");
+                        console.log("Mapa inicializado com sistema anti-tile-cinza!");
                         
                     } catch (error) {
                         console.error("❌ Erro:", error);
@@ -363,7 +362,7 @@ public class MapaService {
                 function hideLoading() {
                     document.getElementById('loading').style.display = 'none';
                     mapReady = true;
-                    console.log("✅ Mapa pronto!");
+                    console.log("Mapa pronto!");
                     
                     if (window.javaBridge) {
                         window.javaBridge.mapaPronto();
@@ -445,21 +444,21 @@ public class MapaService {
                             }, 500);
                         }
                     } catch (error) {
-                        console.error("❌ Erro focar:", error);
+                        console.error(" Erro focar:", error);
                     }
                 }
                 
                 function calcularRotaParaAgricultor(idAgricultor) {
                     try {
                         if (!userMarker || !marcadores[idAgricultor]) {
-                            console.error("❌ Faltam marcadores");
+                            console.error("Faltam marcadores");
                             return;
                         }
                         
                         var userPos = userMarker.getLatLng();
                         var agricultorPos = marcadores[idAgricultor].getLatLng();
                         
-                        console.log("🛣️ Calculando rota...");
+                        console.log("️ Calculando rota...");
                         
                         if (currentRoute) {
                             map.removeControl(currentRoute);
@@ -489,7 +488,7 @@ public class MapaService {
                         var distancia = (userPos.distanceTo(agricultorPos) / 1000).toFixed(1);
                         var tempo = (distancia * 2.5).toFixed(0);
                         
-                        console.log("✅ Rota:", distancia + " km");
+                        console.log(" Rota:", distancia + " km");
                         
                         if (window.javaBridge) {
                             window.javaBridge.rotaCalculada(distancia, tempo);
@@ -502,7 +501,7 @@ public class MapaService {
                                 var dist = (summary.totalDistance / 1000).toFixed(1);
                                 var time = Math.round(summary.totalTime / 60);
                                 
-                                console.log("✅ Rota OSRM:", dist + " km,", time + " min");
+                                console.log("Rota OSRM:", dist + " km,", time + " min");
                                 
                                 if (window.javaBridge) {
                                     window.javaBridge.rotaCalculada(dist, time);
@@ -511,7 +510,7 @@ public class MapaService {
                         });
                         
                     } catch (error) {
-                        console.error("❌ Erro rota:", error);
+                        console.error("Erro rota:", error);
                     }
                 }
                 
@@ -536,12 +535,12 @@ public class MapaService {
                 try {
                     JSObject window = (JSObject) webEngine.executeScript("window");
                     window.setMember("javaBridge", new JavaBridge());
-                    System.out.println("✅ Bridge configurado!");
+                    System.out.println("Bridge configurado!");
                 } catch (Exception e) {
-                    System.err.println("❌ Erro bridge: " + e.getMessage());
+                    System.err.println(" Erro bridge: " + e.getMessage());
                 }
             } else if (newValue == Worker.State.FAILED) {
-                System.err.println("❌ Falha ao carregar!");
+                System.err.println("Falha ao carregar!");
             }
         });
     }
@@ -561,7 +560,7 @@ public class MapaService {
     public void adicionarMarcadorAgricultor(String id, Localizacao loc, String nome, String produto) {
         marcadores.put(id, loc);
         
-        // Converter para HTML entities para preservar acentos
+        
         String nomeHTML = converterParaHTMLEntities(nome);
         String produtoHTML = converterParaHTMLEntities(produto);
         
@@ -655,21 +654,6 @@ public class MapaService {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     /**
-     * NOVO MÉTODO: Adiciona agricultor com coordenadas reais do banco
-     */
     public void adicionarAgricultorComCoordenadasReais(String id, double latitude, double longitude, String nome, String produto) {
         if (latitude == 0 && longitude == 0) {
             System.out.println("⚠️ Coordenadas zero para agricultor: " + nome);
@@ -691,11 +675,8 @@ public class MapaService {
         System.out.println("📍 Agricultor adicionado no mapa: " + nome + " (" + latitude + ", " + longitude + ")");
     }
     
-    /**
-     * NOVO MÉTODO: Calcula distância entre duas coordenadas (em km)
-     */
     public double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371; // Raio da Terra em km
+        final int R = 6371;
         
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
@@ -708,10 +689,7 @@ public class MapaService {
         
         return R * c;
     }
-    
-    /**
-     * NOVO MÉTODO: Define localização do usuário com coordenadas reais
-     */
+
     public void definirLocalizacaoUsuarioReal(double latitude, double longitude) {
         executarJavaScript("definirLocalizacaoUsuario(" + latitude + ", " + longitude + ")");
     }

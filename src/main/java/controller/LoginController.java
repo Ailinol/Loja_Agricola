@@ -50,12 +50,10 @@ public class LoginController implements Initializable {
             "Comprador"
         );
         comboTipoUsuario.setItems(tiposUsuario);
-        
-        // DEBUG: Verificar conexão e usuários
+       
         try {
             service.UsuarioService usuarioService = new service.UsuarioService();
             usuarioService.verificarConexao();
-            usuarioService.debugCompleto();
         } catch (Exception e) {
             System.err.println("Erro no debug: " + e.getMessage());
         }
@@ -69,7 +67,6 @@ public class LoginController implements Initializable {
         String email = txtEmail.getText().trim();
         String senha = txtSenha.getText();
 
-        //Verificar o que está sendo enviado
         System.out.println("=== TENTATIVA DE LOGIN ===");
         System.out.println("Email: " + email);
         System.out.println("Tipo Usuario: " + tipoUsuario);
@@ -85,7 +82,6 @@ public class LoginController implements Initializable {
             return;
         }
 
-        // A senha é comparada via hash
         AutenticacaoService authService = new AutenticacaoService();
         AutenticacaoService.ResultadoLogin resultado = authService.autenticarUsuario(email, senha, tipoUsuario);
 
@@ -93,7 +89,6 @@ public class LoginController implements Initializable {
             System.out.println("Login bem-sucedido para: " + resultado.usuario.getNome());
             mostrarAlerta("Sucesso", "Login realizado com sucesso!");
 
-            // Redirecionar para a tela principal
             SessaoActual.setUsuarioLogado(resultado.usuario, resultado.tokenSessao);
             redirecionarParaTelaPrincipal(resultado.usuario, tipoUsuario);
 

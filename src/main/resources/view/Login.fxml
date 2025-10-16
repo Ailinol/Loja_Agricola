@@ -11,175 +11,338 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-   
    <children>
-        <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
-         <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
-         <AnchorPane.bottomAnchor>0.0</AnchorPane.bottomAnchor>
-         <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
-         <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+      <AnchorPane styleClass="bg-form" stylesheets="@GreenMatch.css">
+         <!-- Elementos decorativos de fundo -->
+         <Circle fill="rgba(76,175,80,0.08)" layoutX="150.0" layoutY="150.0" radius="200.0">
+            <effect>
+               <GaussianBlur radius="80.0" />
+            </effect>
+         </Circle>
+         <Circle fill="rgba(179,229,209,0.06)" layoutX="950.0" layoutY="600.0" radius="180.0">
+            <effect>
+               <GaussianBlur radius="60.0" />
+            </effect>
+         </Circle>
          
-         <effect>
-            <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="25.0" radius="12.0" width="25.0" />
-         </effect>
          <children>
-            <!-- Barra de título elegante -->
-            <HBox alignment="CENTER_RIGHT" prefWidth="1100.0" spacing="8.0" style="-fx-background-color: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.2)); -fx-background-radius: 0 0 8 8;">
-               <AnchorPane.topAnchor>0.0</AnchorPane.topAnchor>
-               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
-               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
-               <prefHeight>40.0</prefHeight>
+            <!-- Barra de título minimalista -->
+            <HBox alignment="CENTER_RIGHT" prefWidth="1100.0" spacing="12.0" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <prefHeight>50.0</prefHeight>
                <padding>
-                  <Insets bottom="20.0" right="15.0" top="8.0" />
+                  <Insets right="20.0" top="15.0" />
                </padding>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: rgba(255,255,255,0.08); -fx-cursor: hand; -fx-background-radius: 16; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 16;">
                      <graphic>
-                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="0.9em" />
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="MINUS" size="1em" />
                      </graphic>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.2)" radius="4.0" />
+                     </effect>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-cursor: hand; -fx-background-radius: 14;">
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: rgba(255,255,255,0.08); -fx-cursor: hand; -fx-background-radius: 16; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 16;">
                      <graphic>
-                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="0.9em" />
+                        <FontAwesomeIconView fill="#b3e5d1" glyphName="CLOSE" size="1em" />
                      </graphic>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.2)" radius="4.0" />
+                     </effect>
                   </Button>
                </children>
             </HBox>
             
-            <!-- Cabeçalho centralizado com destaque -->
-            <VBox alignment="CENTER" spacing="12.0">
-               <AnchorPane.topAnchor>40.0</AnchorPane.topAnchor>
-               <AnchorPane.leftAnchor>0.0</AnchorPane.leftAnchor>
-               <AnchorPane.rightAnchor>0.0</AnchorPane.rightAnchor>
+            <!-- Container principal com layout moderno -->
+            <HBox alignment="CENTER" spacing="80.0" AnchorPane.topAnchor="80.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0">
                <children>
-                  <StackPane>
+                  <!-- Painel esquerdo - Branding -->
+                  <VBox alignment="CENTER" spacing="25.0" prefWidth="400.0">
                      <children>
-                        <FontAwesomeIconView fill="#4CAF50" glyphName="LEAF" size="4.5em" />
-                        <FontAwesomeIconView fill="rgba(76,175,80,0.3)" glyphName="CIRCLE" size="6em" />
-                     </children>
-                  </StackPane>
-               </children>
-            </VBox>
-            
-            <!-- Card do formulário de login -->
-            <VBox alignment="CENTER" spacing="0.0" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15; -fx-border-width: 1;">
-               <AnchorPane.topAnchor>140.0</AnchorPane.topAnchor>
-               <AnchorPane.bottomAnchor>200.0</AnchorPane.bottomAnchor>
-               <AnchorPane.leftAnchor>300.0</AnchorPane.leftAnchor>
-               <AnchorPane.rightAnchor>300.0</AnchorPane.rightAnchor>
-               <padding>
-                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-               </padding>
-               <children>
-                  <!-- Título do Login -->
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="LOGIN GREENMATCH" textFill="#ffffff">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                     <effect>
-                        <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.5)" radius="3.0" />
-                     </effect>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </Label>
-                  
-                  <!-- Formulário de Login -->
-                  <VBox spacing="20.0" alignment="CENTER">
-                     <children>
-                        <!-- Seleção do Tipo de Usuário -->
-                        <VBox spacing="8.0" prefWidth="350.0">
-                           <children>
-                              <Label text="Eu sou:" textFill="#b3e5d1">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="comboTipoUsuario" maxWidth="Infinity" prefHeight="42.0" promptText="Selecione o tipo de usuário" style="-fx-background-color: rgba(255,255,255,0.08); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-prompt-text-fill: rgba(255,255,255,0.4);" />
-                           </children>
-                        </VBox>
-                        
-                        <!-- Campo de E-mail -->
-                        <VBox spacing="8.0" prefWidth="350.0">
-                           <children>
-                              <Label text="E-mail" textFill="#b3e5d1">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="txtEmail" maxWidth="Infinity" onAction="#handleLogin" prefHeight="42.0" promptText="exemplo@email.com" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" />
-                           </children>
-                        </VBox>
-                        
-                        <!-- Campo de Senha -->
-                        <VBox spacing="8.0" prefWidth="350.0">
-                           <children>
-                              <Label text="Senha" textFill="#b3e5d1">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <PasswordField fx:id="txtSenha" maxWidth="Infinity" onAction="#handleLogin" prefHeight="42.0" promptText="Digite sua senha" style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.4); -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 12 0 12;" />
-                           </children>
-                        </VBox>
-                        
-                        <!-- Opções de Login -->
-                        <HBox alignment="CENTER_LEFT" spacing="15.0" prefWidth="350.0">
-                           <children>
-                              <CheckBox fx:id="checkLembrar" mnemonicParsing="false" text="Lembrar-me" textFill="#b3e5d1" style="-fx-font-size: 12px;" />
-                              <Hyperlink fx:id="linkEsqueciSenha" onAction="#handleEsqueciSenha" text="Esqueci a senha" style="-fx-text-fill: #b3e5d1; -fx-border-color: transparent; -fx-underline: true; -fx-font-size: 12px;" />
-                           </children>
-                        </HBox>
-                        
-                        <!-- Botão de Login -->
-                        <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLogin" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 25; -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.4), 15, 0, 0, 5);" text="ENTRAR">
-                           <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="SIGN_IN" size="1.1em" />
-                           </graphic>
+                        <!-- Logo com efeito glassmorphism -->
+                        <StackPane prefHeight="140.0" prefWidth="140.0" style="-fx-background-color: rgba(76,175,80,0.15); -fx-background-radius: 35; -fx-border-color: rgba(255,255,255,0.15); -fx-border-radius: 35; -fx-border-width: 1.5;">
                            <effect>
-                              <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.3)" height="8.0" radius="4.0" width="8.0" />
+                              <DropShadow blurType="GAUSSIAN" color="rgba(76,175,80,0.3)" height="40.0" radius="20.0" width="40.0" />
                            </effect>
-                        </Button>
-                        
-                        <!-- Separador -->
-                        <HBox alignment="CENTER" spacing="10.0" prefWidth="350.0">
                            <children>
-                              <Separator prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.1);" />
-                              <Label text="ou" textFill="rgba(255,255,255,0.6)" style="-fx-font-size: 12px;" />
-                              <Separator prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.1);" />
+                              <FontAwesomeIconView fill="#4CAF50" glyphName="LEAF" size="5em" />
                            </children>
-                        </HBox>
+                        </StackPane>
                         
-                        <!-- Links para Cadastro -->
-                        <VBox spacing="10.0" alignment="CENTER">
+                        <!-- Título principal -->
+                        <VBox alignment="CENTER" spacing="12.0">
                            <children>
-                              <Label text="Não tem uma conta?" textFill="rgba(255,255,255,0.7)" style="-fx-font-size: 13px;" />
-                              <HBox alignment="CENTER" spacing="15.0">
+                              <Label text="GREENMATCH" textFill="#ffffff">
+                                 <font>
+                                    <Font name="System Bold" size="42.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow blurType="GAUSSIAN" color="rgba(76,175,80,0.4)" radius="8.0" />
+                                 </effect>
+                              </Label>
+                              <Label text="Conectando agricultores e compradores" textAlignment="CENTER" textFill="rgba(179,229,209,0.9)" wrapText="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        
+                        <!-- Features destacadas -->
+                        <VBox spacing="18.0" prefWidth="350.0">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="15.0">
                                  <children>
-                                    <Hyperlink fx:id="linkCadastrarAgricultor" onAction="#handleCadastrarAgricultor" text="Sou Agricultor" style="-fx-text-fill: #b3e5d1; -fx-border-color: transparent; -fx-underline: true; -fx-font-size: 13px; -fx-font-weight: bold;" />
-                                    <Label text="|" textFill="rgba(255,255,255,0.5)" style="-fx-font-size: 13px;" />
-                                    <Hyperlink fx:id="linkCadastrarComprador" onAction="#handleCadastrarComprador" text="Sou Comprador" style="-fx-text-fill: #b3e5d1; -fx-border-color: transparent; -fx-underline: true; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                                    <StackPane prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: rgba(76,175,80,0.12); -fx-background-radius: 12;">
+                                       <FontAwesomeIconView fill="#4CAF50" glyphName="CHECK_CIRCLE" size="1.5em" />
+                                    </StackPane>
+                                    <VBox spacing="3.0">
+                                       <children>
+                                          <Label text="Marketplace Sustentável" textFill="#ffffff">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Produtos orgânicos direto do produtor" textFill="rgba(255,255,255,0.6)">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              
+                              <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                 <children>
+                                    <StackPane prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: rgba(76,175,80,0.12); -fx-background-radius: 12;">
+                                       <FontAwesomeIconView fill="#4CAF50" glyphName="SHIELD" size="1.5em" />
+                                    </StackPane>
+                                    <VBox spacing="3.0">
+                                       <children>
+                                          <Label text="Transações Seguras" textFill="#ffffff">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Proteção total para suas negociações" textFill="rgba(255,255,255,0.6)">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              
+                              <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                 <children>
+                                    <StackPane prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: rgba(76,175,80,0.12); -fx-background-radius: 12;">
+                                       <FontAwesomeIconView fill="#4CAF50" glyphName="USERS" size="1.5em" />
+                                    </StackPane>
+                                    <VBox spacing="3.0">
+                                       <children>
+                                          <Label text="Comunidade Ativa" textFill="#ffffff">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Milhares de usuários conectados" textFill="rgba(255,255,255,0.6)">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+                  
+                  <!-- Painel direito - Formulário de Login -->
+                  <VBox alignment="TOP_CENTER" spacing="0.0" prefWidth="480.0" style="-fx-background-color: rgba(255,255,255,0.06); -fx-background-radius: 25; -fx-border-color: rgba(255,255,255,0.12); -fx-border-radius: 25; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 30, 0.0, 0, 10);">
+                     <padding>
+                        <Insets bottom="45.0" left="50.0" right="50.0" top="45.0" />
+                     </padding>
+                     
+                     <children>
+                        <!-- Cabeçalho do formulário -->
+                        <VBox alignment="CENTER" spacing="8.0">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label text="Bem-vindo de volta!" textFill="#ffffff">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Faça login para continuar" textFill="rgba(179,229,209,0.8)">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        
+                        <!-- Formulário -->
+                        <VBox spacing="22.0">
+                           <children>
+                              <!-- Tipo de Usuário -->
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                       <children>
+                                          <FontAwesomeIconView fill="#b3e5d1" glyphName="USER_CIRCLE" size="1.1em" />
+                                          <Label text="Tipo de Usuário" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <ComboBox fx:id="comboTipoUsuario" maxWidth="Infinity" prefHeight="48.0" promptText="Selecione seu perfil" style="-fx-background-color: rgba(255,255,255,0.09); -fx-border-color: rgba(255,255,255,0.18); -fx-border-radius: 12; -fx-background-radius: 12; -fx-prompt-text-fill: rgba(255,255,255,0.45); -fx-font-size: 14px;">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.15)" radius="5.0" />
+                                       </effect>
+                                    </ComboBox>
+                                 </children>
+                              </VBox>
+                              
+                              <!-- E-mail -->
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                       <children>
+                                          <FontAwesomeIconView fill="#b3e5d1" glyphName="ENVELOPE" size="1.1em" />
+                                          <Label text="E-mail" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="txtEmail" maxWidth="Infinity" onAction="#handleLogin" prefHeight="48.0" promptText="seu@email.com" style="-fx-background-color: rgba(255,255,255,0.09); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.45); -fx-border-color: rgba(255,255,255,0.18); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 0 16 0 16; -fx-font-size: 14px;">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.15)" radius="5.0" />
+                                       </effect>
+                                    </TextField>
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Senha -->
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                       <children>
+                                          <FontAwesomeIconView fill="#b3e5d1" glyphName="LOCK" size="1.1em" />
+                                          <Label text="Senha" textFill="#b3e5d1">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <PasswordField fx:id="txtSenha" maxWidth="Infinity" onAction="#handleLogin" prefHeight="48.0" promptText="Digite sua senha" style="-fx-background-color: rgba(255,255,255,0.09); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.45); -fx-border-color: rgba(255,255,255,0.18); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 0 16 0 16; -fx-font-size: 14px;">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.15)" radius="5.0" />
+                                       </effect>
+                                    </PasswordField>
+                                 </children>
+                              </VBox>
+                              
+                              <!-- Opções -->
+                              <HBox alignment="CENTER" spacing="0.0">
+                                 <children>
+                                    <CheckBox fx:id="checkLembrar" mnemonicParsing="false" text="Lembrar-me" textFill="rgba(179,229,209,0.9)" style="-fx-font-size: 13px;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Hyperlink fx:id="linkEsqueciSenha" onAction="#handleEsqueciSenha" text="Esqueci a senha" style="-fx-text-fill: #4CAF50; -fx-border-color: transparent; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              
+                              <!-- Botão Login -->
+                              <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLogin" prefHeight="55.0" maxWidth="Infinity" style="-fx-background-color: linear-gradient(to right, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 14; -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.5), 20, 0, 0, 8);" text="ENTRAR">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="SIGN_IN" size="1.2em" />
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              
+                              <!-- Separador -->
+                              <HBox alignment="CENTER" spacing="15.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="15.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <Separator prefWidth="120.0" style="-fx-background-color: rgba(255,255,255,0.15);" />
+                                    <Label text="ou" textFill="rgba(255,255,255,0.5)">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator prefWidth="120.0" style="-fx-background-color: rgba(255,255,255,0.15);" />
+                                 </children>
+                              </HBox>
+                              
+                              <!-- Cadastro -->
+                              <VBox spacing="15.0" alignment="CENTER">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <Label text="Ainda não tem uma conta?" textFill="rgba(255,255,255,0.75)">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER" spacing="12.0">
+                                       <children>
+                                          <Button onAction="#handleCadastrarAgricultor" prefHeight="42.0" prefWidth="155.0" style="-fx-background-color: rgba(76,175,80,0.15); -fx-text-fill: #4CAF50; -fx-cursor: hand; -fx-background-radius: 12; -fx-border-color: rgba(76,175,80,0.3); -fx-border-radius: 12; -fx-border-width: 1.5; -fx-font-weight: bold; -fx-font-size: 13px;" text="Sou Agricultor">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#4CAF50" glyphName="LEAF" size="1em" />
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#handleCadastrarComprador" prefHeight="42.0" prefWidth="155.0" style="-fx-background-color: rgba(76,175,80,0.15); -fx-text-fill: #4CAF50; -fx-cursor: hand; -fx-background-radius: 12; -fx-border-color: rgba(76,175,80,0.3); -fx-border-radius: 12; -fx-border-width: 1.5; -fx-font-weight: bold; -fx-font-size: 13px;" text="Sou Comprador">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#4CAF50" glyphName="SHOPPING_CART" size="1em" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                </children>
-               <effect>
-                  <InnerShadow color="rgba(0,0,0,0.2)" radius="8.0" />
-               </effect>
-            </VBox>
+            </HBox>
             
-            
+            <!-- Rodapé -->
+            <Label text="© 2025 GreenMatch - Todos os direitos reservados" textAlignment="CENTER" textFill="rgba(255,255,255,0.4)" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

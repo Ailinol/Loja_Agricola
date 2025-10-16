@@ -338,37 +338,7 @@ public class UsuarioService {
     }
     
     
-    // Métodos de debug
-    public void debugCompleto() {
-        try {
-            System.out.println("=== DEBUG COMPLETO DO BANCO ===");
-            
-            // Listar agricultores
-            List<Agricultor> agricultores = agricultorDAO.listarTodos();
-            System.out.println("Agricultores: " + agricultores.size());
-            for (Agricultor a : agricultores) {
-                System.out.println("  - " + a.getNome() + " | " + a.getEmail());
-            }
-            
-            // Listar compradores
-            List<Comprador> compradores = listarCompradores();
-            System.out.println("Compradores: " + compradores.size());
-            for (Comprador c : compradores) {
-                System.out.println("  - " + c.getNome() + " | " + c.getEmail());
-            }
-            
-            // Testar busca específica
-            String emailTeste = "alf@gmail.com";
-            System.out.println("Busca específica para: " + emailTeste);
-            Pessoa encontrado = buscarUsuarioPorEmail(emailTeste);
-            System.out.println("Resultado: " + (encontrado != null ? encontrado.getNome() : "NULO"));
-            
-        } catch (Exception e) {
-            System.err.println("Erro no debug completo: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
+   
     public void verificarConexao() {
         try {
             long countAgric = agricultorDAO.getTotalAgricultores();

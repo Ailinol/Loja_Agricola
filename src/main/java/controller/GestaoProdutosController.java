@@ -64,7 +64,6 @@ public class GestaoProdutosController implements Initializable {
         this.produtoService = new ProdutoService();
         this.usuarioService = new UsuarioService();
         
-        // Inicializar agricultor
         inicializarAgricultor();
         
         configurarTabela();
@@ -72,15 +71,16 @@ public class GestaoProdutosController implements Initializable {
         carregarProdutos();
     }
 
-    private void inicializarAgricultor() {
-    Agricultor agricultorLogado = SessaoActual.getAgricultorLogado();
+  private void inicializarAgricultor() {
+    this.agricultorLogado = SessaoActual.getAgricultorLogado(); 
     
-    if (agricultorLogado != null) {
-        this.agricultor = agricultorLogado;
-        
+    if (this.agricultorLogado != null) {
+        System.out.println("Agricultor logado: " + this.agricultorLogado.getNome());
     } else {
-        System.out.println("Agricultor dislogado");
+        System.out.println("Nenhum agricultor logado!");
+        mostrarErro("Erro de Sessão", "Nenhum usuário logado. Faça login novamente.");
     }
+
     }
 
     private void configurarTabela() {
@@ -107,14 +107,12 @@ public class GestaoProdutosController implements Initializable {
             }
         });
         
-        // Configurar coluna de ações
         colAcoes.setCellFactory(column -> new TableCell<Produto, Integer>() {
             private final HBox botoes = new HBox(5);
             private final Button btnEditar = new Button();
             private final Button btnEliminar = new Button();
             
             {
-                // Botão Editar
                 btnEditar.setStyle("-fx-background-color: rgba(33,150,243,0.3); -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;");
                 //btnEditar.setGraphic(new FontAwesomeIconView("EDIT"));
                 btnEditar.setOnAction(event -> {
@@ -122,7 +120,6 @@ public class GestaoProdutosController implements Initializable {
                     editarProduto(produto);
                 });
                 
-                // Botão Eliminar
                 btnEliminar.setStyle("-fx-background-color: rgba(244,67,54,0.3); -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;");
                 //btnEliminar.setGraphic(new FontAwesomeIconView("TRASH"));
                 btnEliminar.setOnAction(event -> {
@@ -146,11 +143,9 @@ public class GestaoProdutosController implements Initializable {
     }
 
     private void configurarFiltros() {
-        // Configurar categorias
         comboFiltrarCategoria.getItems().addAll("Todas", "Hortaliças", "Frutas", "Grãos", "Leguminosas", "Tubérculos");
         comboFiltrarCategoria.setValue("Todas");
         
-        // Configurar status
         comboFiltrarStatus.getItems().addAll("Todos", "Disponíveis", "Indisponíveis");
         comboFiltrarStatus.setValue("Todos");
     }
@@ -356,7 +351,6 @@ public class GestaoProdutosController implements Initializable {
         alert.showAndWait();
     }
 
-    // Método para definir o agricultor logado
     public void setAgricultorLogado(Agricultor agricultor) {
         this.agricultorLogado = agricultor;
         if (agricultor != null) {
@@ -364,7 +358,6 @@ public class GestaoProdutosController implements Initializable {
         }
     }
 
-    // Método para limpar recursos
     public void fecharServicos() {
         if (produtoService != null) {
             produtoService.fecharConexao();
