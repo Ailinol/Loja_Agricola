@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="bg-form" stylesheets="@GreenMatch.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MonitorizacaoController">
+    <VBox layoutX="50.0" layoutY="50.0" prefHeight="600.0" prefWidth="900.0" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+        <children>
+            
+            <Label text="MONITORIZAÇÃO E INTEGRIDADE DO SISTEMA" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="28.0" />
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" />
+                </VBox.margin>
+            </Label>
+            
+            <HBox alignment="CENTER_LEFT" spacing="30.0">
+                <children>
+                    <Label fx:id="lblBeneficio" styleClass="label" text="Benefício: Garante qualidade, confiança e integridade da plataforma." wrapText="true">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="lblStatus" style="-fx-text-fill: #b3e5d1; -fx-font-weight: bold;" text="Status: Aguardando verificação..." />
+                </children>
+            </HBox>
+            
+            <Button fx:id="btnVerificar" onAction="#handleVerificarInconsistencias" styleClass="button-primary" text="Verificar Inconsistências Agora" />
+            
+            <Label styleClass="label" text="Log de Inconsistências Detectadas:" />
+            <AnchorPane VBox.vgrow="ALWAYS">
+                <children>
+                    <TextArea fx:id="textAreaInconsistencias" promptText="Clique em 'Verificar Inconsistências Agora' para iniciar o monitoramento..." style="-fx-control-inner-background: rgba(255, 255, 255, 0.05); -fx-text-fill: #b3e5d1; -fx-border-color: rgba(76, 175, 80, 0.4); -fx-border-width: 1; -fx-background-radius: 5; -fx-font-family: 'Consolas', monospace;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                </children>
+            </AnchorPane>
+            
+        </children>
+    </VBox>
+</AnchorPane>
